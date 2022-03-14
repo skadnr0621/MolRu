@@ -1,7 +1,3 @@
-# 블록체인 프로젝트
+# Branch of 이호열
 
-탈중앙형 NFT 거래 플랫폼 프로젝트
-
-- frontend
-- backend
-- contracts
+- 2022-03-02

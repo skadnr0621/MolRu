@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "ganache": "^7.0.3",
+    "ganache-cli": "^6.12.2",
+    "web3": "^1.6.1"
+  }
+}
