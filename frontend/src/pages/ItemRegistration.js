@@ -101,7 +101,7 @@ const ItemRegistration = () => {
 
     // console.log("입력된 privKey :", privKey);
 
-    const address = getAddressFrom("0x" + privKey);
+    const address = getAddressFrom(privKey.startsWith("0x") ? privKey : "0x" + privKey);
     console.log("address", address);
     if (!address) return;
 
@@ -112,89 +112,71 @@ const ItemRegistration = () => {
     formData.append("description", description);
     formData.append("address", address);
 
-    axios
-      .post(process.env.REACT_APP_BACKEND_HOST_URL + "/items", formData)
-      .then((result) => {
-        console.log(result.data);
-        if (result.data.result === "duplicated") {
-          alert("The image is already registered !!");
-          return;
-        }
+    try {
+      var result = await axios.post(process.env.REACT_APP_BACKEND_HOST_URL + "/items", formData);
+      if (result.data.result === "duplicated") {
+        alert("The image is already registered !!!");
+        return;
+      } else if (result.data.result !== "success") {
+        console.log("ERROR while registering image");
+        return;
+      }
 
-        // make Contract
-        const sender = web3.eth.accounts.privateKeyToAccount(privKey);
-        web3.eth.accounts.wallet.add(sender);
-        web3.eth.defaultAccount = sender.address;
-        console.log("defaultAccount ::", web3.eth.defaultAccount);
-        const senderAddress = web3.eth.defaultAccount;
-        console.log("senderAddress ::", senderAddress);
+      const storedItem = { itemId: result.data.itemId, link: result.data.link };
 
-        let ssafyNft = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.NFT_ABI, process.env.REACT_APP_NFT_CA); //, process.env.REACT_APP_NFT_CA);
+      // make Contract
+      const sender = web3.eth.accounts.privateKeyToAccount(privKey);
+      web3.eth.accounts.wallet.add(sender);
+      web3.eth.defaultAccount = sender.address;
+      console.log("defaultAccount ::", web3.eth.defaultAccount);
 
-        // NFT creation
-        console.log(" Go to create our NFT -----------------------");
+      const senderAddress = web3.eth.defaultAccount;
 
-        console.log(ssafyNft.events);
-        // ssafyNft.methods
-        //   .create(senderAddress, result.data.link)
-        //   .call({ fron: senderAddress, gas: 3000000 })
-        //   .then((result) => console.log(result))
-        //   .catch((err) => console.log(err));
+      const ssafyNft = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.NFT_ABI, process.env.REACT_APP_NFT_CA); //, process.env.REACT_APP_NFT_CA);
 
-        ssafyNft.events
-          .allEvents({ fromBlock: 4 })
-          .on("connected", (subscriptionId) => console.log("connected", subscriptionId))
-          .on("data", (event) => console.log("data", event))
-          .on("changed", (event) => console.log("changed", event))
-          .on("error", (err, receipt) => console.log("error", err, receipt));
+      // NFT creation
+      console.log(" Go to create our NFT -----------------------");
 
-        ssafyNft.events
-          .MyEvent()
-          .on("connected", (subscriptionId) => console.log("MyEvent connected", subscriptionId))
-          .on("data", (event) => console.log("MyEvent data", event))
-          .on("changed", (event) => console.log("MyEvent changed", event))
-          .on("error", (err, receipt) => console.log("MyEvent error", err, receipt));
+      ssafyNft.events
+        .Transfer()
+        .on("connected", (subscriptionId) => console.log("connected", subscriptionId))
+        .on("data", (event) => console.log("data", event))
+        .on("changed", (event) => console.log("changed", event))
+        .on("error", (err, receipt) => console.log("error", err, receipt));
 
-        web3.eth
-          .subscribe("logs", (err, result) => {
-            if (!err) {
-              console.log(result);
-            }
-          })
-          .on("data", (log) => console.log("subscribe data", log))
-          .on("changed", (log) => console.log("subscribe changed", log));
+      ssafyNft.events
+        .MyEvent()
+        .on("connected", (subscriptionId) => console.log("MyEvent connected", subscriptionId))
+        .on("data", (event) => console.log("MyEvent data", event))
+        .on("changed", (event) => console.log("MyEvent changed", event))
+        .on("error", (err, receipt) => console.log("MyEvent error", err, receipt));
 
-        ssafyNft.methods
-          .create(senderAddress, result.data.link)
-          .send({ from: senderAddress, gas: 3000000 })
-          .on("receipt", (receipt) => console.log("Receipt :", receipt))
-          .on("error", (error, receipt) => {
-            console.log("ERROR - - - - - - - -");
-            console.log(error);
-            console.log(receipt);
-          });
+      // web3.eth
+      //   .subscribe("logs", (err, result) => {
+      //     if (!err) {
+      //       console.log(result);
+      //     }
+      //   })
+      //   .on("data", (log) => console.log("subscribe data", log))
+      //   .on("changed", (log) => console.log("subscribe changed", log));
 
-        // after token creation
-        const tokenId = 0; /* TODO */
+      await ssafyNft.methods.create(senderAddress, storedItem.link).send({ from: senderAddress, gas: 3000000 });
 
-        axios
-          .patch(process.env.REACT_APP_BACKEND_HOST_URL + `/items/${result.data.itemId}`, {
-            token_id: tokenId,
-            owner_address: senderAddress,
-          })
-          .then((result) => console.log(result))
-          .catch((err) => console.log(err));
+      // after token creation
+      // const tokenId = await ssafyNft.methods.current().call({ from: senderAddress });
+      const tokenId = 1;
 
-        // console.log("TEST ================================================");
-        // ssafyNft.methods
-        //   .tokenURI(1)
-        //   .call()
-        //   .then((response) => console.log(response))
-        //   .catch((err) => console.log(err));
-      })
-      .catch((err) => {
-        console.log(err);
+      result = await axios.patch(process.env.REACT_APP_BACKEND_HOST_URL + `/items/${result.data.itemId}`, {
+        token_id: tokenId,
+        owner_address: senderAddress,
       });
+      if (result.data.result !== "success") {
+        console.log("ERROR while updating item");
+        return;
+      } else console.log("Update success");
+    } catch (err) {
+      console.log("ERROR while adding item", err);
+    }
   };
 
   return (
