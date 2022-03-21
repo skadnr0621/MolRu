@@ -67,19 +67,6 @@ const ABI = {
         anonymous: false,
         inputs: [
           {
-            indexed: false,
-            internalType: "uint256",
-            name: "newTokenId",
-            type: "uint256",
-          },
-        ],
-        name: "MyEvent",
-        type: "event",
-      },
-      {
-        anonymous: false,
-        inputs: [
-          {
             indexed: true,
             internalType: "address",
             name: "from",

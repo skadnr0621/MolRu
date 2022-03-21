@@ -56,7 +56,7 @@ class ItemsService {
             responseBody: {
               result: "success",
               itemId: result[0].insertId,
-              link: "SOME URI",
+              link: "https://png.pngtree.com/png-clipart/20200225/original/pngtree-image-of-cute-note-musical-note-vector-or-color-png-image_5274329.jpg",
             },
           };
           connection.commit();
@@ -121,13 +121,34 @@ class ItemsService {
    * Req.4-B2 주소가 보유한 작품 목록 조회
    */
   async getItems(address) {
-    return {
-      statusCode: 200,
-      responseBody: {
-        result: "success",
-        data: [],
-      },
-    };
+    // return {
+    //   statusCode: 200,
+    //   responseBody: {
+    //     result: "success",
+    //     data: [],
+    //   },
+    // };
+    console.log("input address : ", address);
+
+    try {
+      const items = address === undefined ? await itemRepository.getItems() : await itemRepository.getItemsByOwnerAddress(address);
+      console.log("Registered items :", items);
+      return {
+        statusCode: 200,
+        responseBody: {
+          result: "success",
+          items: items,
+        },
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        statusCode: 500,
+        responseBody: {
+          result: "failed",
+        },
+      };
+    }
   }
 
   /*
@@ -149,13 +170,34 @@ class ItemsService {
    * Req.2-B3 작품 상세 조회
    */
   async getItemByTokenId(tokenId) {
-    return {
-      statusCode: 200,
-      responseBody: {
-        result: "success",
-        data: [],
-      },
-    };
+    // return {
+    //   statusCode: 200,
+    //   responseBody: {
+    //     result: "success",
+    //     data: [],
+    //   },
+    // };
+
+    try {
+      const item = await itemRepository.getItemByTokenId(tokenId);
+      // console.log("Got item : ", item);
+
+      return {
+        statusCode: 200,
+        responseBody: {
+          result: "success",
+          item: item[0],
+        },
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        statusCode: 500,
+        responseBody: {
+          result: "failed",
+        },
+      };
+    }
   }
 
   async updateItemOwnerAddress(tokenId, ownerAddress) {

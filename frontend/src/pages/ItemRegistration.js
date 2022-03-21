@@ -135,45 +135,31 @@ const ItemRegistration = () => {
       const ssafyNft = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.NFT_ABI, process.env.REACT_APP_NFT_CA); //, process.env.REACT_APP_NFT_CA);
 
       // NFT creation
-      console.log(" Go to create our NFT -----------------------");
-
+      // console.log(" Go to create our NFT -----------------------");
       ssafyNft.events
         .Transfer()
-        .on("connected", (subscriptionId) => console.log("connected", subscriptionId))
-        .on("data", (event) => console.log("data", event))
+        .on("connected", (subscriptionId) => console.log("Transfer event connected", subscriptionId))
+        .on("data", (event) => {
+          console.log("catched Transfer data", event);
+          console.log("Patching data", {
+            itemId: storedItem.itemId,
+            token_id: event.returnValues.tokenId,
+            owner_address: senderAddress,
+          });
+          axios.patch(process.env.REACT_APP_BACKEND_HOST_URL + `/items/${storedItem.itemId}`, {
+            token_id: event.returnValues.tokenId,
+            owner_address: senderAddress,
+          });
+          setIsComplete(true);
+          // if (result.data.result !== "success") {
+          //   console.log("ERROR while updating item");
+          //   return;
+          // } else console.log("Update success");
+        })
         .on("changed", (event) => console.log("changed", event))
         .on("error", (err, receipt) => console.log("error", err, receipt));
 
-      ssafyNft.events
-        .MyEvent()
-        .on("connected", (subscriptionId) => console.log("MyEvent connected", subscriptionId))
-        .on("data", (event) => console.log("MyEvent data", event))
-        .on("changed", (event) => console.log("MyEvent changed", event))
-        .on("error", (err, receipt) => console.log("MyEvent error", err, receipt));
-
-      // web3.eth
-      //   .subscribe("logs", (err, result) => {
-      //     if (!err) {
-      //       console.log(result);
-      //     }
-      //   })
-      //   .on("data", (log) => console.log("subscribe data", log))
-      //   .on("changed", (log) => console.log("subscribe changed", log));
-
       await ssafyNft.methods.create(senderAddress, storedItem.link).send({ from: senderAddress, gas: 3000000 });
-
-      // after token creation
-      // const tokenId = await ssafyNft.methods.current().call({ from: senderAddress });
-      const tokenId = 1;
-
-      result = await axios.patch(process.env.REACT_APP_BACKEND_HOST_URL + `/items/${result.data.itemId}`, {
-        token_id: tokenId,
-        owner_address: senderAddress,
-      });
-      if (result.data.result !== "success") {
-        console.log("ERROR while updating item");
-        return;
-      } else console.log("Update success");
     } catch (err) {
       console.log("ERROR while adding item", err);
     }

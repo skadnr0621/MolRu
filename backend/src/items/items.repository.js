@@ -16,9 +16,9 @@ class ItemsRepository {
 						token_id,
 						created_at as items_create_at
 			FROM    	items
-			WHERE 		on_sale_yn = TRUE
 			ORDER BY    created_at DESC
-		`;
+			`;
+    // WHERE 		on_sale_yn = TRUE
     console.debug(sql);
 
     return await connection
@@ -31,7 +31,31 @@ class ItemsRepository {
   }
 
   async getItemsByOwnerAddress(address) {
-    return null;
+    // return null;
+
+    const sql = `
+			SELECT 		author_name,
+						item_description,
+						item_hash,
+						item_title,
+						on_sale_yn,
+						owner_address,
+						token_id,
+						created_at as items_create_at
+			FROM    	items
+			WHERE			owner_address = "${address}"
+			ORDER BY    created_at DESC
+			`;
+    // WHERE 		on_sale_yn = TRUE
+    console.debug(sql);
+
+    return await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        console.error(e);
+        throw e;
+      });
   }
 
   async getRecentRegisteredItem() {
@@ -43,7 +67,31 @@ class ItemsRepository {
   }
 
   async getItemByTokenId(tokenId) {
-    return null;
+    // return null;
+
+    const sql = `
+			SELECT 		author_name,
+						item_description,
+						item_hash,
+						item_title,
+						on_sale_yn,
+						owner_address,
+						token_id,
+						created_at as items_create_at
+			FROM    	items
+			WHERE			token_id = "${tokenId}"
+			ORDER BY    created_at DESC
+			`;
+    // WHERE 		on_sale_yn = TRUE
+    console.debug(sql);
+
+    return await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        console.error(e);
+        throw e;
+      });
   }
 
   async updateItemOwnerAddress(tokenId, ownerAddress) {
