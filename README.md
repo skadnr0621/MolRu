@@ -1,7 +1,7 @@
 # 블록체인 프로젝트
 
-탈중앙형 NFT 거래 플랫폼 프로젝트
+멜로디 NFT 작곡 프로젝트
 
-- frontend
-- backend
-- contracts
+### frontend
+### backend
+### contracts
