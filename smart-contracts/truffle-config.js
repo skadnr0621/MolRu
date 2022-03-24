@@ -45,6 +45,7 @@ module.exports = {
       host: "127.0.0.1", // Localhost (default: none)
       port: 8545, // Standard Ethereum port (default: none)
       network_id: "*", // Any network (default: none)
+      websockets: true, // SUB PJT III 진행 중 truffle test 시 Event listening을 위해 추가함
     },
     // Another network with more advanced options...
     // advanced: {

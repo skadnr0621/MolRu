@@ -24,7 +24,7 @@ contract SaleFactory is Ownable {
     }
 
     /**
-     * @dev 반드시 구현해야하는 함수입니다. 
+     * @dev 반드시 구현해야하는 함수입니다.
      */
     function createSale(
         uint256 itemId,
@@ -36,6 +36,32 @@ contract SaleFactory is Ownable {
         address nftAddress
     ) public returns (address) {
         // TODO
+
+        // address _admin,
+        // address _seller,
+        // uint256 _tokenId,
+        // uint256 _minPrice,
+        // uint256 _purchasePrice,`
+        // uint256 startTime,
+        // uint256 endTime,
+        // address _currencyAddress,
+        // address _nftAddress
+        Sale newSale = new Sale(
+            admin,
+            msg.sender, // TODO
+            itemId,
+            minPrice,
+            purchasePrice,
+            startTime,
+            endTime,
+            currencyAddress,
+            nftAddress
+        );
+
+        sales.push(address(newSale));
+        emit NewSale(address(newSale), msg.sender, itemId);
+
+        return address(newSale);
     }
 
     function allSales() public view returns (address[] memory) {
@@ -64,10 +90,13 @@ contract Sale {
     address public highestBidder;
     uint256 public highestBid;
 
-    IERC20 public erc20Contract;
-    IERC721 public erc721Constract;
+    address[] bidders;
+    mapping(address => uint256) bidHistory;
 
-    event HighestBidIncereased(address bidder, uint256 amount);
+    IERC20 public erc20Contract;
+    IERC721 public erc721Contract;
+
+    event HighestBidIncreased(address bidder, uint256 amount);
     event SaleEnded(address winner, uint256 amount);
 
     constructor(
@@ -93,23 +122,102 @@ contract Sale {
         nftAddress = _nftAddress;
         ended = false;
         erc20Contract = IERC20(_currencyAddress);
-        erc721Constract = IERC721(_nftAddress);
+        erc721Contract = IERC721(_nftAddress);
     }
 
-    function bid(uint256 bid_amount) public {
+    function bid(uint256 bid_amount) public onlyNotSeller onlyValidTime {
         // TODO
+
+        require(
+            erc20Contract.allowance(msg.sender, address(this)) > 0,
+            "You didn't approve sending"
+        );
+        require(bid_amount >= minPrice, "Bid over minimum price");
+        require(
+            bid_amount > highestBid,
+            "Bid over currently highest bid amount"
+        );
+        require(bid_amount < purchasePrice, "Bid under purchase price");
+
+        // refund();
+
+        highestBid = bid_amount;
+        highestBidder = msg.sender;
+        emit HighestBidIncreased(msg.sender, bid_amount);
+
+        // erc20Contract.transferFrom(msg.sender, address(this), bid_amount);
     }
 
-    function purchase() public {
-        // TODO 
-    }
-
-    function confirmItem() public {
-        // TODO 
-    }
-    
-    function cancelSales() public {
+    function purchase() public onlyNotSeller onlyValidTime {
         // TODO
+
+        require(
+            erc20Contract.allowance(msg.sender, address(this)) > 0,
+            "You didn't approve sending"
+        );
+
+        // refund();
+
+        erc20Contract.transferFrom(msg.sender, seller, purchasePrice);
+        erc721Contract.transferFrom(seller, msg.sender, tokenId);
+
+        buyer = msg.sender;
+        _end();
+
+        emit SaleEnded(buyer, purchasePrice);
+    }
+
+    function confirmItem() public onlyAfterEnd {
+        // TODO
+
+        require(msg.sender == highestBidder, "You are not the highest bidder.");
+
+        erc20Contract.approve(highestBidder, highestBid);
+        erc20Contract.transferFrom(highestBidder, seller, highestBid);
+        erc721Contract.transferFrom(seller, highestBidder, tokenId);
+
+        buyer = highestBidder;
+        _end();
+
+        emit SaleEnded(buyer, highestBid);
+    }
+
+    function cancelSales() public onlyUserPermissioned onlyValidTime {
+        // TODO
+
+        // refund();
+
+        erc721Contract.transferFrom(
+            erc721Contract.ownerOf(tokenId),
+            seller,
+            tokenId
+        );
+
+        _end();
+        emit SaleEnded(seller, 0);
+    }
+
+    function refund() public {
+        // if (highestBidder != address(0)) {
+        //     erc20Contract.transferFrom(
+        //         currencyAddress,
+        //         highestBidder,
+        //         highestBid
+        //     );
+        // }
+
+        if (highestBidder != address(0)) {
+            require(
+                erc20Contract.balanceOf(address(this)) >= highestBid,
+                "lack of balance"
+            );
+
+            erc20Contract.transferFrom(
+                address(this),
+                highestBidder,
+                highestBid
+            );
+        }
     }
 
     function getTimeLeft() public view returns (int256) {
@@ -144,7 +252,7 @@ contract Sale {
         );
     }
 
-    function getHighestBid() public view returns(uint256){
+    function getHighestBid() public view returns (uint256) {
         return highestBid;
     }
 
@@ -157,16 +265,41 @@ contract Sale {
         return erc20Contract.balanceOf(msg.sender);
     }
 
-    // modifier를 사용하여 함수 동작 조건을 재사용하는 것을 권장합니다. 
+    // modifier를 사용하여 함수 동작 조건을 재사용하는 것을 권장합니다.
     modifier onlySeller() {
         require(msg.sender == seller, "Sale: You are not seller.");
         _;
     }
 
-    modifier onlyAfterStart() {
+    modifier onlyNotSeller() {
+        require(msg.sender != seller, "Sale: You are the seller.");
+        _;
+    }
+
+    modifier onlyUserPermissioned() {
+        require(
+            msg.sender == seller || msg.sender == admin,
+            "You are neither seller nor admin."
+        );
+        _;
+    }
+
+    modifier onlyValidTime() {
         require(
             block.timestamp >= saleStartTime,
-            "Sale: This sale is not started."
+            "Sale: This sale is not started yet"
+        );
+        require(
+            block.timestamp < saleEndTime && !ended,
+            "Sale: This sale is already ended."
+        );
+        _;
+    }
+
+    modifier onlyAfterEnd() {
+        require(
+            block.timestamp > saleEndTime,
+            "Sale: This sale is not ended yet."
         );
         _;
     }
