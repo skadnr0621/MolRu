@@ -5230,6 +5230,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-config-prettier@npm:^8.5.0":
+  version: 8.5.0
+  resolution: "eslint-config-prettier@npm:8.5.0"
+  peerDependencies:
+    eslint: ">=7.0.0"
+  bin:
+    eslint-config-prettier: bin/cli.js
+  checksum: 0d0f5c32e7a0ad91249467ce71ca92394ccd343178277d318baf32063b79ea90216f4c81d1065d60f96366fdc60f151d4d68ae7811a58bd37228b84c2083f893
+  languageName: node
+  linkType: hard
+
 "eslint-config-react-app@npm:^7.0.0":
   version: 7.0.0
   resolution: "eslint-config-react-app@npm:7.0.0"
@@ -5930,6 +5941,8 @@ __metadata:
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^12.0.0
     "@testing-library/user-event": ^13.2.1
+    eslint-config-prettier: ^8.5.0
+    prettier: ^2.6.1
     react: ^17.0.2
     react-dom: ^17.0.2
     react-scripts: 5.0.0
@@ -9668,6 +9681,15 @@ __metadata:
   version: 1.1.2
   resolution: "prelude-ls@npm:1.1.2"
   checksum: c4867c87488e4a0c233e158e4d0d5565b609b105d75e4c05dc760840475f06b731332eb93cc8c9cecb840aa8ec323ca3c9a56ad7820ad2e63f0261dadcb154e4
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.6.1":
+  version: 2.6.1
+  resolution: "prettier@npm:2.6.1"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 78be1f8a3ddfad7c3d8a854b6c8941a3bb1ddfca4225c38d778e0fe1029a55368f71b3bbefff82c689015fbb4d391ec44add957f01308ad2725e01a7c1f37cb6
   languageName: node
   linkType: hard
 
