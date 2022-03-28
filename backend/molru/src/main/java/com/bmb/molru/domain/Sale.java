@@ -19,11 +19,13 @@ public class Sale extends BaseTimeEntity {
     @JoinColumn(name = "nft_id")
     private Nft nft;
 
+    private String sellerAddress;
+
     private String saleContractAddress;
 
     private boolean onSale;
 
-    private String CashContractAddress;
+    private String cashContractAddress;
 
     private String buyerAddress;
 }
