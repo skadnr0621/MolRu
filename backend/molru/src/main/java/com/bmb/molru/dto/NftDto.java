@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class NftDto {
-    private String nickname;
+    private String address;
 
     private Long tokenId;
 
@@ -25,7 +25,7 @@ public class NftDto {
         if(nft == null) return null;
 
         return NftDto.builder()
-                .nickname(nft.getUser().getNickname())
+                .address(nft.getUser().getAddress())
                 .tokenId(nft.getTokenId())
                 .tokenHash(nft.getTokenHash())
                 .tokenTitle(nft.getTokenTitle())
