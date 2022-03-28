@@ -1,5 +1,7 @@
 import logo from './logo.svg'
 import './App.css'
+import { AccessAlarm, ThreeDRotation } from '@mui/icons-material'
+import Button from '@mui/material/Button'
 
 function App() {
   return (
@@ -16,6 +18,9 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
+          <AccessAlarm></AccessAlarm>
+          <ThreeDRotation></ThreeDRotation>
+          <Button variant="contained">Hello World</Button>
         </a>
       </header>
     </div>
