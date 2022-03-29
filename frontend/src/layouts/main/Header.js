@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <HeaderStyle>
       <Link to={`/main`}>
-        <Logo />
+        <Logo height="72px" />
       </Link>
 
       <SearchBar />
