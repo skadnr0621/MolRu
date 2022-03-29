@@ -1,14 +1,15 @@
 import Box from '@mui/material/Box'
 import logo from '../assets/logo.png'
 
-const Logo = () => {
+const Logo = ({ height }) => {
   return (
     <Box
       component="img"
       src={logo}
       sx={{
         display: 'flex',
-        height: '72px',
+        width: 'fit-content',
+        height: height,
         paddingRight: '189px',
         paddingLeft: '16px',
       }}
