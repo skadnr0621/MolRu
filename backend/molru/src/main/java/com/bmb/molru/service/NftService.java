@@ -9,7 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -68,6 +71,71 @@ public class NftService {
 
             return new ResponseEntity<>(updatedNft, HttpStatus.OK);
         } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<NftDto> findNft(Long tokenId) {
+        try {
+            Nft nft = nftRepository.findByTokenId(tokenId).orElse(null);
+            if(nft == null) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            NftDto nftDto = NftDto.convert(nft);
+
+            return new ResponseEntity<>(nftDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<List<NftDto>> findAllNft() {
+        try {
+            List<Nft> nftList = nftRepository.findAll();
+            List<NftDto> nftDtoList = new ArrayList<>();
+
+            for (Nft nft : nftList) {
+                nftDtoList.add(NftDto.convert(nft));
+            }
+
+            return new ResponseEntity<>(nftDtoList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<List<NftDto>> findAllNftByUser(String address) {
+        try {
+            User user = userRepository.findByAddress(address).orElse(null);
+            if(user == null) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            List<Nft> nftList = nftRepository.findAllByUser(user);
+            List<NftDto> nftDtoList = new ArrayList<>();
+
+            for (Nft nft : nftList) {
+                nftDtoList.add(NftDto.convert(nft));
+            }
+
+            return new ResponseEntity<>(nftDtoList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<List<NftDto>> findAllNftOnSale() {
+        try {
+            List<Nft> nftList = nftRepository.findAllBySell(true);
+            List<NftDto> nftDtoList = new ArrayList<>();
+
+            for (Nft nft : nftList) {
+                nftDtoList.add(NftDto.convert(nft));
+            }
+
+            return new ResponseEntity<>(nftDtoList, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
