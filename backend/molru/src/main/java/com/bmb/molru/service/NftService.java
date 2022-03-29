@@ -30,6 +30,8 @@ public class NftService {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
+            // TODO : 토큰ID 중복 체크 로직 필요함
+
             Nft nft = Nft.builder()
                     .user(userByAddress)
                     .tokenId(nftDto.getTokenId())
@@ -67,7 +69,8 @@ public class NftService {
             findNft.setTokenDescription(nftDto.getTokenDescription());
             findNft.setSell(nftDto.isSell());
 
-            NftDto updatedNft = NftDto.convert(findNft);
+            Nft savedNft = nftRepository.save(findNft);
+            NftDto updatedNft = NftDto.convert(savedNft);
 
             return new ResponseEntity<>(updatedNft, HttpStatus.OK);
         } catch(Exception e) {
@@ -125,18 +128,18 @@ public class NftService {
         }
     }
 
-    public ResponseEntity<List<NftDto>> findAllNftOnSale() {
-        try {
-            List<Nft> nftList = nftRepository.findAllBySell(true);
-            List<NftDto> nftDtoList = new ArrayList<>();
-
-            for (Nft nft : nftList) {
-                nftDtoList.add(NftDto.convert(nft));
-            }
-
-            return new ResponseEntity<>(nftDtoList, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    public ResponseEntity<List<NftDto>> findAllNftOnSale() {
+//        try {
+//            List<Nft> nftList = nftRepository.findAllBySell(true);
+//            List<NftDto> nftDtoList = new ArrayList<>();
+//
+//            for (Nft nft : nftList) {
+//                nftDtoList.add(NftDto.convert(nft));
+//            }
+//
+//            return new ResponseEntity<>(nftDtoList, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 }

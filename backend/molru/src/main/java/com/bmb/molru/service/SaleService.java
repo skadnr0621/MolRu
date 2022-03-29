@@ -23,7 +23,8 @@ public class SaleService {
 
     public ResponseEntity<SaleDto> createSale(SaleDto saleDto) {
         try {
-            Nft nft = nftRepository.findById(saleDto.getNftId()).orElse(null);
+            // TODO : 토큰아이디로 변경
+            Nft nft = nftRepository.findByTokenId(saleDto.getTokenId()).orElse(null);
 
             if(nft == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

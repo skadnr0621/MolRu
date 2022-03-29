@@ -25,7 +25,7 @@ public class NftController {
         return nftService.updateNft(nftDto);
     }
 
-    @GetMapping("/nft/{tokenId}")
+    @GetMapping("/detail/{tokenId}")
     public ResponseEntity<NftDto> findNft(@PathVariable Long tokenId) {
         return nftService.findNft(tokenId);
     }
@@ -40,8 +40,8 @@ public class NftController {
         return nftService.findAllNftByUser(address);
     }
 
-    @GetMapping("/onSale")
-    public ResponseEntity<List<NftDto>> findAllNftOnSale() {
-        return nftService.findAllNftOnSale();
-    }
+//    @GetMapping("/onSale")
+//    public ResponseEntity<List<NftDto>> findAllNftOnSale() {
+//        return nftService.findAllNftOnSale();
+//    }
 }

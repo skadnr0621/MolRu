@@ -18,5 +18,5 @@ public interface NftRepository extends JpaRepository<Nft, Long> {
     List<Nft> findAllByUser(User user);
 
     // 판매중인 nft만 조회
-    List<Nft> findAllBySell(boolean isSell);
+//    List<Nft> findAllBySell(boolean isSell);
 }

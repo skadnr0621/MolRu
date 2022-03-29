@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class SaleDto {
-    private Long nftId;
+    private Long tokenId;
 
     private String sellerAddress;
 
@@ -25,7 +25,7 @@ public class SaleDto {
         if(sale == null) return null;
 
         return SaleDto.builder()
-                .nftId(sale.getNft().getId())
+                .tokenId(sale.getNft().getTokenId())
                 .sellerAddress(sale.getSellerAddress())
                 .saleContractAddress(sale.getSaleContractAddress())
                 .onSale(sale.isOnSale())

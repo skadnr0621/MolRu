@@ -22,7 +22,7 @@ public class UserService {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
-            Optional<User> findByAddress = userRepository.findByAddress(userDto.getAddress());
+            User findByAddress = userRepository.findByAddress(userDto.getAddress()).orElse(null);
 
             // 중복 검사(이미 존재하는 아이디인지 체크)
             if(findByAddress != null) {
@@ -46,14 +46,14 @@ public class UserService {
 
     public ResponseEntity<UserDto> withdrawal(String address) {
         try {
-            Optional<User> findByAddress = userRepository.findByAddress(address);
+            User findByAddress = userRepository.findByAddress(address).orElse(null);
 
             // 유효성 검사(존재하는 아이디인지 체크)
-            if(findByAddress != null) {
+            if(findByAddress == null) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            userRepository.deleteByAddress(address);
+            userRepository.delete(findByAddress);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
