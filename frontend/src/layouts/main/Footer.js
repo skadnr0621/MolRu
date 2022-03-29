@@ -1,18 +1,14 @@
 import React from 'react'
 import FooterItem from 'components/FooterItem'
-import Logo from 'components/Logo'
 import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import Stack from '@mui/material/Stack'
-import Link from '@mui/material/Link'
 
 const Footer = () => {
   const FooterStyle = styled('div')({
     backgroundColor: '#f5f5f5',
     width: '100%',
     height: 'auto',
-    bottom: '0px',
-    position: 'fixed',
+    position: 'relative',
     paddingTop: '40px',
     paddingBottom: '50px',
   })
