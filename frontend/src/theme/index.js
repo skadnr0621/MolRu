@@ -1,9 +1,16 @@
 import React from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-// import { purple } from '@mui/material/colors'
-// import Button from '@mui/material/Button';
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 730,
+      md: 970,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
   palette: {
     primary: {
       main: 'rgba(0, 0, 0, 0.87)',
