@@ -8,7 +8,7 @@ export default function GlobalStyles() {
           margin: 0,
           padding: 0,
           boxSizing: 'border-box',
-          color: 'rgba(0, 0, 0, 0.87)',
+          // color: 'rgba(0, 0, 0, 0.87)',
         },
         html: {
           width: '100%',

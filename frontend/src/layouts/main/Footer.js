@@ -7,10 +7,10 @@ const Footer = () => {
   const FooterStyle = styled('div')({
     backgroundColor: '#f5f5f5',
     width: '100%',
-    height: 'auto',
+    height: '500px',
     position: 'relative',
     paddingTop: '40px',
-    paddingBottom: '50px',
+    paddingBottom: '40px',
   })
 
   const items = [

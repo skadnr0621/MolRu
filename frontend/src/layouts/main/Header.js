@@ -11,6 +11,7 @@ const Header = () => {
   const HeaderStyle = styled('div')({
     backgroundColor: 'rgb(255, 255, 255)',
     boxShadow: 'rgb(4 17 29 / 25%) 0px 0px 8px 0px',
+    width: '100%',
     maxWidth: '100vw',
     height: '72px',
     top: '0px',

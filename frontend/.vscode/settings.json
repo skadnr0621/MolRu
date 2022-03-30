@@ -4,5 +4,5 @@
     "**/.pnp.*": true
   },
   "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
-  "cSpell.words": ["Gacha"]
+  "cSpell.words": ["Gacha", "molrudy"]
 }
