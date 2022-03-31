@@ -1440,7 +1440,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.17.8
   resolution: "@babel/runtime@npm:7.17.8"
   dependencies:
@@ -2184,6 +2184,22 @@ __metadata:
   peerDependencies:
     react: ^17.0.0
   checksum: 7f5cbf71f01750e6449769e3a6878c05e5488d85dcdacf14362ac1f5047ae1dc061416de740075482764602a029a313a1c6378297d89ec2091ef86d00d6b4e55
+  languageName: node
+  linkType: hard
+
+"@mui/x-data-grid@npm:^5.7.0":
+  version: 5.7.0
+  resolution: "@mui/x-data-grid@npm:5.7.0"
+  dependencies:
+    "@mui/utils": ^5.4.4
+    clsx: ^1.1.1
+    prop-types: ^15.8.1
+    reselect: ^4.1.5
+  peerDependencies:
+    "@mui/material": ^5.2.8
+    "@mui/system": ^5.2.8
+    react: ^17.0.2
+  checksum: 2b48995c08ae573f2a58c0d220a021953e9f13478c0528bc39ddd774d54b434a58a40ec963c639a3003a46ac464524c958582e8a966019720dd48a342415a4a0
   languageName: node
   linkType: hard
 
@@ -6305,10 +6321,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "frontend@workspace:."
   dependencies:
+    "@babel/runtime": ^7.17.8
     "@emotion/react": ^11.8.2
     "@emotion/styled": ^11.8.1
     "@mui/icons-material": ^5.5.1
     "@mui/material": ^5.5.2
+    "@mui/x-data-grid": ^5.7.0
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^12.0.0
     "@testing-library/user-event": ^13.2.1
@@ -10637,6 +10655,13 @@ __metadata:
   version: 1.0.0
   resolution: "requires-port@npm:1.0.0"
   checksum: eee0e303adffb69be55d1a214e415cf42b7441ae858c76dfc5353148644f6fd6e698926fc4643f510d5c126d12a705e7c8ed7e38061113bdf37547ab356797ff
+  languageName: node
+  linkType: hard
+
+"reselect@npm:^4.1.5":
+  version: 4.1.5
+  resolution: "reselect@npm:4.1.5"
+  checksum: 54c13c1e795b2ea70cba8384138aebe78adda00cbea303cc94b64da0a70d74c896cc9a03115ae38b8bff990e7a60dcd6452ab68cbec01b0b38c1afda70714cf0
   languageName: node
   linkType: hard
 
