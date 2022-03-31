@@ -6,6 +6,7 @@ import ButtonGroup from '@mui/material/ButtonGroup'
 import ShareIcon from '@mui/icons-material/Share'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Link from '@mui/material/Link'
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined'
 
 const ItemDetailContent = () => {
   const categories = ['행복', '낭만적', '밝음']
@@ -114,7 +115,7 @@ const ItemDetailContent = () => {
           }}
         >
           Owned by{' '}
-          <Link href="#" underline="hover" sx={{ color: '#6876C4' }}>
+          <Link href="#" underline="hover" sx={{ color: 'rgb(32, 129, 226)' }}>
             김남욱
           </Link>
         </Typography>
@@ -128,6 +129,9 @@ const ItemDetailContent = () => {
             margin: '10px 0px',
           }}
         >
+          <LocalOfferOutlinedIcon
+            sx={{ verticalAlign: 'text-top', marginRight: '5px' }}
+          />
           Categories
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
