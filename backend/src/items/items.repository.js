@@ -11,14 +11,13 @@ class ItemsRepository {
 						item_description,
 						item_hash,
 						item_title,
-						on_sale_yn,
 						owner_address,
 						token_id,
 						created_at as items_create_at
 			FROM    	items
+      WHERE 		on_sale_yn = 1
 			ORDER BY    created_at DESC
 			`;
-    // WHERE 		on_sale_yn = TRUE
     console.debug(sql);
 
     return await connection
@@ -59,7 +58,26 @@ class ItemsRepository {
   }
 
   async getRecentRegisteredItem() {
-    return null;
+    // return null;
+
+    const query = `
+      SELECT  token_id,
+              item_title,
+              on_sale_yn,
+              owner_address
+      FROM  items
+      ORDER BY  created_at DESC
+      LIMIT 1
+    `;
+    console.debug(query);
+
+    return await connection
+      .query(query)
+      .then((data) => data[0])
+      .catch((err) => {
+        console.error(err);
+        throw err;
+      });
   }
 
   async getRecentItemsOnSale() {

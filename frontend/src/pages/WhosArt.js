@@ -210,27 +210,28 @@ const WhosArt = () => {
         const ssafyNft = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.NFT_ABI, process.env.REACT_APP_NFT_CA);
 
         let itemList = [];
-        alert("let's loop");
+        // alert("let's loop");
         for (const item of items) {
           if (item.token_id == null) continue;
 
-          var resp = await axios
-            .get(process.env.REACT_APP_BACKEND_HOST_URL + `/sales?token_id=${item.token_id}`)
-            .catch((err) => console.log("searchItem get sale error", err));
-          const sale = resp.data.data;
-          const saleContract = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.SALE_ABI, sale.sale_contract_address);
-
-          // const image = await ssafyNft.methods.tokenURI(item.token_id).call({});
-          // console.log(image);
-          console.log(item.on_sale_yn, item.on_sale_yn === 0);
-          itemList.push({
+          const itemElem = {
             image: await ssafyNft.methods.tokenURI(item.token_id).call(),
             title: item.item_title,
             onSale: item.on_sale_yn,
             id: item.token_id,
             hash: item.item_hash,
-            ended: (await saleContract.methods.getTimeLeft().call()) < 0,
-          });
+          };
+
+          if (item.on_sale_yn == 1) {
+            var resp = await axios
+              .get(process.env.REACT_APP_BACKEND_HOST_URL + `/sales?token_id=${item.token_id}`)
+              .catch((err) => console.log("searchItem get sale error", err));
+            const sale = resp.data.data;
+            const saleContract = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.SALE_ABI, sale.sale_contract_address);
+            itemElem.ended = (await saleContract.methods.getTimeLeft().call()) < 0;
+          }
+
+          itemList.push(itemElem);
         }
         setItem(itemList);
       }

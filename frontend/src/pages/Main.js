@@ -54,11 +54,38 @@ const Main = () => {
    */
   const getItem = async () => {
     // TODO
-    setIsCollection(true);
-    setTokenId(0);
-    setItem("https://edu.ssafy.com/asset/images/logo.png");
-    setArtName("fake title");
-    setArtPrice("fake price");
+    // setIsCollection(true);
+    // setTokenId(0);
+    // setItem("https://edu.ssafy.com/asset/images/logo.png");
+    // setArtName("fake title");
+    // setArtPrice("fake price");
+
+    try {
+      var resp = await axios.get(process.env.REACT_APP_BACKEND_HOST_URL + "/items/recent");
+
+      const item = resp.data.item;
+      console.log("Got item :: ", item);
+      if (item == null) return;
+
+      const ssafyNftContract = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.NFT_ABI, process.env.REACT_APP_NFT_CA);
+
+      setTokenId(item.token_id);
+      setItem(await ssafyNftContract.methods.tokenURI(item.token_id).call());
+      setArtName(item.item_title);
+
+      if (item.on_sale_yn == 1) {
+        var resp = await axios.get(process.env.REACT_APP_BACKEND_HOST_URL + `/sales?token_id=${item.token_id}`);
+        const sale = resp.data.data;
+        const saleContract = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.SALE_ABI, sale.sale_contract_address);
+        const saleInfo = await saleContract.methods.getSaleInfo().call();
+        setArtPrice(saleInfo[3]);
+      }
+
+      setIsCollection(true);
+    } catch (err) {
+      console.error("Error at Main > getItem", err);
+      setIsCollection(false);
+    }
 
     // ------------------
     // for dev

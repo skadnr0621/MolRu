@@ -156,13 +156,32 @@ class ItemsService {
    * Req.4-B3 최근 등록 작품 조회
    */
   async getRecentItems() {
-    return {
-      statusCode: 200,
-      responseBody: {
-        result: "success",
-        data: [],
-      },
-    };
+    // return {
+    //   statusCode: 200,
+    //   responseBody: {
+    //     result: "success",
+    //     data: [],
+    //   },
+    // };
+
+    try {
+      const data = await itemRepository.getRecentRegisteredItem();
+      return {
+        statusCode: 200,
+        responseBody: {
+          result: "success",
+          item: data[0],
+        },
+      };
+    } catch (err) {
+      console.log("Error while getRecentItems", err);
+      return {
+        statusCode: 500,
+        responseBody: {
+          result: "Internal Server Error",
+        },
+      };
+    }
   }
 
   /**

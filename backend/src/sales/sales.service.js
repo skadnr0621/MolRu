@@ -68,7 +68,7 @@ class SalesService {
         responseBody: {
           result: "success",
           data: {
-            buyer_address: sale.buyer_address,
+            // buyer_address: sale.buyer_address,
             cash_contract_address: sale.cash_contract_address,
             completed_at: sale.completed_at,
             created_at: sale.created_at,
