@@ -1,7 +1,12 @@
 import React from 'react'
+import AccountInfo from 'components/AccountInfo'
 
 const Account = () => {
-  return <div>Account Page</div>
+  return (
+    <>
+      <AccountInfo />
+    </>
+  )
 }
 
 export default Account
