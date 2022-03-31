@@ -13,7 +13,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite' // 좋아요 누름
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder' // 좋아요 안누름
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 
-const ItemDetailCard = () => {
+const ItemDetailCard = ({ isHeader }) => {
   const [likeCnt, setLikeCnt] = useState(0)
 
   return (
@@ -25,19 +25,30 @@ const ItemDetailCard = () => {
       }}
     >
       <Card sx={{ width: '100%' }}>
-        <CardActions
-          sx={{
-            height: '40px',
-            flexDirection: 'row-reverse',
-            padding: '8px 16px',
-            borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-          }}
-        >
-          <Typography>{likeCnt}</Typography>
-          <IconButton sx={{ padding: '4px' }}>
-            <FavoriteBorderIcon sx={{ fontSize: '20px' }} />
-          </IconButton>
-        </CardActions>
+        {isHeader && (
+          <CardActions
+            sx={{
+              height: '40px',
+              flexDirection: 'row-reverse',
+              padding: '8px 16px',
+              borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+            }}
+          >
+            <Typography>{likeCnt}</Typography>
+            <IconButton sx={{ padding: '4px' }}>
+              <FavoriteBorderIcon sx={{ fontSize: '20px' }} />
+            </IconButton>
+          </CardActions>
+        )}
+        {!isHeader && (
+          <CardActions
+            sx={{
+              height: '40px',
+              flexDirection: 'row-reverse',
+              padding: '8px 16px',
+            }}
+          ></CardActions>
+        )}
         <CardContent
           sx={{
             color: 'rgba(0, 0, 0, 0.87)',
