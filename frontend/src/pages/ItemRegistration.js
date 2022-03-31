@@ -136,30 +136,25 @@ const ItemRegistration = () => {
 
       // NFT creation
       // console.log(" Go to create our NFT -----------------------");
-      ssafyNft.events
-        .Transfer()
-        .on("connected", (subscriptionId) => console.log("Transfer event connected", subscriptionId))
-        .on("data", (event) => {
-          console.log("catched Transfer data", event);
-          console.log("Patching data", {
-            itemId: storedItem.itemId,
-            token_id: event.returnValues.tokenId,
-            owner_address: senderAddress,
-          });
-          axios.patch(process.env.REACT_APP_BACKEND_HOST_URL + `/items/${storedItem.itemId}`, {
-            token_id: event.returnValues.tokenId,
-            owner_address: senderAddress,
-          });
-          setIsComplete(true);
-          // if (result.data.result !== "success") {
-          //   console.log("ERROR while updating item");
-          //   return;
-          // } else console.log("Update success");
-        })
-        .on("changed", (event) => console.log("changed", event))
-        .on("error", (err, receipt) => console.log("error", err, receipt));
-
       await ssafyNft.methods.create(senderAddress, storedItem.link).send({ from: senderAddress, gas: 3000000 });
+      await ssafyNft.getPastEvents("Transfer", { fromBlock: "latest" }).then((result) => {
+        // console.log("ssafyNft getPastEvents", result);
+        const evt = result[0];
+
+        const tokenId = evt.returnValues.tokenId;
+        setTokenId(tokenId);
+
+        axios
+          .patch(process.env.REACT_APP_BACKEND_HOST_URL + `/items/${storedItem.itemId}`, {
+            token_id: tokenId,
+            owner_address: senderAddress,
+          })
+          .then((result) => {
+            console.log(result);
+            setIsComplete(true);
+          })
+          .catch((err) => console.log("Item patch error", err));
+      });
     } catch (err) {
       console.log("ERROR while adding item", err);
     }

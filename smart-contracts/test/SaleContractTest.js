@@ -176,6 +176,7 @@ contract("Sale Contract Testing", (accounts) => {
     // 2. 제안자와 구매자 주소로 각 1,000 토큰 부여
     await ssafyTokenContract.forceToTransfer(seller, bidder, 1000).catch((err) => console.log("ssafyTokenContract forceToTransfer error 1", err));
     await ssafyTokenContract.forceToTransfer(seller, seller, 1000).catch((err) => console.log("ssafyTokenContract forceToTransfer error 2", err));
+
     // 3. 판매자 NFT 생성 (최처 제안가 10, 즉시 구매가 100, 판매 시작 시간 = 현재 시각, 판매 종료 시각 = 10초 후)
     // 3-1. NFT 생성
     nftContract = await SsafyNFT.deployed().catch((err) => console.log("SsafyFNT deployed error", err));

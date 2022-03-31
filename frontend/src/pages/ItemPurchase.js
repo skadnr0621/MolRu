@@ -154,13 +154,49 @@ const ItemPurchase = () => {
       // comm. with contract
       const ssafyNft = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.NFT_ABI, process.env.REACT_APP_NFT_CA);
 
-      const URI = await ssafyNft.methods.tokenURI(item.token_id).call();
+      const URI = await ssafyNft.methods.tokenURI(tokenId).call();
       console.log("Got URI --------------------", URI);
 
       setItem(URI);
       setUri(URI);
 
       setIsCollection(true);
+
+      // if this token is on sale
+      if (item.on_sale_yn === "1") {
+        var resp = await axios.get(process.env.REACT_APP_BACKEND_HOST_URL + `/sales?token_id=${tokenId}`);
+        if (resp.data.result !== "success") {
+          console.log("Could not get sale information");
+          return;
+        }
+
+        const sale = resp.data.data;
+
+        const saleContract = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.SALE_ABI, sale.sale_contract_address);
+        console.log("saleContract address - ", sale.sale_contract_address, saleContract._address);
+        const saleInfo = await saleContract.methods.getSaleInfo().call();
+        console.log("saleInfo : ", saleInfo);
+        /**
+         * [0] : saleStartTime
+         * [1] : saleEndTime
+         * [2] : minPrice
+         * [3] : purchasePrice
+         * [4] : tokenId
+         * [5] : highestBidder
+         * [6] : highetBid
+         * [7] : currencyAddress
+         * [8] : nftAddress
+         */
+
+        setDueDate(sale.completed_at); // 전시 종료
+        setContract(sale.cash_contract_address); // 거래 가능 토큰
+        setPrice(saleInfo[3]); // 즉시 구매가
+        setMinPrice(saleInfo[2]); // 최소 제안가
+        setMaxPrice(saleInfo[6]); // 최고 제안가
+        setProposer(saleInfo[5]); // 최고 제안자
+        setEndDate(parseInt(saleInfo[1])); // currentTime <= endDate
+        setEnded(sale.sale_yn !== 1); // && ended === false
+      }
     } catch (err) {
       console.log(err);
       setIsCollection(false);
@@ -175,9 +211,101 @@ const ItemPurchase = () => {
    * 2. Sale 컨트랙트가 구매자의 SSAFY 토큰을 상대방에게 전송할 수 있는 권한을 부여합니다. (approveERC20Token() 호출)
    * 2. 정상 호출 후, Sale 컨트랙트의 purchase() 함수를 호출합니다.
    */
-  const tryBid = () => {
+  const checkBalance = async () => {
+    if (address === "") {
+      alert("먼저 지갑 주소를 입력하세요.");
+      return;
+    }
+    if (!address.startsWith("0x")) {
+      alert("올바른 형태의 지갑 주소를 입력하세요.");
+      return;
+    }
+
+    const ssafyToken = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.ERC_ABI, contract);
+    await ssafyToken.methods
+      .balanceOf(address)
+      .call()
+      .then((result) => setBalance(result))
+      .catch((err) => console.log("ssafyToken balanceOf error", err));
+  };
+
+  const checkAddress = async (address, privKey, method) => {
+    // method === "purchase" : 즉시 구매
+    // method === "propose" : 제안 구매
+
+    // console.log(address === "");
+    // console.log(privKey === "");
+    // console.log(method === "propose");
+
+    if (address === "") {
+      alert("지갑 주소를 입력해야 합니다.");
+      return;
+    }
+    if (privKey === "") {
+      alert("개인키를 입력해야 합니다.");
+      return;
+    }
+
+    var balance = parseInt(balance);
+    var minPrice = parseInt(minPrice);
+    var price = parseInt(price);
+
+    if ((method === "propose" && balance < minPrice) || (method === "purchase" && balance < price)) {
+      alert("잔액을 조회해야 합니다. 또는 잔액이 부족합니다.");
+      return;
+    }
+
+    // check account <> address
+    const sender = web3.eth.accounts.privateKeyToAccount(privKey);
+    if (address != sender.address) {
+      alert("잔액을 조회한 계정의 개인키가 아닙니다.");
+      return;
+    }
+
+    // finally become able to bid
+    // alert("Let's go to bid!");
+    // console.log("제안 금액 : ", getFieldProps("price").value);
+    if (method === "propose") tryBid(sender);
+    else if (method === "purchase") tryPurchase(sender);
+  };
+
+  const tryBid = async (sender) => {
     // TODO
-    setLoading(false);
+    // setLoading(false);
+
+    try {
+      web3.eth.accounts.wallet.add(sender);
+      web3.eth.defaultAccount = sender.address;
+      const senderAddress = sender.address;
+
+      // get sale information & set contracts
+      var resp = await axios.get(process.env.REACT_APP_BACKEND_HOST_URL + `/sales?token_id=${tokenId}`);
+
+      const sale = resp.data.data;
+
+      const saleContract = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.SALE_ABI, sale.sale_contract_address);
+      const ssafyTokenContract = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.ERC_ABI, sale.cash_contract_address);
+
+      // * 1. bid 컨트랙트 함수 호출 파라메터를 지정합니다.
+      const bid_amount = getFieldProps("price").value;
+      // * 2. Sale 컨트랙트가 구매자의 SSAFY 토큰을 상대방에게 전송할 수 있는 권한을 부여합니다. (approveERC20Token() 호출)
+      await ssafyTokenContract.methods
+        .approve(saleContract._address, bid_amount)
+        .send({ from: senderAddress, gas: 3000000 })
+        .then((result) => console.log("ssafyTokenContract approve result", result))
+        .catch((err) => console.log("Error while ssafyTokenContract approve", err));
+
+      await saleContract.methods
+        .bid(bid_amount)
+        .send({ from: senderAddress, gas: 3000000 })
+        .then((result) => {
+          console.log("saleContract bid result", result);
+          setIsComplete(true);
+        })
+        .catch((err) => console.log("Error while bid", err));
+    } catch (err) {
+      console.log("Error while tryBid", err);
+    }
   };
 
   /**
@@ -188,9 +316,42 @@ const ItemPurchase = () => {
    * 2. 정상 호출 후, Sale 컨트랙트의 purchase() 함수를 호출합니다.
    * 3. 정상 호출 후 buyer 정보를 백엔드에 업데이트합니다.
    */
-  const tryPurchase = async () => {
+  const tryPurchase = async (sender) => {
     // TODO
-    setLoading(false);
+    // setLoading(false);
+
+    // * 1. Sale 컨트랙트가 구매자의 SSAFY 토큰을 상대방에게 전송할 수 있는 권한을 부여합니다.
+    var resp = await axios.get(process.env.REACT_APP_BACKEND_HOST_URL + `/sales?token_id=${tokenId}`);
+
+    const sale = resp.data.data;
+    const saleContract = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.SALE_ABI, sale.sale_contract_address);
+    const ssafyTokenContract = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.ERC_ABI, process.env.REACT_APP_ERC20_CA);
+    await ssafyTokenContract.methods
+      .approve(saleContract._address, price)
+      .send({ from: sender.address, gas: 3000000 })
+      .then((result) => console.log("ssafyTokenContract approve result", result))
+      .catch((err) => console.log("ssafyTokenContract approve error", err));
+
+    // * 2. 정상 호출 후, Sale 컨트랙트의 purchase() 함수를 호출합니다.
+    await saleContract.methods
+      .purchase()
+      .send({ from: sender.address, gas: 3000000 })
+      .then((result) => console.log("saleContract purchase result", result))
+      .catch((err) => console.log("saleContract purchase error", err));
+
+    // * 3. 정상 호출 후 buyer 정보를 백엔드에 업데이트합니다.
+    await saleContract.getPastEvents("SaleEnded", { fromBlock: "latest" }).then(async (events) => {
+      console.log("event SaleEnded", events);
+      const evt = events[0];
+      const buyer = evt.returnValues.winner;
+      await axios
+        .patch(process.env.REACT_APP_BACKEND_HOST_URL + `/sales/${tokenId}/purchase`, { buyer_address: buyer })
+        .then((result) => {
+          console.log("buyer patch result", result);
+          setIsComplete(true);
+        })
+        .catch((err) => console.log("buyer patch error", err));
+    });
   };
 
   return (

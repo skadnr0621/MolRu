@@ -18,6 +18,7 @@ import COMMON_ABI from "../common/ABI";
 import { onResponse, onContractCall } from "../common/ErrorMessage";
 import moment from "moment";
 import Page from "../components/Page";
+import { FormControlUnstyled } from "@mui/base";
 
 // 이미지 스타일
 const ImgStyle = styled("img")({
@@ -143,10 +144,14 @@ const SaleRegistration = () => {
       setIsSale(false);
 
       var result = await axios.get(process.env.REACT_APP_BACKEND_HOST_URL + `/items/${tokenId}`);
+      console.log(result);
       if (result.data.result !== "success") return;
 
       const item = result.data.item;
+      if (item.on_sale_yn != "0") return;
+
       setAuthor(item.author_name);
+      setAuthorAdr(item.owner_address);
       setTitle(item.item_title);
       setDescription(item.item_description);
 
@@ -176,7 +181,67 @@ const SaleRegistration = () => {
    */
   const createSaleContract = async () => {
     // TODO
-    setLoading(false);
+    // setLoading(false);
+
+    if (authorAddr != getAddressFrom(privKey.startsWith("0x") ? privKey : "0x" + privKey)) {
+      alert("소유주의 개인키를 입력하세요.");
+      return;
+    }
+
+    setLoading(true);
+
+    const sender = web3.eth.accounts.privateKeyToAccount(privKey.startsWith("0x") ? privKey : "0x" + privKey);
+    web3.eth.accounts.wallet.add(sender);
+    const senderAddress = sender.address;
+
+    const saleFactory = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.SALE_FACTORY_ABI, process.env.REACT_APP_SALE_FACTORY_CA);
+    console.log("startTime, endTime ", current, due);
+
+    const currencyAddress = process.env.REACT_APP_ERC20_CA;
+    const nftAddress = process.env.REACT_APP_NFT_CA;
+
+    await saleFactory.methods
+      .createSale(
+        tokenId, // uint256 itemId,
+        minPrice, // uint256 minPrice,
+        price, // uint256 purchasePrice,
+        current, // uint256 startTime,
+        due, // uint256 endTime,
+        currencyAddress, // address currencyAddress,
+        nftAddress // address nftAddress
+      )
+      .send({ from: senderAddress, gas: 3000000 })
+      .then((result) => console.log("createSale result", result))
+      .catch((err) => console.log("createSale error", err));
+
+    await saleFactory.getPastEvents("NewSale", { fromBlock: "latest" }).then(async (result) => {
+      console.log("event NewSale", result);
+      const pubKey = result[0].returnValues._owner;
+      const saleCA = result[0].returnValues._saleContract;
+      console.log("saleCA :", saleCA);
+      // console.log("NewSale result ", pubKey, saleCA);
+
+      // 4. Sale 컨트랙트가 판매자를 대신하여 NFT를 전송할 수 있도록 Sale 컨트랙트에 NFT 전송
+      // const sale = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.SALE_ABI, saleCA);
+      const ssafyNft = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.NFT_ABI, nftAddress);
+      // await ssafyNft.methods
+      //   .ownerOf(tokenId)
+      //   .call()
+      //   .then((result) => console.log("Before transfer : ", result));
+
+      // await ssafyNft.methods.transferFrom(senderAddress, saleCA, tokenId).send({ from: senderAddress, gas: 3000000 });
+      await ssafyNft.methods
+        .approve(saleCA, tokenId)
+        .send({ from: senderAddress, gas: 3000000 })
+        .catch((err) => console.log("NFT approve error", err));
+
+      // await ssafyNft.methods
+      //   .ownerOf(tokenId)
+      //   .call()
+      //   .then((result) => console.log("After transfer : ", result));
+
+      registerSaleInfo(pubKey, saleCA);
+    });
   };
 
   /**
@@ -188,6 +253,33 @@ const SaleRegistration = () => {
    * 정상 수행 후 반환되는 판매 정보를 API로 호출하여 업데이트합니다.
    */
   const registerSaleInfo = async (pubKey, saleCA) => {
+    // setLoading(false);
+
+    // sale_id int AI PK
+    // sale_contract_address varchar(256)
+    // sale_yn tinyint(1)
+    // token_id int
+    // cash_contract_address varchar(256)
+    // seller_address varchar(256)
+    // buyer_address varchar(256)
+    // created_at datetime
+    // completed_at datetime
+    const reqBody = {
+      token_id: tokenId,
+      seller_address: pubKey,
+      sales_contract_address: saleCA,
+      cash_contract_address: process.env.REACT_APP_ERC20_CA,
+      completed_at: due,
+    };
+
+    await axios
+      .post(process.env.REACT_APP_BACKEND_HOST_URL + `/sales`, reqBody)
+      .then((result) => {
+        console.log(result);
+        setIsComplete(true);
+      })
+      .catch((err) => console.log("registerSaleInfo error", err));
+
     setLoading(false);
   };
 

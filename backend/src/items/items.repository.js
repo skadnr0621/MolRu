@@ -95,7 +95,25 @@ class ItemsRepository {
   }
 
   async updateItemOwnerAddress(tokenId, ownerAddress) {
-    return null;
+    // return null;
+
+    const query = `
+      UPDATE  items
+      SET     owner_address = "${ownerAddress}"
+      WHERE   token_id = ${tokenId}
+    `;
+    console.debug(query);
+
+    connection.beginTransaction();
+    return await connection
+      .query(query)
+      .then((result) => {
+        return { connection, result };
+      })
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      });
   }
 
   async updateItemTokenIdAndOwnerAddress(itemId, tokenId, ownerAddress) {
@@ -163,6 +181,29 @@ class ItemsRepository {
       })
       .catch((err) => {
         console.error(err);
+        throw err;
+      });
+  }
+
+  // --------------------------------------------------
+
+  async updateItemOnSaleYn(data) {
+    const query = `
+      UPDATE  items
+      SET     on_sale_yn = ${data.on_sale_yn}
+      WHERE   token_id = ${data.token_id}
+    `;
+    console.debug(query);
+
+    connection.beginTransaction();
+    return await connection
+      .query(query)
+      .then((result) => {
+        return { connection, result };
+      })
+      .catch((err) => {
+        console.error(err);
+        connection.rollback();
         throw err;
       });
   }

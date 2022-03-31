@@ -90,8 +90,8 @@ contract Sale {
     address public highestBidder;
     uint256 public highestBid;
 
-    address[] bidders;
-    mapping(address => uint256) bidHistory;
+    // address[] bidders;
+    // mapping(address => uint256) bidHistory;
 
     IERC20 public erc20Contract;
     IERC721 public erc721Contract;
@@ -139,13 +139,13 @@ contract Sale {
         );
         require(bid_amount < purchasePrice, "Bid under purchase price");
 
-        // refund();
+        refund();
 
         highestBid = bid_amount;
         highestBidder = msg.sender;
         emit HighestBidIncreased(msg.sender, bid_amount);
 
-        // erc20Contract.transferFrom(msg.sender, address(this), bid_amount);
+        erc20Contract.transferFrom(msg.sender, address(this), bid_amount);
     }
 
     function purchase() public onlyNotSeller onlyValidTime {
@@ -156,7 +156,7 @@ contract Sale {
             "You didn't approve sending"
         );
 
-        // refund();
+        refund();
 
         erc20Contract.transferFrom(msg.sender, seller, purchasePrice);
         erc721Contract.transferFrom(seller, msg.sender, tokenId);
@@ -185,7 +185,7 @@ contract Sale {
     function cancelSales() public onlyUserPermissioned onlyValidTime {
         // TODO
 
-        // refund();
+        refund();
 
         erc721Contract.transferFrom(
             erc721Contract.ownerOf(tokenId),

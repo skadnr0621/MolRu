@@ -1,23 +1,24 @@
-import { Box, Button, Card, Container, Link, Stack, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { convertToAccountingFormat } from '../utils/NumberFormatter';
-import axios from 'axios';
-import Web3 from 'web3';
-import COMMON_ABI from '../common/ABI';
-import COMMON_HEADER from '../common/HeaderType';
-import COMMON_CONTRACT from '../common/SaleInfoGetter';
-import { onResponse } from '../common/ErrorMessage';
-import Page from '../components/Page';
+import { Box, Button, Card, Container, Link, Stack, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { useEffect, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { convertToAccountingFormat } from "../utils/NumberFormatter";
+import axios from "axios";
+import Web3 from "web3";
+import COMMON_ABI from "../common/ABI";
+import COMMON_HEADER from "../common/HeaderType";
+import COMMON_CONTRACT from "../common/SaleInfoGetter";
+import { onResponse } from "../common/ErrorMessage";
+import Page from "../components/Page";
+import { FormControlUnstyledContext } from "@mui/base";
 
 // 이미지 스타일
-const ImgStyle = styled('img')({
+const ImgStyle = styled("img")({
   top: 0,
-  width: '100%',
-  height: '100%',
-  objectFit: 'contain',
-  position: 'absolute'
+  width: "100%",
+  height: "100%",
+  objectFit: "contain",
+  position: "absolute",
 });
 
 /**
@@ -25,11 +26,11 @@ const ImgStyle = styled('img')({
  */
 const Main = () => {
   // [변수] 아이템, 작품명, 즉시 구매가, 심볼, 토큰 ID, 작품 존재 유무
-  const [item, setItem] = useState('');
-  const [artName, setArtName] = useState('최근 작품');
-  const [artPrice, setArtPrice] = useState('0');
-  const symbol = 'SSF';
-  const [tokenId, setTokenId] = useState('');
+  const [item, setItem] = useState("");
+  const [artName, setArtName] = useState("최근 작품");
+  const [artPrice, setArtPrice] = useState("0");
+  const symbol = "SSF";
+  const [tokenId, setTokenId] = useState("");
   const [isCollection, setIsCollection] = useState(false);
 
   // Web3
@@ -45,11 +46,11 @@ const Main = () => {
 
   /**
    * PJT Ⅲ - 과제 4: 조회
-   * Req. 4-F3 최근 작품 조회  
-   * 
+   * Req. 4-F3 최근 작품 조회
+   *
    * 1. API를 호출하고 응답 데이터를 화면에 표시합니다.
-   * 2. 응답으로부터 받은 token_id로 NFT 컨트랙트를 직접 호출(tokenURI() 함수)하여 이미지를 화면에 보여주어야 합니다. 
-   * 3. token_id를 이용해 얻은 sale_contract_address로 가지고 생성된 Sale 컨트랙트를 호출하여 즉시 구매 가격을 확인합니다. 
+   * 2. 응답으로부터 받은 token_id로 NFT 컨트랙트를 직접 호출(tokenURI() 함수)하여 이미지를 화면에 보여주어야 합니다.
+   * 3. token_id를 이용해 얻은 sale_contract_address로 가지고 생성된 Sale 컨트랙트를 호출하여 즉시 구매 가격을 확인합니다.
    */
   const getItem = async () => {
     // TODO
@@ -58,6 +59,34 @@ const Main = () => {
     setItem("https://edu.ssafy.com/asset/images/logo.png");
     setArtName("fake title");
     setArtPrice("fake price");
+
+    // ------------------
+    // for dev
+    const ssafyTokenContract = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.ERC_ABI, process.env.REACT_APP_ERC20_CA);
+
+    const ACCOUNT1 = process.env.REACT_APP_ACCOUNT0;
+    const ACCOUNT2 = process.env.REACT_APP_ACCOUNT1;
+    const ACCOUNT3 = process.env.REACT_APP_ACCOUNT2;
+
+    await ssafyTokenContract.methods.mint(1000).send({ from: ACCOUNT1, gas: 3000000 });
+    await ssafyTokenContract.methods.forceToTransfer(ACCOUNT1, ACCOUNT2, 250).send({ from: ACCOUNT1, gas: 3000000 });
+    await ssafyTokenContract.methods.forceToTransfer(ACCOUNT1, ACCOUNT3, 250).send({ from: ACCOUNT1, gas: 3000000 });
+
+    await ssafyTokenContract.methods
+      .balanceOf(ACCOUNT1)
+      .call({ from: ACCOUNT1 })
+      .then((result) => console.log("ACCOUNT1 balance : ", result))
+      .catch((err) => console.log("balanceOf 1 err", err));
+    await ssafyTokenContract.methods
+      .balanceOf(ACCOUNT2)
+      .call({ from: ACCOUNT2 })
+      .then((result) => console.log("ACCOUNT2 balance : ", result))
+      .catch((err) => console.log("balanceOf 2 err", err));
+    await ssafyTokenContract.methods
+      .balanceOf(ACCOUNT3)
+      .call({ from: ACCOUNT3 })
+      .then((result) => console.log("ACCOUNT3 balance : ", result))
+      .catch((err) => console.log("balanceOf 3 err", err));
   };
 
   return (
@@ -71,24 +100,10 @@ const Main = () => {
               노력에 가치를 부여하세요.
             </Typography>
             <Stack spacing={{ xs: 0.5, sm: 4.5 }}>
-              <Button
-                fullWidth
-                to="/items"
-                variant="contained"
-                size="large"
-                sx={{ fontSize: 18 }}
-                component={RouterLink}
-              >
+              <Button fullWidth to="/items" variant="contained" size="large" sx={{ fontSize: 18 }} component={RouterLink}>
                 구매하기
               </Button>
-              <Button
-                fullWidth
-                to="/register"
-                variant="contained"
-                size="large"
-                sx={{ fontSize: 18 }}
-                component={RouterLink}
-              >
+              <Button fullWidth to="/register" variant="contained" size="large" sx={{ fontSize: 18 }} component={RouterLink}>
                 등록하기
               </Button>
             </Stack>
@@ -96,17 +111,12 @@ const Main = () => {
 
           <Box width="40%" textAlign="center">
             <Card sx={{ mb: 5 }}>
-              <Box sx={{ ml: 25, mr: 25, pt: '100%', position: 'relative' }} />
+              <Box sx={{ ml: 25, mr: 25, pt: "100%", position: "relative" }} />
               <ImgStyle src={item.length !== 0 ? item : null} />
             </Card>
             <Stack>
               {isCollection === true ? (
-                <Link
-                  to={`/items/buy/${tokenId}`}
-                  color="inherit"
-                  underline="hover"
-                  component={RouterLink}
-                >
+                <Link to={`/items/buy/${tokenId}`} color="inherit" underline="hover" component={RouterLink}>
                   <Typography variant="h4" noWrap>
                     {artName}
                   </Typography>

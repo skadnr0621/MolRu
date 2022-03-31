@@ -210,6 +210,30 @@ class ItemsService {
       };
     }
   }
+
+  // --------------------------------------------------
+
+  async updateItemOnSaleYn(data) {
+    try {
+      const { connection, result } = await itemRepository.updateItemOnSaleYn(data);
+      console.log(result);
+
+      connection.commit();
+    } catch (err) {
+      console.error("Error while updateItemOnSaleYn", err);
+    }
+  }
+
+  async updateItemOwnerAddress(data) {
+    try {
+      const { connection, result } = await itemRepository.updateItemOwnerAddress(data.token_id, data.owner_address);
+      console.log(result);
+
+      connection.commit();
+    } catch (err) {
+      console.error("Error while updateItemOwnerAddress", err);
+    }
+  }
 }
 
 module.exports = ItemsService;
