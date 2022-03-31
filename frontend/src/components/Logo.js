@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box'
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.jpg'
 
 const Logo = ({ height }) => {
   return (
@@ -8,10 +8,8 @@ const Logo = ({ height }) => {
       src={logo}
       sx={{
         display: 'flex',
-        width: 'fit-content',
         height: height,
-        paddingRight: '189px',
-        paddingLeft: '16px',
+        padding: '16px 189px 16px 16px',
       }}
     />
   )
