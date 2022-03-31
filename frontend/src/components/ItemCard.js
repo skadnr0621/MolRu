@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
@@ -16,8 +17,8 @@ const ItemCard = () => {
   const [likeCnt, setLikeCnt] = useState(0)
 
   return (
-    <Box>
-      <Button sx={{ padding: '0px' }}>
+    <Box sx={{ height: '100%' }}>
+      <Button sx={{ padding: '0px' }} to="/items/1" component={Link}>
         <Card
           sx={{
             '&:hover': { boxShadow: 'rgb(4 17 29 / 25%) 0px 0px 8px 0px' },
