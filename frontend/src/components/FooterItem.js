@@ -4,8 +4,8 @@ import Stack from '@mui/material/Stack'
 import Link from '@mui/material/Link'
 
 const FooterItem = ({ item }) => {
-  const key = Object.keys(item)
-  const values = item[key]
+  const mainMenu = Object.keys(item)
+  const subMenu = item[mainMenu]
 
   return (
     <Box
@@ -17,11 +17,11 @@ const FooterItem = ({ item }) => {
       }}
     >
       <Link href="#" underline="none" mb="30px" sx={{ fontWeight: 'bold' }}>
-        {key}
+        {mainMenu}
       </Link>
       <Stack spacing={2}>
-        {values.map((value) => (
-          <Link href="#" underline="hover">
+        {subMenu.map((value, index) => (
+          <Link href="#" underline="hover" key={index}>
             {value}
           </Link>
         ))}

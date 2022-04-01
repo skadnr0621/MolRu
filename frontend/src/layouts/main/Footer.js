@@ -46,8 +46,8 @@ const Footer = () => {
           justifyContent: 'space-evenly',
         }}
       >
-        {items.map((item) => (
-          <FooterItem item={item} />
+        {items.map((item, index) => (
+          <FooterItem key={index} item={item} />
         ))}
       </Box>
     </FooterStyle>

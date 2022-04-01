@@ -1,13 +1,16 @@
 import Router from './routes'
 import ThemeConfig from './theme'
 import GlobalStyles from './theme/globalStyles'
+import { AppProvider } from './contexts/context'
 
 function App() {
   return (
-    <ThemeConfig>
-      <GlobalStyles />
-      <Router />
-    </ThemeConfig>
+    <AppProvider>
+      <ThemeConfig>
+        <GlobalStyles />
+        <Router />
+      </ThemeConfig>
+    </AppProvider>
   )
 }
 
