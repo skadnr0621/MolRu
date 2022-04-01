@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { AppContext } from '../contexts/context'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
@@ -10,29 +11,12 @@ import CardActions from '@mui/material/CardActions'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded'
 import IconButton from '@mui/material/IconButton'
+// import Web3 from 'web3'
 
 const AccountDrawer = () => {
-  const [account, setAccount] = useState('')
+  //   const web3 = new Web3(window.ethereum)
 
-  const handleLogin = async () => {
-    if (account) {
-      setAccount('')
-    } else {
-      try {
-        if (window.ethereum) {
-          const accounts = await window.ethereum.request({
-            method: 'eth_requestAccounts',
-          })
-
-          setAccount(accounts[0])
-        } else {
-          alert('Install Metamask!')
-        }
-      } catch (e) {
-        console.error(e)
-      }
-    }
-  }
+  const { state, actions } = useContext(AppContext)
 
   return (
     <Box
@@ -45,7 +29,7 @@ const AccountDrawer = () => {
       role="presentation"
     >
       {/* 로그인 ON*/}
-      {account && (
+      {state.account && (
         <>
           <Box
             sx={{
@@ -96,7 +80,9 @@ const AccountDrawer = () => {
                   color: 'rgba(0, 0, 0, 0.38)',
                 }}
               >
-                0x97...17dc
+                {state.account.substr(0, 4) +
+                  '...' +
+                  state.account.substr(-4, 4)}
               </Button>
             </Box>
           </Box>
@@ -133,7 +119,8 @@ const AccountDrawer = () => {
                     fontSize: '20px',
                   }}
                 >
-                  $ 0.00 USD
+                  {/* {web3.utils.toWei(state.balance, 'ether')} */}
+                  {Number(state.balance, 10)} USD
                 </Typography>
               </CardContent>
               <CardActions
@@ -172,7 +159,7 @@ const AccountDrawer = () => {
               underline="hover"
               sx={{ color: 'rgba(32, 129, 226, 0.6)' }}
               //   href=""
-              onClick={handleLogin}
+              onClick={actions.handleConnect}
             >
               Logout
             </Link>
@@ -181,7 +168,7 @@ const AccountDrawer = () => {
       )}
 
       {/* 로그인 OFF*/}
-      {!account && (
+      {!state.account && (
         <>
           <Box
             sx={{
@@ -233,7 +220,7 @@ const AccountDrawer = () => {
                 border: '1px solid rgba(0, 0, 0, 0.2)',
                 boxShadow: 'rgb(4 17 29 / 10%) 0px 0px 8px 0px',
               }}
-              onClick={handleLogin}
+              onClick={actions.handleConnect}
             >
               <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
                 <Box
