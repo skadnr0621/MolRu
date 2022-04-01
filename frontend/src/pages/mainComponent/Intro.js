@@ -47,7 +47,6 @@ const Intro = () => {
     return (
         <MainPageStyle>
             <Box component="div" style={{
-                backgroundColor:'yellow',
                 width: 'min(1280px, 100% - 40px)',
             }}>
                 <Grid container spacing={2}>

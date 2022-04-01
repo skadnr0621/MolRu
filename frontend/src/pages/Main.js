@@ -3,16 +3,20 @@ import Box from '@mui/material/Box';
 
 import Intro from './mainComponent/Intro';
 import Ranking from './mainComponent/Ranking';
+import Description from './mainComponent/Description';
+import Category from './mainComponent/Category';
 
 const Main = () => {
 
   return (
     <Box sx={{
-      height: '100%',
+      height: 'auto',
       width: '100%',
     }}>
-      <Intro/>
+      <Intro />
       <Ranking />
+      <Description />
+      <Category />
     </Box>
   )
 }
