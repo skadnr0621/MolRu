@@ -170,6 +170,7 @@ const ItemsFilter = () => {
                   onChange={(event) => handleStatus(event, value, index)}
                   value={value}
                   sx={{ backgroundColor: '#ffffff' }}
+                  key={index}
                 >
                   {value}
                 </ToggleButton>
@@ -225,6 +226,7 @@ const ItemsFilter = () => {
                     padding: '10px 0px 10px 16px',
                   }}
                   onClick={(event) => handleCategory(event, value, index)}
+                  key={index}
                 >
                   {value}
                 </MenuItem>
