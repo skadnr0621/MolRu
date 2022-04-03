@@ -144,6 +144,7 @@ const ItemDetailContent = () => {
                 marginRight: '10px',
                 marginBottom: '10px',
               }}
+              key={index}
             >
               #{value}
             </Box>

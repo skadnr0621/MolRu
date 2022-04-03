@@ -12,6 +12,8 @@ import IconButton from '@mui/material/IconButton'
 import FavoriteIcon from '@mui/icons-material/Favorite' // 좋아요 누름
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder' // 좋아요 안누름
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
+import molrudy from 'assets/molrudy.png'
+import molrudyAudio from 'assets/molrudy.wav'
 
 const ItemDetailCard = ({ isHeader }) => {
   const [likeCnt, setLikeCnt] = useState(0)
@@ -63,7 +65,7 @@ const ItemDetailCard = ({ isHeader }) => {
         </CardContent>
         <CardMedia
           component="img"
-          image={require('assets/molrudy.png')} // svg 파일이 안열림
+          image={molrudy} // svg 파일이 안열림
           alt="molrudy"
           sx={{ margin: '6% 0px 12% 0px', width: 'inherit' }}
         />
@@ -72,11 +74,7 @@ const ItemDetailCard = ({ isHeader }) => {
             margin: '0px 8px 6% 8px',
           }}
         >
-          <audio
-            style={{ margin: '0 auto' }}
-            controls
-            src={require('assets/molrudy.wav')}
-          >
+          <audio style={{ margin: '0 auto' }} controls src={molrudyAudio}>
             Your browser does not support the
             <code>audio</code> element.
           </audio>

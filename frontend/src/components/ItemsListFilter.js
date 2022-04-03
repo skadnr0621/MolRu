@@ -56,7 +56,9 @@ const ItemsListFilter = () => {
                 <em>None</em>
               </MenuItem>
               {sortArray.map((value, index) => (
-                <MenuItem value={value[0]}>{value[1]}</MenuItem>
+                <MenuItem value={value[0]} key={index}>
+                  {value[1]}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>

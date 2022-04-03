@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton'
 import FavoriteIcon from '@mui/icons-material/Favorite' // 좋아요 누름
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder' // 좋아요 안누름
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
+import molrudy from 'assets/molrudy.png'
 
 const ItemCard = () => {
   const [likeCnt, setLikeCnt] = useState(0)
@@ -39,7 +40,7 @@ const ItemCard = () => {
           </CardActions>
           <CardMedia
             component="img"
-            image={require('assets/molrudy.png')} // svg 파일이 안열림
+            image={molrudy} // svg 파일이 안열림
             alt="molrudy"
           />
           <CardActions
