@@ -1,9 +1,8 @@
 import React, { useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../contexts/context'
-import AccountInfo from 'components/AccountInfo'
 
-const Account = () => {
+const Setting = () => {
   const { state, actions } = useContext(AppContext)
   const navigate = useNavigate()
 
@@ -13,11 +12,7 @@ const Account = () => {
     }
   })
 
-  return (
-    <>
-      <AccountInfo />
-    </>
-  )
+  return <div>Setting</div>
 }
 
-export default Account
+export default Setting

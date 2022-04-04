@@ -1,14 +1,37 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useContext } from 'react'
+import { AppContext } from '../contexts/context'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import AccountDrawer from 'components/AccountDrawer'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Drawer from '@mui/material/Drawer'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
-import Drawer from '@mui/material/Drawer'
+import PersonIcon from '@mui/icons-material/Person'
+import SettingsIcon from '@mui/icons-material/Settings'
+import LogoutIcon from '@mui/icons-material/Logout'
 
 const AccountBar = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const { state, actions } = useContext(AppContext)
+
   const [isDrawer, setDrawer] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const onLogout = () => {
+    handleClose()
+    alert('로그아웃')
+    actions.handleConnect()
+  }
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -20,6 +43,14 @@ const AccountBar = () => {
     setDrawer(open)
   }
 
+  const handleClick = (event) => {
+    if (state.account) {
+      setAnchorEl(event.currentTarget)
+    } else {
+      setDrawer(true)
+    }
+  }
+
   return (
     <Box
       sx={{
@@ -27,9 +58,57 @@ const AccountBar = () => {
         height: '72px',
       }}
     >
-      <Button to="/account" component={Link} sx={{ padding: '0px 20px' }}>
+      <Button onClick={handleClick} sx={{ padding: '0px 20px' }}>
         <AccountCircleOutlinedIcon fontSize="large" />
       </Button>
+      <Menu
+        anchorEl={anchorEl}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        open={open}
+        onClose={handleClose}
+        sx={{
+          '& .MuiList-root': {
+            padding: '0px',
+          },
+        }}
+      >
+        <MenuItem
+          onClick={handleClose}
+          sx={{
+            padding: '13px 100px 13px 16px',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+          }}
+          to="/account"
+          component={Link}
+        >
+          <PersonIcon sx={{ marginRight: '13px' }} />
+          Profile
+        </MenuItem>
+        <MenuItem
+          onClick={handleClose}
+          sx={{
+            padding: '13px 100px 13px 16px',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+          }}
+          to="/account/setting"
+          component={Link}
+        >
+          <SettingsIcon sx={{ marginRight: '13px' }} />
+          Setting
+        </MenuItem>
+        <MenuItem onClick={onLogout} sx={{ padding: '13px 100px 13px 16px' }}>
+          <LogoutIcon sx={{ marginRight: '13px' }} />
+          Logout
+        </MenuItem>
+      </Menu>
+
       <Button sx={{ padding: '0px 20px' }} onClick={toggleDrawer(true)}>
         <AccountBalanceWalletOutlinedIcon fontSize="large" />
       </Button>
