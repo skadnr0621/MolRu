@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 
 import ItemsList from 'components/ItemsList'
 import Page404 from 'pages/Page404'
+import AccountActivity from './AccountActivity'
 
 const AccountTabs = () => {
   const [value, setValue] = React.useState(0)
@@ -20,7 +21,13 @@ const AccountTabs = () => {
         <Tab label="Activity" />
         <Tab label="Play" />
       </Tabs>
-      {value === 0 ? <ItemsList></ItemsList> : <Page404></Page404>}
+      {value === 0 ? (
+        <ItemsList />
+      ) : value === 1 ? (
+        <AccountActivity />
+      ) : (
+        <Page404 />
+      )}
     </Box>
   )
 }
