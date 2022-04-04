@@ -3,6 +3,7 @@ import MainLayout from './layouts/main'
 import LogoOnlyLayout from './layouts/LogoOnlyLayout'
 import Main from './pages/Main'
 import Account from './pages/Account'
+import Setting from './pages/Setting'
 import Items from './pages/Items'
 import ItemDetail from './pages/ItemDetail'
 import Gacha from './pages/Gacha'
@@ -36,6 +37,7 @@ export default function Router() {
       children: [
         { element: <Navigate to="/account" replace /> },
         { path: '', element: <Account /> },
+        { path: 'setting', element: <Setting /> },
       ],
     },
     // NFT 조회 페이지

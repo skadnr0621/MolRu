@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
 import MuiAccordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary'
@@ -54,24 +55,27 @@ const FilterOpenStyle = styled('div')({
 })
 
 const ItemsFilter = () => {
-  const statuses = ['all', 'sale', 'unsold']
-  const categories = [
-    '전체',
-    '화남',
-    '밝음',
-    '차분함',
-    '어두움',
-    '극적',
-    '펑키',
-    '행복',
-    '낭만적',
-    '슬픔',
-  ]
+  // query 속성 값 참고
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const statuses = { all: 0, sale: 1, unsold: 2 }
+  const categories = {
+    전체: 0,
+    화남: 1,
+    밝음: 2,
+    차분함: 3,
+    어두움: 4,
+    극적: 5,
+    펑키: 6,
+    행복: 7,
+    낭만적: 8,
+    슬픔: 9,
+  }
 
   const [filter, setFilter] = useState(true)
-  const [status, setStatus] = useState(['all', 1])
-  const [prices, setPrices] = React.useState([20, 37])
-  const [category, setCategory] = useState(['전체', 0])
+  const [status, setStatus] = useState(searchParams.get('status'))
+  const [prices, setPrices] = useState([20, 37])
+  const [category, setCategory] = useState(searchParams.get('category'))
 
   const handleFilter = () => {
     if (filter) {
@@ -88,18 +92,11 @@ const ItemsFilter = () => {
   }
 
   const handleStatus = (event, value, index) => {
-    alert(value)
-    event.target.parentNode.children[status[1]].style.backgroundColor =
-      '#ffffff'
-    event.target.style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
-    setStatus([value, index])
+    setSearchParams({ category: category, status: value })
   }
 
   const handleCategory = (event, value, index) => {
-    alert(value)
-    event.target.parentNode.children[category[1]].style.backgroundColor = ''
-    event.target.style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
-    setCategory([value, index])
+    setSearchParams({ category: value, status: status })
   }
 
   const handlePrices = (event, newPrices, activeThumb) => {
@@ -119,6 +116,26 @@ const ItemsFilter = () => {
   const handlePrice = () => {
     alert(`${prices[0]} ${prices[1]}`)
   }
+
+  useEffect(() => {
+    // 판매 상태
+    document.querySelector('.status').children[
+      statuses[status]
+    ].style.backgroundColor = '#ffffff'
+    document.querySelector('.status').children[
+      statuses[searchParams.get('status')]
+    ].style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
+    setStatus(searchParams.get('status'))
+
+    // 카테고리
+    document.querySelector('.category').children[
+      categories[category]
+    ].style.backgroundColor = ''
+    document.querySelector('.category').children[
+      categories[searchParams.get('category')]
+    ].style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
+    setCategory(searchParams.get('category'))
+  })
 
   return (
     <>
@@ -164,8 +181,8 @@ const ItemsFilter = () => {
           <AccordionDetails
             sx={{ height: '80px', display: 'flex', alignItems: 'center' }}
           >
-            <Stack direction="row" spacing={3}>
-              {statuses.map((value, index) => (
+            <Stack direction="row" spacing={3} className="status">
+              {Object.keys(statuses).map((value, index) => (
                 <ToggleButton
                   onChange={(event) => handleStatus(event, value, index)}
                   value={value}
@@ -219,8 +236,8 @@ const ItemsFilter = () => {
             Categories
           </AccordionSummary>
           <AccordionDetails sx={{ padding: '0px' }}>
-            <MenuList>
-              {categories.map((value, index) => (
+            <MenuList className="category">
+              {Object.keys(categories).map((value, index) => (
                 <MenuItem
                   sx={{
                     padding: '10px 0px 10px 16px',
