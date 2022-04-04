@@ -4,7 +4,6 @@ import { Outlet } from 'react-router-dom'
 const LogoOnlyLayout = () => {
   return (
     <div>
-      LogoOnlyLayout
       <Outlet />
     </div>
   )
