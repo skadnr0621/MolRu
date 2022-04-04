@@ -2,6 +2,20 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Setting Yarn
+
+If Node.js >= 16.10
+
+```bash
+corepack enable
+```
+
+If Node.js<=16.10
+
+```bash
+npm i -g corepack
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
