@@ -1,20 +1,21 @@
 import React from 'react'
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box'
 
-import Intro from './mainComponent/Intro';
-import Ranking from './mainComponent/Ranking';
-import Description from './mainComponent/Description';
-import Category from './mainComponent/Category';
+import Intro from 'components/Intro'
+import MolruVideo from 'components/MolruVideo'
+import Description from 'components/Description'
+import Category from 'components/Category'
 
 const Main = () => {
-
   return (
-    <Box sx={{
-      height: 'auto',
-      width: '100%',
-    }}>
+    <Box
+      sx={{
+        width: '100%',
+        height: 'auto',
+      }}
+    >
       <Intro />
-      <Ranking />
+      <MolruVideo />
       <Description />
       <Category />
     </Box>

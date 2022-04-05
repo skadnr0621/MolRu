@@ -74,7 +74,6 @@ const Setting = () => {
 
   return (
     <>
-      {/* <MelodyBackground /> */}
       <SettingStyle>
         <Stack spacing={7} sx={{ margin: '0 auto', width: '100%' }}>
           <Box
