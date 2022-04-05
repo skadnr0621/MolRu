@@ -17,7 +17,7 @@ public class SaleController {
     private final SaleService saleService;
 
     @PostMapping
-    public ResponseEntity<SaleDto> createSale(SaleDto saleDto) {
+    public ResponseEntity<SaleDto> createSale(@RequestBody SaleDto saleDto) {
         return saleService.createSale(saleDto);
     }
 
