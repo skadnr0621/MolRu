@@ -55,7 +55,11 @@ public class SaleService {
     }
 
     public ResponseEntity<?> getSale(Long tokenId) {
-        Sale sale = saleRepository.findByTokenId(tokenId).orElse(null);
+        Nft nft = nftRepository.findByTokenId(tokenId).orElse(null);
+        if (nft == null)
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+
+        Sale sale = saleRepository.findByNft(nft).orElse(null);
         if (sale == null)
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         else
@@ -63,9 +67,9 @@ public class SaleService {
     }
 
     public ResponseEntity<?> completeSale(Long tokenId, String buyerAddress) {
-        Sale sale = saleRepository.findByTokenId(tokenId).orElse(null);
-        User buyer = userRepository.findByAddress(buyerAddress).orElse(null);
         Nft nft = nftRepository.findByTokenId(tokenId).orElse(null);
+        Sale sale = saleRepository.findByNft(nft).orElse(null);
+        User buyer = userRepository.findByAddress(buyerAddress).orElse(null);
         if (sale == null || buyer == null || nft == null)
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 
