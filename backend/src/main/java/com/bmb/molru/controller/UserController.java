@@ -13,7 +13,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<UserDto> signup(UserDto userDto) {
         return userService.signup(userDto);
     }

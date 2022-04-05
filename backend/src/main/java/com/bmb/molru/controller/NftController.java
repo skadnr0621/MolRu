@@ -16,22 +16,22 @@ public class NftController {
     private final NftService nftService;
 
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<?> createNft(NftDto nftDto) {
         return nftService.createNft(nftDto);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<NftDto>> findAllNft() {
         return nftService.findAllNft();
     }
 
-    @GetMapping(value = "/", params = {"tokenId"})
+    @GetMapping(params = {"tokenId"})
     public ResponseEntity<NftDto> findNft(@RequestParam Long tokenId) {
         return nftService.findNft(tokenId);
     }
 
-    @GetMapping(value = "/", params = {"address"})
+    @GetMapping(params = {"address"})
     public ResponseEntity<List<NftDto>> findAllNftByUser(@RequestParam String address) {
         return nftService.findAllNftByUser(address);
     }
@@ -42,7 +42,7 @@ public class NftController {
         return nftService.updateTokenId(nftId, tokenId);
     }
 
-    @PatchMapping("/")
+    @PatchMapping
     public ResponseEntity<NftDto> updateNft(NftDto nftDto) {
         return nftService.updateNft(nftDto);
     }
