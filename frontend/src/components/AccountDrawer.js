@@ -12,10 +12,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded'
 import IconButton from '@mui/material/IconButton'
 import metamask from 'assets/metamask.png'
-// import Web3 from 'web3'
+import Web3 from 'web3'
 
 const AccountDrawer = () => {
-  // const web3 = new Web3(window.ethereum)
+  const web3 = new Web3(window.ethereum)
 
   const { state, actions } = useContext(AppContext)
 
@@ -120,8 +120,8 @@ const AccountDrawer = () => {
                     fontSize: '20px',
                   }}
                 >
-                  {/* {web3.utils.fromWei(state.balance, 'ether')} ETH */}
-                  {Number(state.balance, 10)} USD
+                  {web3.utils.fromWei(state.balance, 'ether')} ETH
+                  {/* {Number(state.balance, 10)} USD */}
                 </Typography>
               </CardContent>
               <CardActions
