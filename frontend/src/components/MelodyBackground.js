@@ -8,6 +8,8 @@ const MelodyBackground = () => {
       src={GachaBg}
       sx={{
         width: '100%',
+        objectFit: 'cover',
+        height: 'min(100%, 640px)',
         position: 'absolute',
         zIndex: '-100',
       }}

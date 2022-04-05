@@ -19,7 +19,11 @@ const ItemCard = () => {
 
   return (
     <Box sx={{ height: '100%' }}>
-      <Button sx={{ padding: '0px' }} to="/items/1" component={Link}>
+      <Button
+        sx={{ padding: '0px', border: '1px solid rgba(0, 0, 0, 0.12)' }}
+        to="/items/1"
+        component={Link}
+      >
         <Card
           sx={{
             '&:hover': { boxShadow: 'rgb(4 17 29 / 25%) 0px 0px 8px 0px' },
