@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
-    Optional<Sale> findByTokenId(Long tokenId);
+    Optional<Sale> findByNft(Nft nft);
 
     List<Sale> findAllBySellerAddress(String address);
     List<Sale> findAllByNft(Nft nft);

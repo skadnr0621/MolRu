@@ -15,7 +15,7 @@ public interface NftRepository extends JpaRepository<Nft, Long> {
     List<Nft> findAll();
 
     // 특정 사용자가 가진 nft 조회
-    List<Nft> findAllByUser(User user);
+    List<Nft> findAllByOwner(User owner);
 
     int countByTokenHash(String hashCode);
 

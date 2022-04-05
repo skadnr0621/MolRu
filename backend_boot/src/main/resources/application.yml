@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8082
 
 spring:
   datasource:
@@ -22,10 +22,8 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
----
-spring:
   profiles:
-    active: prod
+    active: local
 #  config:
 #    activate:
 #      on-profile: dev
