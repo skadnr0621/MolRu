@@ -16,15 +16,15 @@ public class SaleController {
 
     private final SaleService saleService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<SaleDto> createSale(SaleDto saleDto) {
         return saleService.createSale(saleDto);
     }
 
-    @GetMapping(value = "/", params = {"tokenId"})
+    @GetMapping(params = {"tokenId"})
     public ResponseEntity<?> getSale(@RequestParam Long tokenId) { return saleService.getSale(tokenId); }
 
-    @GetMapping(value = "/", params = {"method", "value"})
+    @GetMapping(params = {"method", "value"})
     public ResponseEntity<?> getSales(@RequestParam String method, @RequestParam String value) {
         if ("nft".equals(method))
             return saleService.findAllNftSale(Long.valueOf(value)); // TODO 메소드명 요검토

@@ -13,9 +13,14 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<UserDto> signup(UserDto userDto) {
         return userService.signup(userDto);
+    }
+
+    @GetMapping("/{address}")
+    public ResponseEntity<UserDto> getUserInfo(@PathVariable String address) {
+        return userService.getUserInfo(address);
     }
 
     @DeleteMapping("/{address}")
