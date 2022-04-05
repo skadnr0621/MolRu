@@ -128,6 +128,12 @@ const Setting = () => {
               </Box>
               <Box>
                 <label htmlFor="profile-img">
+                  <Input
+                    accept="image/*"
+                    id="profile-img"
+                    type="file"
+                    onChange={handleUserProfile}
+                  />
                   <Button
                     variant="outlined"
                     size="small"
@@ -136,13 +142,8 @@ const Setting = () => {
                       fontWeight: 'bold',
                       fontSize: '12px',
                     }}
+                    component="span"
                   >
-                    <Input
-                      accept="image/*"
-                      id="profile-img"
-                      type="file"
-                      onChange={handleUserProfile}
-                    />
                     Upload
                   </Button>
                 </label>
