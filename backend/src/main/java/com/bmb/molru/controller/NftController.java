@@ -17,7 +17,7 @@ public class NftController {
 
 
     @PostMapping
-    public ResponseEntity<?> createNft(NftDto nftDto) {
+    public ResponseEntity<?> createNft(@RequestBody NftDto nftDto) {
         return nftService.createNft(nftDto);
     }
 
@@ -43,7 +43,7 @@ public class NftController {
     }
 
     @PatchMapping
-    public ResponseEntity<NftDto> updateNft(NftDto nftDto) {
+    public ResponseEntity<NftDto> updateNft(@RequestBody NftDto nftDto) {
         return nftService.updateNft(nftDto);
     }
 
