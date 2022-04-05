@@ -18,6 +18,11 @@ public class UserController {
         return userService.signup(userDto);
     }
 
+    @GetMapping("/{address}")
+    public ResponseEntity<UserDto> getUserInfo(@PathVariable String address) {
+        return userService.getUserInfo(address);
+    }
+
     @DeleteMapping("/{address}")
     public ResponseEntity<UserDto> withdrawal(@PathVariable String address) {
         return userService.withdrawal(address);

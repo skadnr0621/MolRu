@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
@@ -39,6 +40,23 @@ public class UserService {
             UserDto savedUserDto = UserDto.convert(savedUser);
 
             return new ResponseEntity<>(savedUserDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<UserDto> getUserInfo(String address) {
+        try {
+            User findByAddress = userRepository.findByAddress(address).orElse(null);
+
+            // 유효성 검사(존재하는 아이디인지 체크)
+            if(findByAddress == null) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            UserDto userDto = UserDto.convert(findByAddress);
+
+            return new ResponseEntity<>(userDto, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
