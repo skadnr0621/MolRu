@@ -1,1 +1,0 @@
-CREATE database if not exists molru collate utf8mb4_general_ci;
