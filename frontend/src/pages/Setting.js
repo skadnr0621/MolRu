@@ -35,6 +35,11 @@ const Setting = () => {
     }
   })
 
+  useEffect(() => {
+    setUserName(state.nickname)
+    setUserProfile(state.imageUrl)
+  }, [])
+
   const [userName, setUserName] = useState('')
   const [userProfile, setUserProfile] = useState(profileImg)
 
@@ -164,6 +169,7 @@ const Setting = () => {
                   sx={{ color: 'rgba(0, 0, 0, 0.87)' }}
                   variant="outlined"
                   placeholder="Enter username"
+                  value={userName}
                   fullWidth
                 />
               </Box>
