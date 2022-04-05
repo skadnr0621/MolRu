@@ -36,6 +36,10 @@ export const AppProvider = ({ children }) => {
   }
 
   useEffect(() => {
+    handleConnect()
+  }, [])
+
+  useEffect(() => {
     getBalance()
   }, [account])
 
