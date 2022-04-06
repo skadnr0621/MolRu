@@ -22,6 +22,9 @@ const MolruVideo = () => {
               fontWeight: 'bold',
               fontSize: '28px',
               color: 'rgba(0, 0, 0, 0.87)',
+              '@media(max-width: 480px)': {
+                fontSize: '22px',
+              },
             }}
           >
             What is Molru?

@@ -25,6 +25,9 @@ const Category = () => {
     flexDirection: 'column',
     margin: '50px auto',
     padding: '60px 20px',
+    '@media(max-width: 480px)': {
+      padding: '60px 40px',
+    },
   })
 
   return (
@@ -37,13 +40,27 @@ const Category = () => {
               fontWeight: 'bold',
               fontSize: '28px',
               color: 'rgba(0, 0, 0, 0.87)',
+              '@media(max-width: 480px)': {
+                fontSize: '22px',
+              },
             }}
           >
             멜로디 카테고리
           </Typography>
         </Box>
 
-        <Grid container spacing={3} width="100%">
+        <Grid
+          container
+          spacing={3}
+          width="100%"
+          sx={{
+            '@media(max-width: 970px)': {
+              '& .MuiGrid-item': {
+                paddingLeft: '0px',
+              },
+            },
+          }}
+        >
           {categories.map((value, index) => (
             <CategoryCard key={index} title={value.title} img={value.img} />
           ))}

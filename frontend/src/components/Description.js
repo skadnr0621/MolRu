@@ -37,6 +37,13 @@ const Description = () => {
     display: 'flex',
     flexDirection: 'column',
     margin: '50px auto',
+
+    '@media(max-width: 1100px)': {
+      paddingBottom: '0px',
+      '#desc-container': {
+        flexDirection: 'column',
+      },
+    },
   })
 
   return (
@@ -50,13 +57,16 @@ const Description = () => {
                 fontWeight: 'bold',
                 fontSize: '28px',
                 color: 'rgba(0, 0, 0, 0.87)',
+                '@media(max-width: 480px)': {
+                  fontSize: '22px',
+                },
               }}
             >
               NFT 생성 및 판매
             </Typography>
           </Box>
 
-          <Grid container sx={{ width: '100%' }}>
+          <Grid id="desc-container" container sx={{ width: '100%' }}>
             {descriptions.map((value, index) => (
               <DescriptionContent
                 key={index}

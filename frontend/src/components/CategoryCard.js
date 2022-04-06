@@ -15,7 +15,10 @@ const CategoryCard = ({ title, img }) => {
       sm={6}
       md={4}
       lg={4}
-      sx={{ display: 'flex', justifyContent: 'center' }}
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}
     >
       <Button
         sx={{ display: 'flex', padding: '0px', width: 'fit-content' }}
@@ -50,6 +53,9 @@ const CategoryCard = ({ title, img }) => {
                 fontWeight: 'bold',
                 fontSize: '18px',
                 color: 'rgba(0, 0, 0, 0.87)',
+                '@media(max-width: 480px)': {
+                  fontSize: '16px',
+                },
               }}
             >
               {title}

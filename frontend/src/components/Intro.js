@@ -45,20 +45,49 @@ const Intro = () => {
               display: 'flex',
               justifyContent: 'center',
               margin: '70px 0px',
+              '@media(max-width: 480px)': {
+                textAlign: 'center',
+              },
             }}
           >
             <Stack spacing={4} sx={{ display: 'flex', margin: '70px 0px' }}>
-              <Box>
+              <Box
+                sx={{
+                  '@media(max-width: 480px)': {
+                    lineHeight: '3rem',
+                  },
+                }}
+              >
                 <Typography
                   sx={{
                     fontWeight: 'bold',
                     fontSize: '36px',
                     color: 'rgba(0, 0, 0, 0.87)',
+                    '@media(max-width: 480px)': {
+                      display: 'none',
+                    },
                   }}
                 >
                   멜로디 NFT를
                   <br />
                   수집하고 판매해보세요
+                </Typography>
+                <Typography
+                  sx={{
+                    fontWeight: 'bold',
+                    fontSize: '28px',
+                    color: 'rgba(0, 0, 0, 0.87)',
+                    display: 'none',
+                    '@media(max-width: 480px)': {
+                      display: 'inline',
+                    },
+                  }}
+                >
+                  멜로디 NFT를
+                  <br />
+                  수집하고
+                  <br />
+                  판매해보세요
                 </Typography>
               </Box>
 
@@ -68,6 +97,9 @@ const Intro = () => {
                     fontWeight: 'bold',
                     fontSize: '20px',
                     color: 'rgba(0, 0, 0, 0.87)',
+                    '@media(max-width: 480px)': {
+                      fontSize: '16px',
+                    },
                   }}
                 >
                   MOLRU는 세계 최초의
@@ -76,8 +108,22 @@ const Intro = () => {
                 </Typography>
               </Box>
 
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  '@media(max-width: 480px)': {
+                    flexDirection: 'column',
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    '@media(max-width: 480px)': {
+                      marginBottom: '30px',
+                    },
+                  }}
+                >
                   <Button
                     variant="contained"
                     size="large"
