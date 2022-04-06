@@ -35,6 +35,11 @@ public class NftController {
         return nftService.findAllNftByUser(address);
     }
 
+    @GetMapping("/recent")
+    public ResponseEntity<?> getRecentNft() {
+        return nftService.getRecentNft();
+    }
+
 
     @PatchMapping("/{nftId}")
     public ResponseEntity<?> updateTokenId(@PathVariable Long nftId, @RequestBody Long tokenId) {

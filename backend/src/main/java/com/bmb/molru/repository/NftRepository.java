@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface NftRepository extends JpaRepository<Nft, Long> {
+
     Optional<Nft> findByTokenId(Long tokenId);
+    Optional<Nft> findTop1ByOrderByCreatedDateDesc();
 
     // 전체 nft 조회
     @Override
