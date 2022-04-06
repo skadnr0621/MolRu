@@ -16,6 +16,17 @@ const ItemsListStyle = styled('div')({
   marginBottom: '100px',
 })
 
+const ItemsArray = [
+  {
+    owner: '김남욱',
+    price: '0.01',
+    title: 'Molrudy #1',
+    date: '22.01.01',
+    img: 'molrudy.png',
+    audio: '',
+  },
+]
+
 const ItemsList = () => {
   const [itemsCnt, setItemsCnt] = useState(100)
 
@@ -27,27 +38,19 @@ const ItemsList = () => {
         {itemsCnt} items
       </Typography>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <ItemCard />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <ItemCard />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <ItemCard />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <ItemCard />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <ItemCard />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <ItemCard />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <ItemCard />
-        </Grid>
+        {ItemsArray.map((value, index) => (
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <ItemCard
+              key={index}
+              owner={value.owner}
+              price={value.price}
+              title={value.title}
+              date={value.date}
+              img={value.img}
+              audio={value.audio}
+            />
+          </Grid>
+        ))}
       </Grid>
     </ItemsListStyle>
   )
