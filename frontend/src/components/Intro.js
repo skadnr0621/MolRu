@@ -16,6 +16,15 @@ const Intro = () => {
     margin: '0 auto',
   })
 
+  const introCardValues = {
+    owner: '김남욱',
+    price: '0.01',
+    title: 'Molrudy #1',
+    date: '22.01.01',
+    img: 'molrudy.png',
+    audio: '',
+  }
+
   return (
     <>
       <MelodyBackground />
@@ -111,7 +120,14 @@ const Intro = () => {
             lg={6}
             sx={{ display: 'flex', justifyContent: 'center' }}
           >
-            <ItemCard />
+            <ItemCard
+              owner={introCardValues.owner}
+              price={introCardValues.price}
+              title={introCardValues.title}
+              date={introCardValues.date}
+              img={introCardValues.img}
+              audio={introCardValues.audio}
+            />
           </Grid>
         </Grid>
       </MainPageStyle>
