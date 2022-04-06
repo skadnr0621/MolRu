@@ -12,6 +12,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import profileImg from 'assets/piano-cat.png'
 import MelodyBackground from 'components/MelodyBackground'
+import { api } from 'api'
 
 const SettingStyle = styled('div')({
   width: 'min(640px, 100% - 200px)',
@@ -69,11 +70,32 @@ const Setting = () => {
       })
   }
 
-  const onSaveProfile = () => {
-    alert(userName)
+  const onSaveProfile = async () => {
+    await updateUserInfo()
 
     if (userProfile != profileImg) {
       alert(userProfile)
+    }
+  }
+
+  const updateUserInfo = async () => {
+    try {
+      const data = {
+        address: state.account,
+        imageUrl: '',
+        nickname: userName,
+      }
+      const res = await api.put('/user', data)
+      const imageUrl = res.data.imageUrl
+      const nickname = res.data.nickname
+      setUserName(nickname === '' ? '몰?루' : nickname)
+      setUserProfile(imageUrl === '' ? profileImg : imageUrl)
+      state.nickname = nickname === '' ? '몰?루' : nickname
+      state.imageUrl = imageUrl === '' ? profileImg : imageUrl
+      alert('변경 완료!')
+      navigate('/account')
+    } catch (e) {
+      console.error(e)
     }
   }
 
