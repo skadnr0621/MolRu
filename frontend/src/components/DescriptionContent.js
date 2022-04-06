@@ -4,10 +4,6 @@ import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
-import MusicNoteOutlinedIcon from '@mui/icons-material/MusicNoteOutlined'
-import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined'
-import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
-
 const DescriptionContent = ({ icon, title, content }) => {
   return (
     <Grid
@@ -22,11 +18,7 @@ const DescriptionContent = ({ icon, title, content }) => {
       }}
     >
       <Stack spacing={1}>
-        <Box sx={{ textAlign: 'center' }}>
-          <AccountBalanceWalletOutlinedIcon
-            sx={{ fontSize: '40px', color: 'rgba(0, 0, 0, 0.87)' }}
-          />
-        </Box>
+        <Box sx={{ textAlign: 'center' }}>{icon}</Box>
         <Box>
           <Typography
             sx={{
