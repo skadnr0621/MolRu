@@ -60,6 +60,14 @@ public class NftService {
         }
     }
 
+    public ResponseEntity<?> getRecentNft() {
+        Nft nft = nftRepository.findTop1ByOrderByCreatedDateDesc().orElse(null);
+        if (nft == null)
+            return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        else
+            return new ResponseEntity<>(NftDto.convert(nft), HttpStatus.OK);
+    }
+
     public ResponseEntity<?> updateTokenId(Long nftId, Long tokenId) {
         Nft nft = nftRepository.findById(nftId).orElse(null);
         if (nft == null)
