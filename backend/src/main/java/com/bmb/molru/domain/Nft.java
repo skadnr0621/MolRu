@@ -33,6 +33,7 @@ public class Nft extends BaseTimeEntity {
     private User owner;
 
     @Column(name = "category")
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @Column(name = "on_sale")

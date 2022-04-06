@@ -22,14 +22,15 @@ public class NftQueryRepository extends QuerydslRepositorySupport {
 
     public List<Nft> findFilteredNft(String category, String status, String address) {
         return jpaQueryFactory.selectFrom(nft)
-                .where(eqCategory(category),
+                .where(
+                        eqCategory(category),
                         eqStatus(status),
                         eqAddress(address))
                 .fetch();
     }
 
     private BooleanExpression eqCategory(String category) {
-        if("전체".equals(category) || Category.convert(category) == null) {
+        if(Category.convert(category) == null) {
             return null;
         }
         return nft.category.eq(Category.convert(category));
