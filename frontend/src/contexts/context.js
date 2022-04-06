@@ -1,5 +1,6 @@
 import React, { createContext, useState, useCallback, useEffect } from 'react'
 import { api } from 'api'
+import defaultImg from 'assets/piano-cat.png'
 
 export const AppContext = createContext({
   state: { account: '', balance: '', nickname: '', imageUrl: '' },
@@ -49,7 +50,7 @@ export const AppProvider = ({ children }) => {
         const imageUrl = res.data.imageUrl
         const nickname = res.data.nickname
         setNickName(nickname === '' ? '몰?루' : nickname)
-        setImageUrl(imageUrl === '' ? 'piano-cat.png' : imageUrl)
+        setImageUrl(imageUrl === '' ? defaultImg : imageUrl)
       }
     } catch (e) {
       console.error(e)
