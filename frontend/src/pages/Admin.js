@@ -4,6 +4,9 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const Admin = () => {
   const styles = {
@@ -21,6 +24,11 @@ const Admin = () => {
 
     buttonStyle: {
       margin : '10px 0px 0px 20px',
+    },
+
+    errorMsg: {
+      color: 'red',
+      fontSize: '20px',
     }
   }
   
@@ -34,9 +42,16 @@ const Admin = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [privateKey, setPrivateKey] = useState("");
+  const [category, setCategory] = useState("");
 
   const [svgItemName, setSvgItemName] = useState("");
   const [wavItemName, setWavItemName] = useState("");
+
+  const [titleError, setTitleError] = useState(true);
+  const [privateKeyError, setPrivateKeyError] = useState(true);
+  const [categoryError, setCategoryError] = useState(true);
+  const [svgError, setSvgError] = useState(true);
+  const [wavError, setWavError] = useState(true);
 
   const svg = useRef();
   const wav = useRef();
@@ -49,24 +64,72 @@ const Admin = () => {
   };
 
   // 아이템 업로드 핸들링
+  
+
+  const handleTitle = (event) => {
+    setTitle(event.target.value);
+
+    if (event.target.value != "") {
+      setTitleError(false);
+    }
+    else {
+      setTitleError(true);
+    } 
+  };
+
+  const handleDescription = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handlePrivKey = (event) => {
+    setPrivateKey(event.target.value);
+
+    if (event.target.value != "") {
+      setPrivateKeyError(false);
+    }
+    else {
+      setPrivateKeyError(true);
+    }
+  };
+
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+    setCategoryError(false);
+  }
+
   const handleSvgItem = (value) => {
     setSvgItem(value);
 
-    if (value !== "") setSvgItemName(value.name);
-    else setSvgItemName("");
+    if (value !== "") {
+      setSvgItemName(value.name);
+      setSvgError(false);
+    }
+    else {
+      setSvgItemName("");
+      setSvgError(true);
+    } 
   };
 
   const handleWavItem = (value) => {
     setWavItem(value);
 
-    if (value !== "") setWavItemName(value.name);
-    else setWavItemName("");
+    if (value !== "") {
+      setWavItemName(value.name);
+      setWavError(false);
+    }
+    else {
+      setWavItemName("");
+      setWavError(true);
+    }
   };
 
   const addItem = async () => {
-    console.log("title : ", title);
-    console.log("description : ", description);
-    console.log("privateKey : ", privateKey);
+    if (titleError || privateKeyError || categoryError || svgError || wavError) {
+      alert("Check miss input!!!");
+    } else {
+      // TODO : MINTING 기능 추가
+      alert("Ready to mint!!!");
+    }
   }
 
   const handleSubmit = (event) => {
@@ -84,8 +147,9 @@ const Admin = () => {
                 label="token title"
                 id="outlined-size-small"
                 size="small"
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={handleTitle}
               />
+              {titleError && <div style={styles.errorMsg}>no title input</div>}
             </div>
 
             <div style={styles.inputField}>
@@ -93,7 +157,7 @@ const Admin = () => {
                 label="token description"
                 id="outlined-size-small"
                 size="small"
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={handleDescription}
               />
             </div>
 
@@ -102,8 +166,30 @@ const Admin = () => {
                 label="private key"
                 id="outlined-size-small"
                 size="small"
-                onChange={(e) => setPrivateKey(e.target.value)}
+                onChange={handlePrivKey}
               />
+              {privateKeyError && <div style={styles.errorMsg}>no privateKey input</div>}
+            </div>
+
+            <div style={styles.inputField}>
+              <InputLabel id="demo-simple-select-label">Category</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                value={category}
+                label="category"
+                onChange={handleCategoryChange}
+              >
+                <MenuItem value={"화남"}>화남</MenuItem>
+                <MenuItem value={"밝음"}>밝음</MenuItem>
+                <MenuItem value={"차분"}>차분</MenuItem>
+                <MenuItem value={"어두움"}>어두움</MenuItem>
+                <MenuItem value={"극적"}>극적</MenuItem>
+                <MenuItem value={"펑키"}>펑키</MenuItem>
+                <MenuItem value={"행복"}>행복</MenuItem>
+                <MenuItem value={"낭만적"}>낭만적</MenuItem>
+                <MenuItem value={"슬픔"}>슬픔</MenuItem>
+              </Select>
+              {categoryError && <div style={styles.errorMsg}>no category input</div>}
             </div>
 
             <div style={styles.inputField}>
@@ -114,20 +200,22 @@ const Admin = () => {
                   ref={svg} 
                   onChange={(e) => (e.target.files.length !== 0 ? handleSvgItem(e.target.files[0]) : handleSvgItem(""))}/>
               <Button style={styles.buttonStyle} variant="contained" component="span" onClick={handleSvgClick}>
-                  SVG upload
-                </Button>
+                SVG upload
+              </Button>
+              {svgError && <div style={styles.errorMsg}>no svg input</div>}
             </div>
 
             <div style={styles.inputField}>
               <TextField sx={{ width: "400px" }} type="text" label="사운드 파일 (업로드 확장자 형식: wav)" value={wavItemName} disabled />
-                <Input
-                  type="file"
-                  accept="audio/wav"
-                  ref={wav} 
-                  onChange={(e) => (e.target.files.length !== 0 ? handleWavItem(e.target.files[0]) : handleWavItem(""))}/>
-                <Button style={styles.buttonStyle} variant="contained" component="span" onClick={handleWavClick}>
-                  wav upload
-                </Button>
+              <Input
+                type="file"
+                accept="audio/wav"
+                ref={wav} 
+                onChange={(e) => (e.target.files.length !== 0 ? handleWavItem(e.target.files[0]) : handleWavItem(""))}/>
+              <Button style={styles.buttonStyle} variant="contained" component="span" onClick={handleWavClick}>
+                wav upload
+              </Button>
+              {wavError && <div style={styles.errorMsg}>no wav input</div>}
             </div>
           </div>
           <div style={styles.inputField}>
