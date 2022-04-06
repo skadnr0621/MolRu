@@ -27,4 +27,9 @@ public class UserController {
     public ResponseEntity<UserDto> withdrawal(@PathVariable String address) {
         return userService.withdrawal(address);
     }
+
+    @PutMapping
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
+        return userService.updateUser(userDto);
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -73,6 +74,27 @@ public class UserService {
 
             userRepository.delete(findByAddress);
             return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<UserDto> updateUser(UserDto userDto) {
+        try {
+            User findByAddress = userRepository.findByAddress(userDto.getAddress()).orElse(null);
+
+            // 유효성 검사(존재하는 아이디인지 체크)
+            if(findByAddress == null) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            findByAddress.setImageURL(userDto.getImageUrl());
+            findByAddress.setNickname(userDto.getNickname());
+
+            userRepository.save(findByAddress);
+            UserDto savedUserDto = UserDto.convert(findByAddress);
+
+            return new ResponseEntity<>(savedUserDto, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
