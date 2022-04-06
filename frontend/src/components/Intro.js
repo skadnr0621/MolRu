@@ -49,7 +49,7 @@ const Intro = () => {
 
       setItem(item)
     } catch (err) {
-      console.debug('Error at Intro > intro', err)
+      console.error('Error at Intro > intro', err)
     }
   }
 

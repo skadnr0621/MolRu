@@ -6,6 +6,13 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
+import { useSearchParams } from 'react-router-dom'
+
+import { api } from '../api/index'
+
+import Web3 from 'web3'
+import ABI from '../common/ABI'
+
 const ItemsListStyle = styled('div')({
   backgroundColor: '#ffffff',
   display: 'flex',
@@ -16,19 +23,78 @@ const ItemsListStyle = styled('div')({
   marginBottom: '100px',
 })
 
-const ItemsArray = [
-  {
-    owner: '김남욱',
-    price: '0.01',
-    title: 'Molrudy #1',
-    date: '22.01.01',
-    img: 'molrudy.png',
-    audio: '',
-  },
-]
+// const ItemsArray = [
+//   {
+//     owner: '김남욱',
+//     price: '0.01',
+//     title: 'Molrudy #1',
+//     date: '22.01.01',
+//     img: 'molrudy.png',
+//     audio: '',
+//   },
+// ]
 
 const ItemsList = () => {
+  const [searchParams] = useSearchParams()
+  const [items, setItems] = useState('')
   const [itemsCnt, setItemsCnt] = useState(100)
+
+  const web3 = new Web3(
+    new Web3.providers.WebsocketProvider(
+      process.env.REACT_APP_ETHEREUM_RPC_URL,
+    ),
+  )
+
+  useEffect(() => {
+    search()
+  }, [])
+
+  const search = async () => {
+    try {
+      const category = searchParams.get('category')
+      const status = searchParams.get('status')
+      const address = searchParams.get('address')
+
+      var resp = await api
+        .get(`/nft?category=${category}&status=${status}&address=${address}`)
+        .catch((err) =>
+          console.error('Error while GET /nft?category&status&address', err),
+        )
+      console.log(resp)
+
+      const items = resp.data
+      console.log('items : ', items)
+      const ssafyNftContract = new web3.eth.Contract(
+        ABI.CONTRACT_ABI.NFT_ABI,
+        process.env.REACT_APP_NFT_CA,
+      )
+
+      for (var i = 0; i < items.length; ++i) {
+        if (items[i].tokenId == null) continue
+        items[i].tokenURI = await ssafyNftContract.methods
+          .tokenURI(items[i].tokenId)
+          .call()
+          .catch((err) =>
+            console.log('Error while ssafyNftContract tokenURI', err),
+          )
+      }
+
+      setItems(items)
+    } catch (err) {
+      console.error('Error at ItemsList > search', err)
+    }
+  }
+
+  const ItemsArray = [...Array(items.length)].map((_, index) => {
+    return {
+      owner: items[index].address,
+      price: items[index].price,
+      title: items[index].tokenTitle,
+      date: items[index].createdDate,
+      img: items[index].tokenURI,
+      audio: items[index].tokenAudio,
+    }
+  })
 
   // spacing - large: 3, small:
   return (
