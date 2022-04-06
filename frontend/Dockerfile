@@ -2,6 +2,7 @@
 FROM node:lts-alpine as build-stage
 WORKDIR /app
 COPY . .
+RUN yarn add secp256k1
 RUN yarn build
 
 # production stage
