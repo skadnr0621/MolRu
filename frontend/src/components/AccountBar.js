@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { AppContext } from '../contexts/context'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import AccountDrawer from 'components/AccountDrawer'
+import { makeStyles, styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
@@ -14,6 +15,21 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import LogoutIcon from '@mui/icons-material/Logout'
 
 const AccountBar = () => {
+  const AccountBarStyle = styled('div')({
+    display: 'flex',
+    // '.accuontbar-div': {
+    //   padding: '0px 20px',
+    // },
+
+    '@media(max-width: 905px)': {
+      flexDirection: 'column',
+      '.accountbar-div': {
+        width: '100%',
+        padding: '10px 0px',
+      },
+    },
+  })
+
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -52,13 +68,8 @@ const AccountBar = () => {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        height: '72px',
-      }}
-    >
-      <Button onClick={handleClick} sx={{ padding: '0px 20px' }}>
+    <AccountBarStyle>
+      <Button className="accountbar-div" to="/account" component={Link}>
         {state.account !== '' ? (
           <Box
             component="img"
@@ -69,7 +80,8 @@ const AccountBar = () => {
           <AccountCircleOutlinedIcon fontSize="large" />
         )}
       </Button>
-      <Menu
+
+      {/* <Menu
         anchorEl={anchorEl}
         transformOrigin={{
           vertical: 'top',
@@ -115,9 +127,9 @@ const AccountBar = () => {
           <LogoutIcon sx={{ marginRight: '13px' }} />
           Logout
         </MenuItem>
-      </Menu>
+      </Menu> */}
 
-      <Button sx={{ padding: '0px 20px' }} onClick={toggleDrawer(true)}>
+      <Button className="accountbar-div" onClick={toggleDrawer(true)}>
         <AccountBalanceWalletOutlinedIcon fontSize="large" />
       </Button>
       <Drawer
@@ -130,9 +142,9 @@ const AccountBar = () => {
           },
         }}
       >
-        <AccountDrawer />
+        <AccountDrawer setDrawer={setDrawer} />
       </Drawer>
-    </Box>
+    </AccountBarStyle>
   )
 }
 

@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { AppContext } from '../contexts/context'
+import { makeStyles, styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
@@ -10,25 +11,32 @@ import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import IconButton from '@mui/material/IconButton'
 import metamask from 'assets/metamask.png'
 import Web3 from 'web3'
 
-const AccountDrawer = () => {
+const AccountDrawer = ({ setDrawer }) => {
+  const AccountDrawerStyle = styled('div')({
+    width: '360px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+
+    '@media(max-width: 480px)': {
+      width: '100vw',
+      '#wallet-back-btn': {
+        display: 'flex',
+      },
+    },
+  })
+
   const web3 = new Web3(window.ethereum)
 
   const { state, actions } = useContext(AppContext)
 
   return (
-    <Box
-      sx={{
-        width: '360px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-      role="presentation"
-    >
+    <AccountDrawerStyle role="presentation">
       {/* 로그인 ON*/}
       {state.account && (
         <>
@@ -48,6 +56,13 @@ const AccountDrawer = () => {
                 alignItems: 'center',
               }}
             >
+              <IconButton
+                id="wallet-back-btn"
+                sx={{ padding: '0px 5px 0px 0px', display: 'none' }}
+                onClick={() => setDrawer(false)}
+              >
+                <ArrowBackIosNewIcon sx={{ fontSize: '24px' }} />
+              </IconButton>
               <Button sx={{ padding: '0px' }}>
                 <Box
                   sx={{
@@ -180,6 +195,13 @@ const AccountDrawer = () => {
               borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
             }}
           >
+            <IconButton
+              id="wallet-back-btn"
+              sx={{ padding: '0px 5px 0px 0px', display: 'none' }}
+              onClick={() => setDrawer(false)}
+            >
+              <ArrowBackIosNewIcon sx={{ fontSize: '24px' }} />
+            </IconButton>
             <Box
               sx={{
                 height: '30px',
@@ -257,7 +279,7 @@ const AccountDrawer = () => {
           </Box>
         </>
       )}
-    </Box>
+    </AccountDrawerStyle>
   )
 }
 

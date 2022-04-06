@@ -9,7 +9,7 @@ const Logo = ({ height }) => {
       sx={{
         display: 'flex',
         height: height,
-        padding: '16px 189px 16px 16px',
+        padding: '16px',
       }}
     />
   )
