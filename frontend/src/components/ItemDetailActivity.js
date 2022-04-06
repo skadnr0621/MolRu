@@ -255,7 +255,17 @@ const ItemDetailActivity = () => {
   return (
     <Box sx={{ marginTop: '20px' }}>
       <Typography
-        sx={{ padding: '10px 0px', fontSize: '22px', fontWeight: 'bold' }}
+        sx={{
+          padding: '10px 0px',
+          fontSize: '22px',
+          fontWeight: 'bold',
+          '@media(max-width: 600px)': {
+            fontSize: '20px',
+          },
+          '@media(max-width: 480px)': {
+            fontSize: '18px',
+          },
+        }}
       >
         <FormatListBulletedIcon
           sx={{ verticalAlign: 'text-top', marginRight: '8px' }}
