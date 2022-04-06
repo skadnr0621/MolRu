@@ -4,6 +4,9 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const Admin = () => {
   const styles = {
@@ -34,12 +37,17 @@ const Admin = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [privateKey, setPrivateKey] = useState("");
+  const [category, setCategory] = useState("");
 
   const [svgItemName, setSvgItemName] = useState("");
   const [wavItemName, setWavItemName] = useState("");
 
   const svg = useRef();
   const wav = useRef();
+
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+  }
 
   const handleSvgClick = () => {
     svg.current.click();
@@ -67,6 +75,10 @@ const Admin = () => {
     console.log("title : ", title);
     console.log("description : ", description);
     console.log("privateKey : ", privateKey);
+    console.log("category : ", category);
+
+    console.log("svg file uploaded!!", svgItem);
+    console.log("wav file uploaded!!", wavItem);
   }
 
   const handleSubmit = (event) => {
@@ -104,6 +116,26 @@ const Admin = () => {
                 size="small"
                 onChange={(e) => setPrivateKey(e.target.value)}
               />
+            </div>
+
+            <div style={styles.inputField}>
+              <InputLabel id="demo-simple-select-label">Category</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                value={category}
+                label="category"
+                onChange={handleCategoryChange}
+              >
+                <MenuItem value={"화남"}>화남</MenuItem>
+                <MenuItem value={"밝음"}>밝음</MenuItem>
+                <MenuItem value={"차분"}>차분</MenuItem>
+                <MenuItem value={"어두움"}>어두움</MenuItem>
+                <MenuItem value={"극적"}>극적</MenuItem>
+                <MenuItem value={"펑키"}>펑키</MenuItem>
+                <MenuItem value={"행복"}>행복</MenuItem>
+                <MenuItem value={"낭만적"}>낭만적</MenuItem>
+                <MenuItem value={"슬픔"}>슬픔</MenuItem>
+              </Select>
             </div>
 
             <div style={styles.inputField}>
