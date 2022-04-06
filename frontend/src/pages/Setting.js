@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { AppContext } from '../contexts/context'
 import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import profileImg from 'assets/piano-cat.png'
 import MelodyBackground from 'components/MelodyBackground'
 import { api } from 'api'
@@ -110,16 +111,27 @@ const Setting = () => {
               justifyContent: 'space-between',
             }}
           >
-            <Box>
-              <Typography
-                sx={{
-                  fontSize: '40px',
-                  color: 'rgba(0, 0, 0, 0.87)',
-                  fontWeight: 'bold',
-                }}
-              >
-                Profile Setting
-              </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box>
+                <IconButton
+                  sx={{ paddingLeft: '0px' }}
+                  to="/account"
+                  component={Link}
+                >
+                  <ArrowBackIosNewIcon sx={{ fontSize: '36px' }} />
+                </IconButton>
+              </Box>
+              <Box>
+                <Typography
+                  sx={{
+                    fontSize: '40px',
+                    color: 'rgba(0, 0, 0, 0.87)',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Profile Edit
+                </Typography>
+              </Box>
             </Box>
 
             <Box>

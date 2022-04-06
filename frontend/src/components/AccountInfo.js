@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from 'react'
+import { Link } from 'react-router-dom'
 import { AppContext } from 'contexts/context'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 
@@ -9,6 +11,11 @@ import MelodyBackground from './MelodyBackground'
 
 const AccountInfo = () => {
   const { state, actions } = useContext(AppContext)
+
+  const onLogout = () => {
+    alert('로그아웃')
+    actions.handleConnect()
+  }
 
   return (
     <Container
@@ -46,11 +53,12 @@ const AccountInfo = () => {
           color: 'rgba(0, 0, 0, 0.87)',
         }}
       >
-        {state.nickname}
+        {/* {state.nickname} */}
+        hello
       </Typography>
       <Box
         sx={{
-          mb: 3,
+          mb: 2,
           border: '1px solid #707A83',
           borderRadius: '20px',
           padding: '4px 8px',
@@ -65,6 +73,28 @@ const AccountInfo = () => {
         >
           {state.account}
         </Typography>
+      </Box>
+      <Box sx={{ mb: 3 }}>
+        <Button
+          variant="contained"
+          sx={{ textTransform: 'none' }}
+          to="/account/setting"
+          component={Link}
+        >
+          <Typography sx={{ fontWeight: 'bold' }}>profile edit</Typography>
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{
+            textTransform: 'none',
+            border: '1px solid rgba(0, 0, 0, 0.38)',
+          }}
+          onClick={onLogout}
+        >
+          <Typography sx={{ fontWeight: 'bold', color: 'rgba(0, 0, 0, 0.38)' }}>
+            logout
+          </Typography>
+        </Button>
       </Box>
       <AccountTabs />
     </Container>
