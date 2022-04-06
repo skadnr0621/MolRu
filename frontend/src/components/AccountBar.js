@@ -59,7 +59,15 @@ const AccountBar = () => {
       }}
     >
       <Button onClick={handleClick} sx={{ padding: '0px 20px' }}>
-        <AccountCircleOutlinedIcon fontSize="large" />
+        {state.account !== '' ? (
+          <Box
+            component="img"
+            src={state.imageUrl}
+            sx={{ width: '35px', height: '35px' }}
+          ></Box>
+        ) : (
+          <AccountCircleOutlinedIcon fontSize="large" />
+        )}
       </Button>
       <Menu
         anchorEl={anchorEl}
