@@ -15,16 +15,75 @@ const AccountTabs = () => {
   }
 
   return (
-    <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+    <Box
+      sx={{
+        mt: 3,
+        width: '100%',
+        backgroundColor: 'rgba(255, 255, 255, 0.68)',
+        boxShadow: 'rgb(4 17 29 / 25%) 0px 0px 8px 0px',
+        borderRadius: '10px',
+      }}
+    >
       <Tabs value={value} onChange={handleChange} variant="fullWidth">
-        <Tab label="My collection" />
-        <Tab label="Activity" />
-        <Tab label="Play" />
+        <Tab
+          label="My Collection"
+          sx={{
+            fontWeight: 'bold',
+            fontSize: '18px',
+            textTransform: 'none',
+            '@media(max-width: 600px)': {
+              fontSize: '16px',
+            },
+            '@media(max-width: 480px)': {
+              fontSize: '14px',
+            },
+          }}
+        />
+        <Tab
+          label="Activity"
+          sx={{
+            fontWeight: 'bold',
+            fontSize: '18px',
+            textTransform: 'none',
+            '@media(max-width: 600px)': {
+              fontSize: '16px',
+            },
+            '@media(max-width: 480px)': {
+              fontSize: '14px',
+            },
+          }}
+        />
+        <Tab
+          label="Play"
+          sx={{
+            fontWeight: 'bold',
+            fontSize: '18px',
+            textTransform: 'none',
+            '@media(max-width: 600px)': {
+              fontSize: '16px',
+            },
+            '@media(max-width: 480px)': {
+              fontSize: '14px',
+            },
+          }}
+        />
       </Tabs>
       {value === 0 ? (
         <ItemsList />
       ) : value === 1 ? (
-        <AccountActivity />
+        <Box
+          sx={{
+            padding: '0px 36px 36px 36px',
+            '@media(max-width: 600px)': {
+              padding: '0px 28px 36px 28px',
+            },
+            '@media(max-width: 480px)': {
+              padding: '0px 16px 36px 16px',
+            },
+          }}
+        >
+          <AccountActivity />
+        </Box>
       ) : (
         <Page404 />
       )}

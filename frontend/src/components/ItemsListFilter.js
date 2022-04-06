@@ -34,11 +34,23 @@ const ItemsListFilter = () => {
         alignItems: 'center',
         justifyContent: 'space-between',
         width: '100%',
-        height: '68px',
+        height: 'auto',
         margin: '16px 0px 10px',
+        '@media(max-width: 480px)': {
+          flexWrap: 'wrap',
+          justifyContent: 'flex-end',
+        },
       }}
     >
-      <Box mr="16px" sx={{ width: 'inherit' }}>
+      <Box
+        mr="16px"
+        sx={{
+          width: 'inherit',
+          '@media(max-width: 480px)': {
+            margin: '0 auto',
+          },
+        }}
+      >
         <Autocomplete
           sx={{ width: 'auto' }}
           size="small"
@@ -47,38 +59,28 @@ const ItemsListFilter = () => {
           renderInput={(params) => <TextField {...params} label="Search" />}
         />
       </Box>
-      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-        <Box>
-          <FormControl sx={{ minWidth: '200px' }} size="small">
-            <InputLabel>Sort by</InputLabel>
-            <Select value={sort} onChange={handleSort} label="Sort by">
-              <MenuItem value="">
-                <em>None</em>
+
+      <Box
+        sx={{
+          '@media(max-width: 480px)': {
+            marginTop: '10px',
+          },
+        }}
+      >
+        <FormControl sx={{ minWidth: '200px' }} size="small">
+          <InputLabel>Sort by</InputLabel>
+          <Select value={sort} onChange={handleSort} label="Sort by">
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {sortArray.map((value, index) => (
+              <MenuItem value={value[0]} key={index}>
+                {value[1]}
               </MenuItem>
-              {sortArray.map((value, index) => (
-                <MenuItem value={value[0]} key={index}>
-                  {value[1]}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-        <Box>
-          <ToggleButtonGroup
-            value={grid}
-            exclusive
-            onChange={handleGrid}
-            size="small"
-          >
-            <ToggleButton value="large">
-              <WindowSharpIcon />
-            </ToggleButton>
-            <ToggleButton value="small">
-              <GridOnSharpIcon />
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Box>
-      </Stack>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
     </Box>
   )
 }
