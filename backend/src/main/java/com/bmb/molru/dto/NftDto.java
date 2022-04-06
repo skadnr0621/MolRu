@@ -1,5 +1,6 @@
 package com.bmb.molru.dto;
 
+import com.bmb.molru.domain.Category;
 import com.bmb.molru.domain.Nft;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +21,7 @@ public class NftDto {
     private String tokenDescription;
     private Long tokenId;
     private String address;
-
+    private Category category;
     private boolean onSale;
 
 
@@ -33,6 +34,7 @@ public class NftDto {
                 .address(nft.getOwner().getAddress())
                 .tokenId(nft.getTokenId())
                 .tokenTitle(nft.getTokenTitle())
+                .category(nft.getCategory())
                 .tokenDescription(nft.getTokenDescription())
                 .onSale(nft.isOnSale())
                 .build();

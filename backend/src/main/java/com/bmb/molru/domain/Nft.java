@@ -32,6 +32,9 @@ public class Nft extends BaseTimeEntity {
     @JoinColumn(name = "owner_id")
     private User owner;
 
+    @Column(name = "category")
+    private Category category;
+
     @Column(name = "on_sale")
     private boolean onSale;
 

@@ -1,5 +1,6 @@
 package com.bmb.molru.repository;
 
+import com.bmb.molru.domain.Category;
 import com.bmb.molru.domain.Nft;
 import com.bmb.molru.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +20,7 @@ public interface NftRepository extends JpaRepository<Nft, Long> {
 
     int countByTokenHash(String hashCode);
 
+    List<Nft> findAllByCategoryAndOnSaleAndAndOwner(Category category, Boolean onSale, User owner);
     // 판매중인 nft만 조회
 //    List<Nft> findAllBySell(boolean isSell);
 }

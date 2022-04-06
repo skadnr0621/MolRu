@@ -47,6 +47,7 @@ public class NftService {
                     .owner(userByAddress)
                     .tokenTitle(nftDto.getTokenTitle())
                     .tokenDescription(nftDto.getTokenDescription())
+                    .category(nftDto.getCategory())
                     .onSale(false)
                     .build();
 
@@ -113,8 +114,12 @@ public class NftService {
         }
     }
 
-    public ResponseEntity<List<NftDto>> findAllNft() {
+    public ResponseEntity<List<NftDto>> searchNft(String category, String status, String address) {
         try {
+            if("전체".equals(category)) {
+
+            }
+
             List<Nft> nftList = nftRepository.findAll();
             List<NftDto> nftDtoList = new ArrayList<>();
 
