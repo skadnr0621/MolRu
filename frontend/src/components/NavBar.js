@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { makeStyles, styled } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Menu from '@mui/material/Menu'
@@ -18,7 +20,32 @@ const categories = [
   '슬픔',
 ]
 
+// const useStyles = makeStyles({
+//   root: {
+//     backgroundColor: 'red',
+//     color: (props) => props.color,
+//   },
+// });
+
 const NavBar = () => {
+  const NavBarStyle = styled('div')({
+    display: 'flex',
+
+    '@media(max-width: 905px)': {
+      flexDirection: 'column',
+      '.navbar-div': {
+        padding: '10px 0px',
+        width: '100%',
+      },
+      // flexDirection: 'column',
+      // '#more-menu': {
+      //   display: 'inline-block',
+      // },
+    },
+  })
+
+  // const isTablet = useMediaQuery('(max-width: 905px)') // 905px 이하인 경우
+
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
@@ -30,61 +57,35 @@ const NavBar = () => {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        height: '72px',
-      }}
-    >
+    <NavBarStyle>
       <Button
+        className="navbar-div"
         onClick={handleClick}
         sx={{ padding: '0px 20px', fontWeight: 'bold', fontSize: '16px' }}
+        to={`/items?category=전체&status=all`}
+        component={Link}
       >
         Explore
       </Button>
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        sx={{
-          '& .MuiList-root': {
-            padding: '0px',
-          },
-        }}
-      >
-        {categories.map((value, index) => (
-          <MenuItem
-            onClick={handleClose}
-            key={index}
-            sx={{
-              '&:not(:last-child)': {
-                borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-              },
-              padding: '13px 100px 13px 16px',
-            }}
-            to={`/items?category=${value}&status=all`}
-            component={Link}
-          >
-            {value}
-          </MenuItem>
-        ))}
-      </Menu>
 
       <Button
+        className="navbar-div"
         to="/gacha"
         component={Link}
         sx={{ padding: '0px 20px', fontWeight: 'bold', fontSize: '16px' }}
       >
         Gacha
       </Button>
+
       <Button
+        className="navbar-div"
         to="/404"
         component={Link}
         sx={{ padding: '0px 20px', fontWeight: 'bold', fontSize: '16px' }}
       >
         Play
       </Button>
-    </Box>
+    </NavBarStyle>
   )
 }
 
