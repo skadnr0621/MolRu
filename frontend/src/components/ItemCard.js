@@ -14,7 +14,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder' // 좋아요
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 import molrudy from 'assets/molrudy.png'
 
-const ItemCard = () => {
+const ItemCard = ({ owner, price, title, date, img, audio }) => {
   const [likeCnt, setLikeCnt] = useState(0)
 
   return (
@@ -44,7 +44,8 @@ const ItemCard = () => {
           </CardActions>
           <CardMedia
             component="img"
-            image={molrudy} // svg 파일이 안열림
+            src={img}
+            // image={img} // svg 파일이 안열림
             alt="molrudy"
           />
           <CardActions
@@ -63,7 +64,7 @@ const ItemCard = () => {
             <Stack spacing={1}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Typography sx={{ fontWeight: 'bold', color: '#9E9E9E' }}>
-                  김남욱
+                  {owner}
                 </Typography>
                 <Typography sx={{ fontWeight: 'bold', color: '#9E9E9E' }}>
                   Price
@@ -73,7 +74,7 @@ const ItemCard = () => {
                 <Typography
                   sx={{ fontWeight: 'bold', color: 'rgba(0, 0, 0, 0.87)' }}
                 >
-                  Molrudy #1
+                  {title}
                 </Typography>
                 <Typography
                   sx={{ fontWeight: 'bold', color: 'rgba(0, 0, 0, 0.87)' }}
@@ -82,7 +83,7 @@ const ItemCard = () => {
                     src="https://img.icons8.com/color/48/000000/ethereum.png"
                     style={{ verticalAlign: 'text-top', height: '16px' }}
                   />
-                  0.01
+                  {price}
                 </Typography>
               </Box>
             </Stack>
@@ -97,7 +98,7 @@ const ItemCard = () => {
               flexDirection: 'row-reverse',
             }}
           >
-            22.01.01
+            {date}
           </Typography>
         </Card>
       </Button>
