@@ -7,6 +7,7 @@ import Setting from './pages/Setting'
 import Items from './pages/Items'
 import ItemDetail from './pages/ItemDetail'
 import Gacha from './pages/Gacha'
+import Admin from './pages/Admin'
 import NotFound from './pages/Page404'
 
 export default function Router() {
@@ -61,6 +62,14 @@ export default function Router() {
     },
     { path: '*', element: <Navigate to="/404" replace /> },
     // 관리자 페이지
+    {
+      path: '/admin',
+      element: <LogoOnlyLayout />,
+      children: [
+        { element: <Navigate to="/admin" replace /> },
+        { path: '', element: <Admin /> },
+      ],
+    },
     // 멜로디 놀이터 페이지
   ])
 }
