@@ -65,8 +65,10 @@ export const AppProvider = ({ children }) => {
         nickname: '',
       }
       const res = await api.post('/user', data)
-      setNickName(res.data.nickname)
-      setImageUrl(res.data.imageUrl)
+      const imageUrl = res.data.imageUrl
+      const nickname = res.data.nickname
+      setNickName(nickname === '' ? '몰?루' : nickname)
+      setImageUrl(imageUrl === '' ? defaultImg : imageUrl)
     } catch (e) {
       console.error(e)
     }
