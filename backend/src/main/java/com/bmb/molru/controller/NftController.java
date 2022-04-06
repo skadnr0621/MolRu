@@ -16,7 +16,7 @@ public class NftController {
     private final NftService nftService;
 
     @PostMapping
-    public ResponseEntity<?> createNft(@RequestBody NftDto nftDto) {
+    public ResponseEntity<?> createNft(NftDto nftDto) {
         return nftService.createNft(nftDto);
     }
 

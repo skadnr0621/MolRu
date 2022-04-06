@@ -3,6 +3,7 @@ package com.bmb.molru.service;
 import com.bmb.molru.domain.Nft;
 import com.bmb.molru.domain.User;
 import com.bmb.molru.dto.NftDto;
+import com.bmb.molru.repository.NftQueryRepository;
 import com.bmb.molru.repository.NftRepository;
 import com.bmb.molru.repository.UserRepository;
 import com.bmb.molru.util.CommonService;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.DatatypeConverter;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +26,14 @@ public class NftService {
     /*** Repository ***/
     private final NftRepository nftRepository;
     private final UserRepository userRepository;
+    private final NftQueryRepository nftQueryRepository;
 
 
     public ResponseEntity<?> createNft(NftDto nftDto) {
         try {
             User userByAddress = userRepository.findByAddress(nftDto.getAddress()).orElse(null);
             if (userByAddress == null) {
+                System.out.println("no user");
                 User admin = userRepository.findById(0L).orElse(null);
                 if (admin == null)
                     return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
@@ -37,17 +42,21 @@ public class NftService {
             }
 
             // check image duplication
-            String hashCode = CommonService.toHexString(nftDto.getImage().getBytes());
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(nftDto.getImage().getBytes());
+            byte[] digest = md.digest();
+            String hashCode = DatatypeConverter.printHexBinary(digest).toUpperCase();
+
             if (nftRepository.countByTokenHash(hashCode) > 0)
                 return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 
-            // TODO : 토큰ID 중복 체크 로직 필요함
             Nft nft = Nft.builder()
                     .tokenHash(hashCode)
                     .owner(userByAddress)
                     .tokenTitle(nftDto.getTokenTitle())
                     .tokenDescription(nftDto.getTokenDescription())
                     .category(nftDto.getCategory())
+                    .tokenId(nftDto.getTokenId())
                     .onSale(false)
                     .build();
 
@@ -116,14 +125,10 @@ public class NftService {
 
     public ResponseEntity<List<NftDto>> searchNft(String category, String status, String address) {
         try {
-            if("전체".equals(category)) {
-
-            }
-
-            List<Nft> nftList = nftRepository.findAll();
+            List<Nft> filteredNft = nftQueryRepository.findFilteredNft(category, status, address);
             List<NftDto> nftDtoList = new ArrayList<>();
 
-            for (Nft nft : nftList) {
+            for (Nft nft : filteredNft) {
                 nftDtoList.add(NftDto.convert(nft));
             }
 
@@ -152,19 +157,4 @@ public class NftService {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
-//    public ResponseEntity<List<NftDto>> findAllNftOnSale() {
-//        try {
-//            List<Nft> nftList = nftRepository.findAllBySell(true);
-//            List<NftDto> nftDtoList = new ArrayList<>();
-//
-//            for (Nft nft : nftList) {
-//                nftDtoList.add(NftDto.convert(nft));
-//            }
-//
-//            return new ResponseEntity<>(nftDtoList, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
 }
