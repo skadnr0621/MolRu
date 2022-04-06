@@ -29,7 +29,7 @@ const Header = () => {
     width: '100%',
     height: 'auto',
     top: '0px',
-    position: 'fixed',
+    position: 'sticky',
     display: 'flex',
     flexDirection: 'row',
     zIndex: '110',
