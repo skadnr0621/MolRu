@@ -16,11 +16,17 @@ import MelodyBackground from 'components/MelodyBackground'
 import { api } from 'api'
 
 const SettingStyle = styled('div')({
-  width: 'min(640px, 100% - 200px)',
+  width: '640px',
   height: 'auto',
   margin: '50px auto 100px auto',
   display: 'flex',
   flexDirection: 'column',
+  '@media(max-width: 740px)': {
+    width: 'min(640px, 100% - 100px)',
+  },
+  '@media(max-width: 480px)': {
+    width: 'min(640px, 100% - 50px)',
+  },
 })
 
 const Input = styled('input')({
@@ -118,7 +124,17 @@ const Setting = () => {
                   to="/account"
                   component={Link}
                 >
-                  <ArrowBackIosNewIcon sx={{ fontSize: '36px' }} />
+                  <ArrowBackIosNewIcon
+                    sx={{
+                      fontSize: '36px',
+                      '@media(max-width: 600px)': {
+                        fontSize: '26px',
+                      },
+                      '@media(max-width: 480px)': {
+                        fontSize: '20px',
+                      },
+                    }}
+                  />
                 </IconButton>
               </Box>
               <Box>
@@ -127,6 +143,12 @@ const Setting = () => {
                     fontSize: '40px',
                     color: 'rgba(0, 0, 0, 0.87)',
                     fontWeight: 'bold',
+                    '@media(max-width: 600px)': {
+                      fontSize: '30px',
+                    },
+                    '@media(max-width: 480px)': {
+                      fontSize: '24px',
+                    },
                   }}
                 >
                   Profile Edit
@@ -137,10 +159,26 @@ const Setting = () => {
             <Box>
               <Button
                 variant="contained"
-                sx={{ fontWeight: 'bold' }}
                 onClick={onSaveProfile}
+                sx={{
+                  '@media(max-width: 600px)': {
+                    padding: '2px 0px',
+                  },
+                }}
               >
-                Save
+                <Typography
+                  sx={{
+                    fontWeight: 'bold',
+                    '@media(max-width: 600px)': {
+                      fontSize: '14px',
+                    },
+                    '@media(max-width: 480px)': {
+                      fontSize: '12px',
+                    },
+                  }}
+                >
+                  Save
+                </Typography>
               </Button>
             </Box>
           </Box>
@@ -157,6 +195,14 @@ const Setting = () => {
                   overflow: 'hidden',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  '@media(max-width: 600px)': {
+                    width: '100px',
+                    height: '100px',
+                  },
+                  '@media(max-width: 480px)': {
+                    width: '80px',
+                    height: '80px',
+                  },
                 }}
               >
                 <img
@@ -192,7 +238,10 @@ const Setting = () => {
             <Stack spacing={1} sx={{ width: '-webkit-fill-available' }}>
               <Box>
                 <Typography
-                  sx={{ fontWeight: 'bold', color: 'rgba(0, 0, 0, 0.87)' }}
+                  sx={{
+                    fontWeight: 'bold',
+                    color: 'rgba(0, 0, 0, 0.87)',
+                  }}
                 >
                   UserName
                 </Typography>
@@ -200,7 +249,27 @@ const Setting = () => {
               <Box>
                 <TextField
                   onChange={handleUserName}
-                  sx={{ color: 'rgba(0, 0, 0, 0.87)' }}
+                  sx={{
+                    color: 'rgba(0, 0, 0, 0.87)',
+                    '@media(max-width: 480px)': {
+                      display: 'none',
+                    },
+                  }}
+                  variant="outlined"
+                  placeholder="Enter username"
+                  value={userName}
+                  fullWidth
+                />
+                <TextField
+                  onChange={handleUserName}
+                  sx={{
+                    display: 'none',
+                    color: 'rgba(0, 0, 0, 0.87)',
+                    '@media(max-width: 480px)': {
+                      display: 'block',
+                    },
+                  }}
+                  size="small"
                   variant="outlined"
                   placeholder="Enter username"
                   value={userName}
@@ -216,7 +285,42 @@ const Setting = () => {
             </Box>
             <Box>
               <TextField
-                sx={{ color: 'rgba(0, 0, 0, 0.87)' }}
+                sx={{
+                  color: 'rgba(0, 0, 0, 0.87)',
+                  '& .MuiOutlinedInput-root': {
+                    paddingRight: '0px',
+                  },
+                  '@media(max-width: 480px)': {
+                    display: 'none',
+                  },
+                }}
+                id="wallet-address"
+                variant="outlined"
+                value={state.account}
+                InputProps={{
+                  disabled: true,
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton onClick={onCopyAccount}>
+                        <ContentCopyIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                fullWidth
+              />
+              <TextField
+                sx={{
+                  display: 'none',
+                  color: 'rgba(0, 0, 0, 0.87)',
+                  '& .MuiOutlinedInput-root': {
+                    paddingRight: '0px',
+                  },
+                  '@media(max-width: 480px)': {
+                    display: 'block',
+                  },
+                }}
+                size="small"
                 id="wallet-address"
                 variant="outlined"
                 value={state.account}
