@@ -7,6 +7,7 @@ import Button from '@mui/material/Button'
 import PianoCat from 'assets/piano-cat.png'
 import GachaLoadingContainer from 'components/GachaLoadingContainer'
 import ItemDetailCard from 'components/ItemDetailCard'
+import Typography from '@mui/material/Typography'
 
 const Gacha = () => {
   const [isClicked, setIsClicked] = useState(false)
@@ -46,46 +47,86 @@ const Gacha = () => {
           <Box component="img" src={PianoCat} sx={{ width: '50%' }}></Box>
           <Button
             variant="contained"
-            color="primary"
             sx={{ m: 5, width: '50%' }}
             onClick={handleGacha}
           >
-            <h1>Gacha</h1>
+            <Typography
+              sx={{
+                fontSize: '28px',
+                fontWeight: 'bold',
+                textTransform: 'none',
+                '@media(max-width: 600px)': {
+                  fontSize: '24px',
+                },
+                '@media(max-width: 480px)': {
+                  fontSize: '20px',
+                },
+              }}
+            >
+              Gacha
+            </Typography>
           </Button>
         </Container>
       ) : isLoading ? (
         <GachaLoadingContainer />
       ) : (
         <Container
-          maxWidth="sm"
           sx={{
             mt: 14,
             mb: 14,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            width: 'min(480px, 100% - 36px)',
           }}
         >
-          <Box sx={{ width: 'min(375px, 100% - 40px)' }}>
+          <Box sx={{ width: '100%' }}>
             <ItemDetailCard isHeader={false} />
           </Box>
-          <Box sx={{ m: 5 }}>
+          <Box
+            sx={{
+              width: '100%',
+              marginTop: '40px',
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
             <Button
               variant="contained"
-              color="primary"
-              sx={{ mr: 1 }}
               onClick={handleGachaAgain}
+              sx={{ width: '45%' }}
             >
-              <h2>더 뽑기</h2>
+              <Typography
+                sx={{
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  textTransform: 'none',
+                  '@media(max-width: 360px)': {
+                    fontSize: '16px',
+                  },
+                }}
+              >
+                더 뽑기
+              </Typography>
             </Button>
             <Button
               component={Link}
               to="/items/1"
               variant="outlined"
-              color="primary"
-              sx={{ ml: 1 }}
+              sx={{ width: '45%' }}
             >
-              <h2>상세정보</h2>
+              <Typography
+                sx={{
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  textTransform: 'none',
+                  '@media(max-width: 360px)': {
+                    fontSize: '16px',
+                  },
+                }}
+              >
+                상세정보
+              </Typography>
             </Button>
           </Box>
         </Container>
