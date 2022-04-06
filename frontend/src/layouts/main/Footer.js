@@ -7,10 +7,18 @@ const Footer = () => {
   const FooterStyle = styled('div')({
     backgroundColor: '#f5f5f5',
     width: '100%',
-    height: '500px',
+    // height: '500px',
     position: 'relative',
     paddingTop: '40px',
     paddingBottom: '40px',
+
+    '@media(max-width: 480px)': {
+      paddingBottom: '0px',
+      '#footer-item-container': {
+        flexWrap: 'wrap',
+        // textAlign: 'center',
+      },
+    },
   })
 
   const items = [
@@ -37,6 +45,7 @@ const Footer = () => {
     <FooterStyle>
       {/* <Logo height="45px" /> */}
       <Box
+        id="footer-item-container"
         sx={{
           display: 'flex',
           width: '100%',
