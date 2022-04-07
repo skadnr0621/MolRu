@@ -189,7 +189,7 @@ const Admin = () => {
           .getPastEvents('Transfer', { fromBlock: 'latest' })
           .then(async (result) => {
             console.log('event Transfer result', result)
-            const returnValues = result[0].returnValues
+            const returnValues = result[result.length - 1].returnValues
             const tokenId = returnValues.tokenId
             await api
               .put(`/nft/${nft.nftId}?tokenId=${tokenId}`)
