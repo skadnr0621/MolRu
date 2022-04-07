@@ -47,7 +47,7 @@ public class NftQueryRepository extends QuerydslRepositorySupport {
     }
 
     private BooleanExpression eqAddress(String address) {
-        if("".equals(address.trim())) {
+        if("".equals(address.trim()) || "null".equals(address)) {
             return null;
         }
 

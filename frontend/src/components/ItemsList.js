@@ -55,6 +55,10 @@ const ItemsList = () => {
       const status = searchParams.get('status')
       const address = searchParams.get('address')
 
+      console.log("category", category);
+      console.log("status", status);
+      console.log("address", address);
+
       var resp = await api
         .get(`/nft?category=${category}&status=${status}&address=${address}`)
         .catch((err) =>
@@ -75,6 +79,7 @@ const ItemsList = () => {
           .tokenURI(items[i].tokenId)
           .call()
           .catch((err) =>
+            // price 채우고
             console.log('Error while ssafyNftContract tokenURI', err),
           )
       }
@@ -87,12 +92,12 @@ const ItemsList = () => {
 
   const ItemsArray = [...Array(items.length)].map((_, index) => {
     return {
-      owner: items[index].address,
-      price: items[index].price,
+      owner: items[index].ownerAddress,
+      // price: ,
       title: items[index].tokenTitle,
       date: items[index].createdDate,
-      img: items[index].tokenURI,
-      audio: items[index].tokenAudio,
+      img: items[index].imagePath,
+      audio: items[index].audioPath,
     }
   })
 
