@@ -37,7 +37,7 @@ const ItemsListStyle = styled('div')({
 const ItemsList = () => {
   const [searchParams] = useSearchParams()
   const [items, setItems] = useState('')
-  const [itemsCnt, setItemsCnt] = useState(100)
+  const [itemsCnt, setItemsCnt] = useState(0)
 
   const web3 = new Web3(
     new Web3.providers.WebsocketProvider(
@@ -47,17 +47,13 @@ const ItemsList = () => {
 
   useEffect(() => {
     search()
-  }, [])
+  }, [searchParams])
 
   const search = async () => {
     try {
       const category = searchParams.get('category')
       const status = searchParams.get('status')
       const address = searchParams.get('address')
-
-      console.log("category", category);
-      console.log("status", status);
-      console.log("address", address);
 
       var resp = await api
         .get(`/nft?category=${category}&status=${status}&address=${address}`)
@@ -85,6 +81,7 @@ const ItemsList = () => {
       }
 
       setItems(items)
+      setItemsCnt(items.length)
     } catch (err) {
       console.error('Error at ItemsList > search', err)
     }

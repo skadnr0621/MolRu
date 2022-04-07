@@ -12,10 +12,29 @@ import IconButton from '@mui/material/IconButton'
 import FavoriteIcon from '@mui/icons-material/Favorite' // 좋아요 누름
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder' // 좋아요 안누름
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
-import molrudy from 'assets/molrudy.png'
+import { doc } from 'prettier'
 
 const ItemCard = ({ owner, price, title, date, img, audio }) => {
   const [likeCnt, setLikeCnt] = useState(0)
+
+  const [wav] = useState(new Audio('http://localhost:8082' + audio))
+
+  const play = (event) => {
+    event.preventDefault();
+
+    const playPromise = wav.play();
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then(_ => {
+          console.log("audio played auto");
+        })
+        .catch(error => {
+          console.log(error);
+          console.log("playback prevented");
+        });
+    }
+  }
 
   return (
     <Box sx={{ height: '100%' }}>
@@ -24,6 +43,7 @@ const ItemCard = ({ owner, price, title, date, img, audio }) => {
         to="/items/1"
         component={Link}
       >
+        <span id="audio"></span>
         <Card
           sx={{
             '&:hover': { boxShadow: 'rgb(4 17 29 / 25%) 0px 0px 8px 0px' },
@@ -44,7 +64,7 @@ const ItemCard = ({ owner, price, title, date, img, audio }) => {
           </CardActions>
           <CardMedia
             component="img"
-            src={img}
+            src={'http://localhost:8082' + img}
             // image={img} // svg 파일이 안열림
             alt="molrudy"
           />
@@ -56,7 +76,7 @@ const ItemCard = ({ owner, price, title, date, img, audio }) => {
               borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
             }}
           >
-            <IconButton>
+            <IconButton onClick={play}>
               <PlayCircleIcon sx={{ fontSize: '38px', color: '#424242' }} />
             </IconButton>
           </CardActions>
