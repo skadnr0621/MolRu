@@ -69,17 +69,19 @@ const AccountBar = () => {
 
   return (
     <AccountBarStyle>
-      <Button className="accountbar-div" to="/account" component={Link}>
-        {state.account !== '' ? (
+      {state.account !== '' ? (
+        <Button className="accountbar-div" to="/account" component={Link}>
           <Box
             component="img"
             src={state.imageUrl}
             sx={{ width: '35px', height: '35px' }}
           ></Box>
-        ) : (
+        </Button>
+      ) : (
+        <Button className="accountbar-div" onClick={toggleDrawer(true)}>
           <AccountCircleOutlinedIcon fontSize="large" />
-        )}
-      </Button>
+        </Button>
+      )}
 
       {/* <Menu
         anchorEl={anchorEl}

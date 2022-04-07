@@ -9,13 +9,23 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 
-import { api } from '../api/index'
+import { api } from 'api'
 
 import Web3 from 'web3'
-import ABI from '../common/ABI'
+import ABI from 'common/ABI'
+
+import MoludyImg from 'assets/molrudy.png'
+import MoludyAudio from 'assets/molrudy.wav'
 
 const Intro = () => {
-  const [item, setItem] = useState('')
+  const [item, setItem] = useState({
+    address: '김남욱',
+    price: '0.01',
+    tokenTitle: 'Molrudy #1',
+    date: '22.01.01',
+    tokenURI: MoludyImg,
+    audio: MoludyAudio,
+  })
 
   const web3 = new Web3(
     new Web3.providers.WebsocketProvider(
@@ -29,10 +39,13 @@ const Intro = () => {
 
   const intro = async () => {
     try {
-      var resp = await api
+      const resp = await api
         .get('/nft/recent')
         .catch((err) => console.log('Error while GET /nft/recent', err))
-      console.log(resp)
+
+      if (resp.status === 204) {
+        return
+      }
 
       const item = resp.data
       const ssafyNftContract = new web3.eth.Contract(

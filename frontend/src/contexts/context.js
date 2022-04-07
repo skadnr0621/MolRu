@@ -79,7 +79,9 @@ export const AppProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    getBalance()
+    if (account) {
+      getBalance()
+    }
   }, [account])
 
   // 현재 자산 가져오기

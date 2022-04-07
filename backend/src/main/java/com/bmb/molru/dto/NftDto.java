@@ -15,14 +15,19 @@ public class NftDto {
     private Long nftId;
 
     private MultipartFile image;
+    private MultipartFile audio;
 //    private String tokenHash;
+
+    private Category category;
 
     private String tokenTitle;
     private String tokenDescription;
     private Long tokenId;
-    private String address;
-    private Category category;
+    private String ownerAddress;
     private boolean onSale;
+
+    private String imagePath;
+    private String audioPath;
 
 
     public static NftDto convert(Nft nft) {
@@ -31,12 +36,14 @@ public class NftDto {
         return NftDto.builder()
                 .nftId(nft.getId())
 //                .tokenHash(nft.getTokenHash())
-                .address(nft.getOwner().getAddress())
+                .ownerAddress(nft.getOwner().getAddress())
                 .tokenId(nft.getTokenId())
                 .tokenTitle(nft.getTokenTitle())
                 .category(nft.getCategory())
                 .tokenDescription(nft.getTokenDescription())
                 .onSale(nft.isOnSale())
+                .imagePath(nft.getImagePath())
+                .audioPath(nft.getAudioPath())
                 .build();
     }
 }

@@ -50,7 +50,7 @@ const ItemsList = () => {
 
   useEffect(() => {
     search()
-  }, [])
+  }, [searchParams])
 
   const search = async () => {
     try {
@@ -78,11 +78,13 @@ const ItemsList = () => {
           .tokenURI(items[i].tokenId)
           .call()
           .catch((err) =>
+            // price 채우고
             console.log('Error while ssafyNftContract tokenURI', err),
           )
       }
 
       setItems(items)
+      setItemsCnt(items.length)
     } catch (err) {
       console.error('Error at ItemsList > search', err)
     }
@@ -90,12 +92,12 @@ const ItemsList = () => {
 
   const ItemsArray = [...Array(items.length)].map((_, index) => {
     return {
-      owner: items[index].address,
-      price: items[index].price,
+      owner: items[index].ownerAddress,
+      // price: ,
       title: items[index].tokenTitle,
       date: items[index].createdDate,
-      img: items[index].tokenURI,
-      audio: items[index].tokenAudio,
+      img: items[index].imagePath,
+      audio: items[index].audioPath,
     }
   })
 
