@@ -53,40 +53,57 @@ const ItemsList = () => {
   }, [searchParams])
 
   const search = async () => {
-    try {
-      const category = searchParams.get('category')
-      const status = searchParams.get('status')
-      const address = searchParams.get('address')
+    const category = searchParams.get('category')
+    const status = searchParams.get('status')
+    const address = searchParams.get('address')
+    const search = searchParams.get('search')
 
-      var resp = await api
-        .get(`/nft?category=${category}&status=${status}&address=${address}`)
-        .catch((err) =>
-          console.error('Error while GET /nft?category&status&address', err),
-        )
-      console.log(resp)
+    if (search) {
+      const params = { searchCondition: search }
+      api
+        .get('/nft', { params })
+        .then((res) => {
+          const items = res.data
+          console.log(items)
 
-      const items = resp.data
-      console.log('items : ', items)
-      const ssafyNftContract = new web3.eth.Contract(
-        ABI.CONTRACT_ABI.NFT_ABI,
-        process.env.REACT_APP_NFT_CA,
-      )
-
-      for (var i = 0; i < items.length; ++i) {
-        if (items[i].tokenId == null) continue
-        items[i].tokenURI = await ssafyNftContract.methods
-          .tokenURI(items[i].tokenId)
-          .call()
+          setItems(items)
+          setItemsCnt(items.length)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } else {
+      try {
+        var resp = await api
+          .get(`/nft?category=${category}&status=${status}&address=${address}`)
           .catch((err) =>
-            // price 채우고
-            console.log('Error while ssafyNftContract tokenURI', err),
+            console.error('Error while GET /nft?category&status&address', err),
           )
-      }
+        console.log(resp)
 
-      setItems(items)
-      setItemsCnt(items.length)
-    } catch (err) {
-      console.error('Error at ItemsList > search', err)
+        const items = resp.data
+        console.log('items : ', items)
+        const ssafyNftContract = new web3.eth.Contract(
+          ABI.CONTRACT_ABI.NFT_ABI,
+          process.env.REACT_APP_NFT_CA,
+        )
+
+        for (var i = 0; i < items.length; ++i) {
+          if (items[i].tokenId == null) continue
+          items[i].tokenURI = await ssafyNftContract.methods
+            .tokenURI(items[i].tokenId)
+            .call()
+            .catch((err) =>
+              // price 채우고
+              console.log('Error while ssafyNftContract tokenURI', err),
+            )
+        }
+
+        setItems(items)
+        setItemsCnt(items.length)
+      } catch (err) {
+        console.error('Error at ItemsList > search', err)
+      }
     }
   }
 
