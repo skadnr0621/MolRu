@@ -42,16 +42,38 @@ const FilterStyle = styled('div')({
   flexDirection: 'column',
   width: '340px',
   height: 'inherit',
-  borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+  // borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+  '@media(max-width: 660px)': {
+    width: '280px',
+  },
+  '@media(max-width: 600px)': {
+    display: 'none',
+    width: '100vw',
+  },
 })
 
 const FilterOpenStyle = styled('div')({
   backgroundColor: '#ffffff',
   width: '40px',
   height: 'inherit',
-  borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+  // borderRight: '1px solid rgba(0, 0, 0, 0.12)',
   textAlign: 'center',
   marginTop: '10px',
+  display: 'none',
+  '@media(max-width: 600px)': {
+    display: 'block',
+  },
+})
+
+const FilterBtnStyle = styled('div')({
+  display: 'none',
+  position: 'fixed',
+  bottom: '20px',
+  zIndex: '100',
+  width: '100%',
+  '@media(max-width: 600px)': {
+    display: 'flex',
+  },
 })
 
 const ItemsFilter = () => {
@@ -72,13 +94,16 @@ const ItemsFilter = () => {
     슬픔: 9,
   }
 
-  const [filter, setFilter] = useState(true)
+  const [isFilter, setFilter] = useState(
+    document.documentElement.scrollWidth > 600,
+  )
+
   const [status, setStatus] = useState(searchParams.get('status'))
   const [prices, setPrices] = useState([20, 37])
   const [category, setCategory] = useState(searchParams.get('category'))
 
   const handleFilter = () => {
-    if (filter) {
+    if (isFilter) {
       alert('필터 닫기')
       document.querySelector('.filter').style.display = 'none'
       document.querySelector('.open-filter').style.display = 'block'
@@ -88,7 +113,7 @@ const ItemsFilter = () => {
       document.querySelector('.open-filter').style.display = 'none'
     }
 
-    setFilter(!filter)
+    setFilter(!isFilter)
   }
 
   const handleStatus = (event, value, index) => {
@@ -118,6 +143,10 @@ const ItemsFilter = () => {
   }
 
   useEffect(() => {
+    setFilter(document.documentElement.scrollWidth > 600)
+  }, [])
+
+  useEffect(() => {
     // 판매 상태
     document.querySelector('.status').children[
       statuses[status]
@@ -138,14 +167,15 @@ const ItemsFilter = () => {
   })
 
   return (
-    <>
-      <FilterOpenStyle className="open-filter" sx={{ display: 'none' }}>
+    <Box sx={{ borderRight: '1px solid rgba(0, 0, 0, 0.12)' }}>
+      <FilterOpenStyle className="open-filter">
         <IconButton onClick={handleFilter}>
           <DoubleArrowOutlinedIcon
             sx={{ fontSize: '24px', color: 'rgba(0, 0, 0, 0.54)' }}
           />
         </IconButton>
       </FilterOpenStyle>
+
       <FilterStyle className="filter">
         <Box
           sx={{
@@ -252,7 +282,7 @@ const ItemsFilter = () => {
           </AccordionDetails>
         </Accordion>
       </FilterStyle>
-    </>
+    </Box>
   )
 }
 
