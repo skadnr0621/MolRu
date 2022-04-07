@@ -45,9 +45,15 @@ const Gacha = () => {
   }, [isLoading])
 
   const handleGacha = async () => {
+    const myBalance = state.ssfBalance
+    if (myBalance < 100) {
+      alert(`잔고가 부족합니다!! [ 현재 잔고 : ${myBalance} SSF ]`)
+      return
+    }
+
     setIsClicked(true)
     setIsLoading(true)
-    // TODO: 멜로디 발급 로직 적용
+
     const gachaDto = {
       adminAddress: process.env.REACT_APP_ADMIN_ADDRESS,
       userAddress: state.account,
