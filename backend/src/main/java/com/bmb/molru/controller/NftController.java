@@ -41,8 +41,13 @@ public class NftController {
     }
 
 
-    @PatchMapping("/{nftId}")
-    public ResponseEntity<?> updateTokenId(@PathVariable Long nftId, @RequestBody Long tokenId) {
+//    @PatchMapping("/{nftId}")
+//    public ResponseEntity<?> updateTokenId(@PathVariable Long nftId, @RequestBody Long tokenId) {
+//        return nftService.updateTokenId(nftId, tokenId);
+//    }
+
+    @PutMapping(value = "/{nftId}", params = {"tokenId"})
+    public ResponseEntity<?> updateTokenId(@PathVariable Long nftId, @RequestParam Long tokenId) {
         return nftService.updateTokenId(nftId, tokenId);
     }
 
