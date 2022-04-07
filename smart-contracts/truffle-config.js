@@ -1,3 +1,7 @@
+const PrivateKeyProvider = require("@truffle/hdwallet-provider");
+const privateKey = "0x8627a2a91e19baa3e3cac6a8af16477f22fc189805676777804a625aca9a8f1c";
+const privateKeyProvider = new PrivateKeyProvider(privateKey, "ws://20.196.209.2:6174");
+
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
@@ -43,9 +47,15 @@ module.exports = {
     // e.g., 가나슈 환경
     development: {
       host: "127.0.0.1", // Localhost (default: none)
-      port: 8545, // Standard Ethereum port (default: none)
+      port: 6174, // Standard Ethereum port (default: none)
       network_id: "*", // Any network (default: none)
       websockets: true, // SUB PJT III 진행 중 truffle test 시 Event listening을 위해 추가함
+      from: "0x32F16B20F56edEDdA93B91B1813bf7b9B56E3121",
+    },
+
+    ssafy: {
+      provider: privateKeyProvider,
+      network_id: "*",
     },
     // Another network with more advanced options...
     // advanced: {
