@@ -79,7 +79,7 @@ const NavBar = () => {
 
       <Button
         className="navbar-div"
-        to="/404"
+        to="/play"
         component={Link}
         sx={{ padding: '0px 20px', fontWeight: 'bold', fontSize: '16px' }}
       >
