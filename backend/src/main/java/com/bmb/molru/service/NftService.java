@@ -57,7 +57,7 @@ public class NftService {
             String audioPath = mediaService.save(nftDto.getAudio());
 
             Nft nft = Nft.builder()
-                    .tokenId(nftDto.getTokenId())
+                    .tokenCA(nftDto.getTokenCA())
                     .tokenHash(hashCode)
                     .tokenTitle(nftDto.getTokenTitle())
                     .tokenDescription(nftDto.getTokenDescription())

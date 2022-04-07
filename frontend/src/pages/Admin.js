@@ -155,6 +155,7 @@ const Admin = () => {
         const formData = new FormData()
         formData.append('image', svgItem)
         formData.append('audio', wavItem)
+        formData.append('tokenCA', process.env.REACT_APP_NFT_CA)
         formData.append('tokenTitle', title)
         formData.append('tokenDescription', description)
         formData.append('ownerAddress', senderAddress)
@@ -179,6 +180,7 @@ const Admin = () => {
         await ssafyNftContract.methods
           .create(senderAddress, process.env.REACT_APP_API_URL + nft.imagePath)
           .send({ from: senderAddress, gas: 3000000 })
+          .then((result) => console.log('create result', result))
           .catch((err) =>
             console.error('Error while ssafyNftContract create', err),
           )

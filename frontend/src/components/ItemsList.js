@@ -87,12 +87,14 @@ const ItemsList = () => {
 
   const ItemsArray = [...Array(items.length)].map((_, index) => {
     return {
+      tokenCA: items[index].tokenCA,
+      tokenId: items[index].tokenId,
       owner: items[index].address,
       price: items[index].price,
       title: items[index].tokenTitle,
       date: items[index].createdDate,
       img: items[index].tokenURI,
-      audio: items[index].tokenAudio,
+      audio: process.env.REACT_APP_API_URL + items[index].tokenAudio,
     }
   })
 

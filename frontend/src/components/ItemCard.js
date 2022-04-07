@@ -14,14 +14,23 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder' // 좋아요
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 import molrudy from 'assets/molrudy.png'
 
-const ItemCard = ({ owner, price, title, date, img, audio }) => {
+const ItemCard = ({
+  tokenCA,
+  tokenId,
+  owner,
+  price,
+  title,
+  date,
+  img,
+  audio,
+}) => {
   const [likeCnt, setLikeCnt] = useState(0)
 
   return (
     <Box sx={{ height: '100%' }}>
       <Button
         sx={{ padding: '0px', border: '1px solid rgba(0, 0, 0, 0.12)' }}
-        to="/items/1"
+        to={`/items/${tokenCA}/${tokenId}`}
         component={Link}
       >
         <Card
