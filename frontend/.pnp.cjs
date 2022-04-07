@@ -44,6 +44,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@testing-library/user-event", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:13.5.0"],\
             ["axios", "npm:0.26.1"],\
             ["eslint-config-prettier", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:8.5.0"],\
+            ["moment", "npm:2.29.2"],\
             ["prettier", "npm:2.6.1"],\
             ["react", "npm:17.0.2"],\
             ["react-dom", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:17.0.2"],\
@@ -10934,6 +10935,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@testing-library/user-event", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:13.5.0"],\
             ["axios", "npm:0.26.1"],\
             ["eslint-config-prettier", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:8.5.0"],\
+            ["moment", "npm:2.29.2"],\
             ["prettier", "npm:2.6.1"],\
             ["react", "npm:17.0.2"],\
             ["react-dom", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:17.0.2"],\
@@ -14706,6 +14708,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/mock-fs-npm-4.14.0-c51913d559-dccd976a8d.zip/node_modules/mock-fs/",\
           "packageDependencies": [\
             ["mock-fs", "npm:4.14.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["moment", [\
+        ["npm:2.29.2", {\
+          "packageLocation": "./.yarn/cache/moment-npm-2.29.2-7e4b405a08-ee850b5776.zip/node_modules/moment/",\
+          "packageDependencies": [\
+            ["moment", "npm:2.29.2"]\
           ],\
           "linkType": "HARD"\
         }]\

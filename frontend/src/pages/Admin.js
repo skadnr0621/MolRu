@@ -8,6 +8,7 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 
+import moment from 'moment'
 import { api } from 'api'
 
 import Web3 from 'web3'
@@ -185,7 +186,7 @@ const Admin = () => {
             console.error('Error while ssafyNftContract create', err),
           )
 
-        await ssafyNftContract
+        const res = await ssafyNftContract
           .getPastEvents('Transfer', { fromBlock: 'latest' })
           .then(async (result) => {
             console.log('event Transfer result', result)
@@ -196,6 +197,7 @@ const Admin = () => {
               .catch((err) =>
                 console.error('Error while PATCH /nft/:nftId', err),
               )
+            return result
           })
           .catch((err) =>
             console.error(
@@ -203,6 +205,77 @@ const Admin = () => {
               err,
             ),
           )
+
+        const ti = res[0].returnValues.tokenId
+
+        const saleFactory = new web3.eth.Contract(
+          ABI.CONTRACT_ABI.SALE_FACTORY_ABI,
+          process.env.REACT_APP_SALE_FACTORY_CA,
+        )
+
+        const currencyAddress = process.env.REACT_APP_ERC20_CA
+        const nftAddress = process.env.REACT_APP_NFT_CA
+
+        await saleFactory.methods
+          .createSale(
+            ti, // uint256 itemId,
+            1, // uint256 minPrice,
+            100, // uint256 purchasePrice,
+            parseInt((moment() / 1000).toFixed(0)), // uint256 startTime,
+            2147483646, // uint256 endTime,
+            currencyAddress, // address currencyAddress,
+            nftAddress, // address nftAddress
+          )
+          .send({ from: senderAddress, gas: 3000000 })
+          .then((result) => console.log('createSale result', result))
+          .catch((err) => console.log('createSale error', err))
+
+        await saleFactory
+          .getPastEvents('NewSale', { fromBlock: 'latest' })
+          .then(async (result) => {
+            console.log('event NewSale', result)
+            const pubKey = result[0].returnValues._owner
+            const saleCA = result[0].returnValues._saleContract
+            console.log('saleCA :', saleCA)
+            // console.log("NewSale result ", pubKey, saleCA);
+
+            // 4. Sale 컨트랙트가 판매자를 대신하여 NFT를 전송할 수 있도록 Sale 컨트랙트에 NFT 전송
+            // const sale = new web3.eth.Contract(COMMON_ABI.CONTRACT_ABI.SALE_ABI, saleCA);
+            const ssafyNft = new web3.eth.Contract(
+              ABI.CONTRACT_ABI.NFT_ABI,
+              nftAddress,
+            )
+            // await ssafyNft.methods
+            //   .ownerOf(tokenId)
+            //   .call()
+            //   .then((result) => console.log("Before transfer : ", result));
+
+            // await ssafyNft.methods.transferFrom(senderAddress, saleCA, tokenId).send({ from: senderAddress, gas: 3000000 });
+            await ssafyNft.methods
+              .approve(saleCA, ti)
+              .send({ from: senderAddress, gas: 3000000 })
+              .catch((err) => console.log('NFT approve error', err))
+
+            // await ssafyNft.methods
+            //   .ownerOf(tokenId)
+            //   .call()
+            //   .then((result) => console.log("After transfer : ", result));
+
+            const reqBody = {
+              tokenId: ti,
+              sellerAddress: pubKey,
+              saleContractAddress: saleCA,
+              cashContractAddress: process.env.REACT_APP_ERC20_CA,
+              completedAt: new Date('2038-01-18 23:50:59.624319'),
+            }
+
+            await api
+              .post(`/sale`, reqBody)
+              .then((result) => {
+                console.log(result)
+              })
+              .catch((err) => console.log('registerSaleInfo error', err))
+          })
       } catch (err) {
         console.error('Error at Admin > addItem', err)
       }
