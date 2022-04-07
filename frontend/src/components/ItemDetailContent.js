@@ -8,7 +8,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Link from '@mui/material/Link'
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined'
 
-const ItemDetailContent = () => {
+const ItemDetailContent = ({ item }) => {
   const categories = ['행복', '낭만적', '밝음']
 
   return (
@@ -32,7 +32,7 @@ const ItemDetailContent = () => {
               },
             }}
           >
-            Molrudy #1 by 오용록
+            Molrudy #{item.tokenId} by {item.ownerAddress}
           </Link>
         </Typography>
         <ButtonGroup variant="outlined" size="small">
@@ -82,7 +82,7 @@ const ItemDetailContent = () => {
             },
           }}
         >
-          Molrudy #1
+          Molrudy #{item.tokenId}
         </Typography>
       </Box>
 
@@ -174,7 +174,7 @@ const ItemDetailContent = () => {
         >
           Owned by{' '}
           <Link href="#" underline="hover" sx={{ color: 'rgb(32, 129, 226)' }}>
-            김남욱
+            {item.ownerAddress}
           </Link>
         </Typography>
       </Box>

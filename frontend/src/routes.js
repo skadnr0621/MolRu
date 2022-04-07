@@ -48,7 +48,7 @@ export default function Router() {
       children: [
         { element: <Navigate to="/items" replace /> },
         { path: '', element: <Items /> },
-        { path: ':tokenId', element: <ItemDetail /> }, // NFT 상세 조회 페이지
+        { path: ':tokenCA/:tokenId', element: <ItemDetail /> }, // NFT 상세 조회 페이지
       ],
     },
     // 멜로디 발급 페이지

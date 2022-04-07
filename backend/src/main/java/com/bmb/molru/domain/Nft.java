@@ -18,6 +18,8 @@ public class Nft extends BaseTimeEntity {
     @Column(name = "nft_id")
     private Long id;
 
+    @Column(name = "token_contract_address")
+    private String tokenCA;
     @Column(name = "token_id")
     private Long tokenId;
     @Column(name = "token_hash")

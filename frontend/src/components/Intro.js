@@ -214,6 +214,8 @@ const Intro = () => {
             sx={{ display: 'flex', justifyContent: 'center' }}
           >
             <ItemCard
+              tokenCA={item.tokenCA}
+              tokenId={item.tokenId}
               owner={item.address}
               price={item.price}
               title={item.tokenTitle}

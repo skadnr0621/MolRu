@@ -22,6 +22,7 @@ public class NftDto {
 
     private String tokenTitle;
     private String tokenDescription;
+    private String tokenCA;
     private Long tokenId;
     private String ownerAddress;
     private boolean onSale;
@@ -37,6 +38,7 @@ public class NftDto {
                 .nftId(nft.getId())
 //                .tokenHash(nft.getTokenHash())
                 .ownerAddress(nft.getOwner().getAddress())
+                .tokenCA(nft.getTokenCA())
                 .tokenId(nft.getTokenId())
                 .tokenTitle(nft.getTokenTitle())
                 .category(nft.getCategory())

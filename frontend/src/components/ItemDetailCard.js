@@ -15,7 +15,7 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 import molrudy from 'assets/molrudy.png'
 import molrudyAudio from 'assets/molrudy.wav'
 
-const ItemDetailCard = ({ isHeader }) => {
+const ItemDetailCard = ({ isHeader, item }) => {
   const [likeCnt, setLikeCnt] = useState(0)
 
   return (
@@ -61,11 +61,12 @@ const ItemDetailCard = ({ isHeader }) => {
             width: 'inherit',
           }}
         >
-          Molrudy #1
+          Molrudy #{item.tokenId} [{item.tokenTitle}]
         </CardContent>
         <CardMedia
           component="img"
-          image={molrudy} // svg 파일이 안열림
+          // image={molrudy} // svg 파일이 안열림
+          image={item.imagePath}
           alt="molrudy"
           sx={{ margin: '6% 0px 12% 0px', width: 'inherit' }}
         />
