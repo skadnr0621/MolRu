@@ -92,14 +92,6 @@ const ItemsList = () => {
 
   const ItemsArray = [...Array(items.length)].map((_, index) => {
     return {
-<<<<<<< HEAD
-      owner: items[index].ownerAddress,
-      // price: ,
-      title: items[index].tokenTitle,
-      date: items[index].createdDate,
-      img: items[index].imagePath,
-      audio: items[index].audioPath,
-=======
       tokenCA: items[index].tokenCA,
       tokenId: items[index].tokenId,
       owner: items[index].address,
@@ -108,7 +100,6 @@ const ItemsList = () => {
       date: items[index].createdDate,
       img: items[index].tokenURI,
       audio: process.env.REACT_APP_API_URL + items[index].tokenAudio,
->>>>>>> feature/smart-contract
     }
   })
 
