@@ -190,7 +190,7 @@ const Admin = () => {
             const returnValues = result[0].returnValues
             const tokenId = returnValues.tokenId
             await api
-              .patch(`/nft/${nft.nftId}`, tokenId)
+              .put(`/nft/${nft.nftId}?tokenId=${tokenId}`)
               .catch((err) =>
                 console.error('Error while PATCH /nft/:nftId', err),
               )
