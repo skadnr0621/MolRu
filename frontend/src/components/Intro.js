@@ -14,8 +14,18 @@ import { api } from '../api/index'
 import Web3 from 'web3'
 import ABI from '../common/ABI'
 
+import MoludyImg from 'assets/molrudy.png'
+import MoludyAudio from 'assets/molrudy.wav'
+
 const Intro = () => {
-  const [item, setItem] = useState('')
+  const [item, setItem] = useState({
+    address: '김남욱',
+    price: '0.01',
+    tokenTitle: 'Molrudy #1',
+    date: '22.01.01',
+    tokenURI: MoludyImg,
+    audio: MoludyAudio,
+  })
 
   const web3 = new Web3(
     new Web3.providers.WebsocketProvider(
