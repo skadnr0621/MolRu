@@ -84,8 +84,7 @@ const AccountInfo = () => {
           },
         }}
       >
-        {/* {state.nickname} */}
-        hello
+        {state.nickname}
       </Typography>
       <Box sx={{ m: 2 }}>
         <TextField
