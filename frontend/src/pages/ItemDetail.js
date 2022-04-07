@@ -54,6 +54,16 @@ const ItemDetail = () => {
           item.tokenURI = result
         })
 
+      const res = await api.get(`sale?tokenId=${item.tokenId}`)
+      const sale = res.data
+      const saleContract = new web3.eth.Contract(
+        ABI.CONTRACT_ABI.SALE_ABI,
+        sale.saleContractAddress,
+      )
+      const saleInfo = await saleContract.methods.getSaleInfo().call()
+
+      item.price = saleInfo[3]
+
       setItem(item)
     } catch (err) {
       console.error('Error at ItemDetailCard > getItem', err)

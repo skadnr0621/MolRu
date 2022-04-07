@@ -29,7 +29,7 @@ public class SaleController {
         if ("nft".equals(method))
             return saleService.findAllNftSale(Long.valueOf(value)); // TODO 메소드명 요검토
         else if ("seller".equals(method))
-            return saleService.findAllSaleBySeller(value);
+            return saleService.findAllByBuyerAddress(value);
         else
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
@@ -51,7 +51,7 @@ public class SaleController {
     }
 
     @GetMapping("/seller/{address}")
-    public ResponseEntity<List<SaleDto>> findAllSaleBySeller(@PathVariable String address) {
-        return saleService.findAllSaleBySeller(address);
+    public ResponseEntity<List<SaleDto>> findAllByBuyerAddress(@PathVariable String address) {
+        return saleService.findAllByBuyerAddress(address);
     }
 }

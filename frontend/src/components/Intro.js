@@ -20,7 +20,7 @@ import MoludyAudio from 'assets/molrudy.wav'
 const Intro = () => {
   const [item, setItem] = useState({
     address: '김남욱',
-    price: '0.01',
+    price: '100',
     tokenTitle: 'Molrudy #1',
     date: '22.01.01',
     tokenURI: MoludyImg,
@@ -59,6 +59,8 @@ const Intro = () => {
         .then((result) => {
           item.tokenURI = result
         })
+
+      item.price = '100'
 
       setItem(item)
     } catch (err) {

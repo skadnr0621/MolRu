@@ -20,18 +20,18 @@ const ItemsListFilter = ({ items, sortByItems }) => {
 
     let sortItem = items
     switch (sortBy) {
-      case 'Recently':
-        // 발행 최신순 : date
-        sortItem = items.sort((a, b) => {
-          return b.date.replace(/[^0-9]/g, '') - a.date.replace(/[^0-9]/g, '')
-        })
-        break
-      case 'Oldest':
-        // 발행 오래된순 : date
-        sortItem = items.sort((a, b) => {
-          return a.date.replace(/[^0-9]/g, '') - b.date.replace(/[^0-9]/g, '')
-        })
-        break
+      // case 'Recently':
+      //   // 발행 최신순 : date
+      //   sortItem = items.sort((a, b) => {
+      //     return b.date.replace(/[^0-9]/g, '') - a.date.replace(/[^0-9]/g, '')
+      //   })
+      //   break
+      // case 'Oldest':
+      //   // 발행 오래된순 : date
+      //   sortItem = items.sort((a, b) => {
+      //     return a.date.replace(/[^0-9]/g, '') - b.date.replace(/[^0-9]/g, '')
+      //   })
+      //   break
       case 'Price: Low to High':
         // 가격 낮은순 : price
         sortItem = items.sort((a, b) => {

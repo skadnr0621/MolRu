@@ -97,6 +97,16 @@ const ItemsList = () => {
               // price 채우고
               console.log('Error while ssafyNftContract tokenURI', err),
             )
+
+          const res = await api.get(`sale?tokenId=${items[i].tokenId}`)
+          const sale = res.data
+          const saleContract = new web3.eth.Contract(
+            ABI.CONTRACT_ABI.SALE_ABI,
+            sale.saleContractAddress,
+          )
+          const saleInfo = await saleContract.methods.getSaleInfo().call()
+
+          items[i].price = saleInfo[3]
         }
 
         setItems(items)

@@ -15,8 +15,8 @@ import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 
 const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
+  // { title: 'The Shawshank Redemption', year: 1994 },
+  // { title: 'The Godfather', year: 1972 },
 ]
 
 const Header = () => {
