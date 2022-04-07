@@ -120,10 +120,54 @@ const ItemsList = () => {
     }
   })
 
+  // const testArray = [
+  //   {
+  //     price: '10',
+  //     date: '2022-04-07 23:51:00',
+  //     likeCnt: 10,
+  //   },
+  //   {
+  //     price: '15',
+  //     date: '2022-04-07 25:51:00',
+  //     likeCnt: 0,
+  //   },
+  //   {
+  //     price: '20',
+  //     date: '2022-04-06 23:51:00',
+  //     likeCnt: 3,
+  //   },
+  //   {
+  //     price: '5',
+  //     date: '2022-03-06 23:51:00',
+  //     likeCnt: 7,
+  //   },
+  //   {
+  //     price: '12',
+  //     date: '2022-03-21 23:51:00',
+  //     likeCnt: 7,
+  //   },
+  //   {
+  //     price: '5',
+  //     date: '2021-03-06 23:51:00',
+  //     likeCnt: 15,
+  //   },
+  //   {
+  //     price: '18',
+  //     date: '2021-12-03 23:51:00',
+  //     likeCnt: 15,
+  //   },
+  // ]
+
+  const sortByItems = (sortItem) => {
+    console.log(sortItem)
+    setItems(sortItem)
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <ItemsListStyle>
-        <ItemsListFilter />
+        <ItemsListFilter items={items} sortByItems={sortByItems} />
+        {items}
         <Typography mb="32px" sx={{ height: '24px' }}>
           {itemsCnt} items
         </Typography>
@@ -153,12 +197,12 @@ const ItemsList = () => {
               >
                 <ItemCard
                   key={index}
-                  owner={value.owner}
-                  price={value.price}
-                  title={value.title}
-                  date={value.date}
-                  img={value.img}
-                  audio={value.audio}
+                  // owner={value.owner}
+                  // price={value.price}
+                  // title={value.title}
+                  // date={value.date}
+                  // img={value.img}
+                  // audio={value.audio}
                 />
               </Grid>
             ))}
