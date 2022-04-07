@@ -3,7 +3,7 @@ package com.bmb.molru.domain;
 public enum Category {
     ANGRY("화남"),
     BRIGHT("밝음"),
-    QUITE("차분"),
+    QUITE("차분함"),
     DARK("어두움"),
     EXTREME("극적"),
     FUNKY("펑키"),
