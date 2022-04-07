@@ -1,5 +1,6 @@
 package com.bmb.molru.controller;
 
+import com.bmb.molru.dto.GachaDto;
 import com.bmb.molru.dto.NftDto;
 import com.bmb.molru.service.NftService;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -51,9 +53,13 @@ public class NftController {
         return nftService.updateTokenId(nftId, tokenId);
     }
 
+    @PutMapping("/random")
+    public ResponseEntity<NftDto> randomGacha(@RequestBody GachaDto gachaDto) {
+        return nftService.randomGacha(gachaDto);
+    }
+
     @PatchMapping
     public ResponseEntity<NftDto> updateNft(@RequestBody NftDto nftDto) {
         return nftService.updateNft(nftDto);
     }
-
 }

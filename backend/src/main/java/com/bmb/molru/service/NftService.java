@@ -2,6 +2,7 @@ package com.bmb.molru.service;
 
 import com.bmb.molru.domain.Nft;
 import com.bmb.molru.domain.User;
+import com.bmb.molru.dto.GachaDto;
 import com.bmb.molru.dto.NftDto;
 import com.bmb.molru.repository.NftQueryRepository;
 import com.bmb.molru.repository.NftRepository;
@@ -12,11 +13,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -169,6 +173,35 @@ public class NftService {
             }
 
             return new ResponseEntity<>(nftDtoList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<NftDto> randomGacha(GachaDto gachaDto) {
+        try {
+            User admin = userRepository.findByAddress(gachaDto.getAdminAddress()).orElse(null);
+            User user = userRepository.findByAddress(gachaDto.getUserAddress()).orElse(null);
+            if(admin == null || user == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+            List<Nft> nftList = nftRepository.findAllByOwner(admin);
+
+            if(nftList.size() == 0) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            Random random = new Random();
+            int randomNum = random.nextInt(nftList.size());
+
+            Nft gachaNft = nftList.get(randomNum);
+            gachaNft.setOwner(user);
+
+            Nft newNft = nftRepository.save(gachaNft);
+            NftDto nftDto = NftDto.convert(newNft);
+
+            return new ResponseEntity<>(nftDto, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
