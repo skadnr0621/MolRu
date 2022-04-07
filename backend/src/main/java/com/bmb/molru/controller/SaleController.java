@@ -34,8 +34,8 @@ public class SaleController {
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
 
-    @PatchMapping("/{tokenId}/purchase")
-    public ResponseEntity<?> completeSale(@PathVariable Long tokenId, @RequestBody String buyerAddress) {
+    @PutMapping(value = "/{tokenId}/purchase", params = { "buyerAddress" })
+    public ResponseEntity<?> completeSale(@PathVariable Long tokenId, @RequestParam String buyerAddress) {
         return saleService.completeSale(tokenId, buyerAddress);
     }
 

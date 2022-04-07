@@ -147,8 +147,8 @@ const AccountDrawer = ({ setDrawer }) => {
                     fontSize: '20px',
                   }}
                 >
-                  {(+web3.utils.fromWei(state.balance, 'ether')).toFixed(3)} ETH
-                  {/* {Number(state.balance, 10)} USD */}
+                  {/* {web3.utils.fromWei(state.balance, 'ether')} ETH */}
+                  {Number(state.ssfBalance, 10)} SSF
                 </Typography>
               </CardContent>
               <CardActions

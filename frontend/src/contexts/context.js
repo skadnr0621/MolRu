@@ -1,12 +1,21 @@
 import React, { createContext, useState, useCallback, useEffect } from 'react'
 import { api } from 'api'
+import Web3 from 'web3'
+import ABI from 'common/ABI'
 import defaultImg from 'assets/piano-cat.png'
 
 export const AppContext = createContext({
-  state: { account: '', balance: '', nickname: '', imageUrl: '' },
+  state: {
+    account: '',
+    balance: '',
+    ssfBalance: '',
+    nickname: '',
+    imageUrl: '',
+  },
   actions: {
     handleConnect: () => {},
     getBalance: () => {},
+    getSsfBalance: () => {},
   },
 })
 
@@ -14,8 +23,19 @@ export const AppProvider = ({ children }) => {
   // 상태 정의
   const [account, setAccount] = useState('')
   const [balance, setBalance] = useState('')
+  const [ssfBalance, setSsfBalance] = useState('')
   const [nickname, setNickName] = useState('')
   const [imageUrl, setImageUrl] = useState('')
+
+  const [ssfCA, setSsfCA] = useState(
+    '0x6C927304104cdaa5a8b3691E0ADE8a3ded41a333',
+  )
+
+  const web3 = new Web3(
+    new Web3.providers.WebsocketProvider(
+      process.env.REACT_APP_ETHEREUM_RPC_URL,
+    ),
+  )
 
   // 함수 정의
   // 지갑 연동하기
@@ -80,7 +100,8 @@ export const AppProvider = ({ children }) => {
 
   useEffect(() => {
     if (account) {
-      getBalance()
+      // getBalance()
+      getSsfbalance()
     }
   }, [account])
 
@@ -98,9 +119,32 @@ export const AppProvider = ({ children }) => {
     }
   }
 
+  // 현재 SSF 가져오기
+  const getSsfbalance = async () => {
+    try {
+      const ssafyToken = new web3.eth.Contract(
+        ABI.CONTRACT_ABI.ERC_ABI,
+        process.env.REACT_APP_ERC20_CA,
+      )
+
+      console.log(ssafyToken)
+
+      await ssafyToken.methods
+        .balanceOf(account)
+        .call()
+        .then((result) => {
+          console.log(result)
+          setSsfBalance(result)
+        })
+        .catch((err) => console.log('ssafyToken balanceOf error', err))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   // 상태와 함수를 묶어 value 객체 생성
   const value = {
-    state: { account, balance, nickname, imageUrl },
+    state: { account, balance, ssfBalance, nickname, imageUrl },
     actions: { handleConnect },
   }
 

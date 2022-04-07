@@ -38,6 +38,7 @@ public class SaleService {
             nftRepository.save(nft);
 
             Sale sale = Sale.builder()
+                    .completedAt(saleDto.getCompletedAt())
                     .nft(nft)
                     .sellerAddress(saleDto.getSellerAddress())
                     .saleContractAddress(saleDto.getSaleContractAddress())
