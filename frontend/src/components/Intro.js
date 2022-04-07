@@ -216,12 +216,12 @@ const Intro = () => {
             <ItemCard
               tokenCA={item.tokenCA}
               tokenId={item.tokenId}
-              owner={item.address}
+              owner={item.ownerAddress}
               price={item.price}
               title={item.tokenTitle}
-              date={item.date}
-              img={item.tokenURI}
-              audio={item.audio}
+              date={item.createdDate}
+              img={item.imagePath}
+              audio={item.audioPath}
             />
           </Grid>
         </Grid>
