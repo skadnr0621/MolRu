@@ -16,9 +16,11 @@ public class MediaService {
 
     private final GlobalConfig gConfig;
 
+    private final String FOLDERNAME = "/nft";
+
 
     public String save(MultipartFile file) {
-        String uploadPath = gConfig.getUploadPath() + "/nft";
+        String uploadPath = gConfig.getUploadPath() + FOLDERNAME;
 
         File dir = new File(uploadPath);
         if (!dir.isDirectory() && !dir.mkdirs()) {
@@ -35,7 +37,7 @@ public class MediaService {
             e.printStackTrace();
         }
 
-        return gConfig.getResourcePath() + "/" + file.getOriginalFilename();
+        return gConfig.getResourcePath() + FOLDERNAME + "/" + file.getOriginalFilename();
     }
 
 }

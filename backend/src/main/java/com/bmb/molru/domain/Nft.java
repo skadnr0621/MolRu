@@ -39,6 +39,11 @@ public class Nft extends BaseTimeEntity {
     @Column(name = "on_sale")
     private boolean onSale;
 
+    @Column(name = "image_path")
+    private String imagePath;
+    @Column(name = "audio_path")
+    private String audioPath;
+
 //    @OneToMany(mappedBy = "nft")
 //    private List<Sale> saleList = new ArrayList<>();
 

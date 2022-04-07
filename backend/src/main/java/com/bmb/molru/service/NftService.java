@@ -7,6 +7,7 @@ import com.bmb.molru.repository.NftQueryRepository;
 import com.bmb.molru.repository.NftRepository;
 import com.bmb.molru.repository.UserRepository;
 import com.bmb.molru.util.CommonService;
+import com.bmb.molru.util.MediaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class NftService {
 
     /*** Service ***/
     private final CommonService commonService;
+    private final MediaService mediaService;
     /*** Repository ***/
     private final NftRepository nftRepository;
     private final UserRepository userRepository;
@@ -31,7 +33,7 @@ public class NftService {
 
     public ResponseEntity<?> createNft(NftDto nftDto) {
         try {
-            User userByAddress = userRepository.findByAddress(nftDto.getAddress()).orElse(null);
+            User userByAddress = userRepository.findByAddress(nftDto.getOwnerAddress()).orElse(null);
             if (userByAddress == null) {
                 System.out.println("no user");
                 User admin = userRepository.findById(0L).orElse(null);
@@ -50,14 +52,20 @@ public class NftService {
             if (nftRepository.countByTokenHash(hashCode) > 0)
                 return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 
+            // save media files
+            String imagePath = mediaService.save(nftDto.getImage());
+            String audioPath = mediaService.save(nftDto.getAudio());
+
             Nft nft = Nft.builder()
+                    .tokenId(nftDto.getTokenId())
                     .tokenHash(hashCode)
-                    .owner(userByAddress)
                     .tokenTitle(nftDto.getTokenTitle())
                     .tokenDescription(nftDto.getTokenDescription())
+                    .owner(userByAddress)
                     .category(nftDto.getCategory())
-                    .tokenId(nftDto.getTokenId())
                     .onSale(false)
+                    .imagePath(imagePath)
+                    .audioPath(audioPath)
                     .build();
 
             Nft savedNft = nftRepository.save(nft);
@@ -96,7 +104,7 @@ public class NftService {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            User userByAddress = userRepository.findByAddress(nftDto.getAddress()).orElse(null);
+            User userByAddress = userRepository.findByAddress(nftDto.getOwnerAddress()).orElse(null);
 
             if(userByAddress == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
