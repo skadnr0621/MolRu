@@ -33,6 +33,7 @@ public class SaleDto {
                 .tokenId(sale.getNft().getTokenId())
                 .sellerAddress(sale.getSellerAddress())
                 .saleContractAddress(sale.getSaleContractAddress())
+                .createdAt(sale.getCreatedDate())
                 .onSale(sale.isOnSale())
                 .cashContractAddress(sale.getCashContractAddress())
                 .buyerAddress(sale.getBuyerAddress())

@@ -40,7 +40,7 @@ const SearchBar = ({ top100Films }) => {
         onChange={() => setSearchContent(event.target.value)}
         onKeyPress={onEnterKey}
         options={top100Films.map((option) => option.title)}
-        renderInput={(params) => <TextField {...params} label="freeSolo" />}
+        renderInput={(params) => <TextField {...params} label="Search" />}
       />
     </SearchBarStyle>
   )

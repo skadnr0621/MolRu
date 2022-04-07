@@ -11,6 +11,6 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 
     Optional<Sale> findByNft(Nft nft);
 
-    List<Sale> findAllBySellerAddress(String address);
+    List<Sale> findAllByBuyerAddress(String address);
     List<Sale> findAllByNft(Nft nft);
 }

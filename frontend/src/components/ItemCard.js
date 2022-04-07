@@ -13,6 +13,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite' // 좋아요 누름
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder' // 좋아요 안누름
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 import { doc } from 'prettier'
+import SsfImg from 'assets/ssf.jpg'
 
 const ItemCard = ({
   tokenCA,
@@ -109,10 +110,10 @@ const ItemCard = ({
                   sx={{ fontWeight: 'bold', color: 'rgba(0, 0, 0, 0.87)' }}
                 >
                   <img
-                    src="https://img.icons8.com/color/48/000000/ethereum.png"
+                    src={SsfImg}
                     style={{ verticalAlign: 'text-top', height: '16px' }}
                   />
-                  {price}
+                  {price} SSF
                 </Typography>
               </Box>
             </Stack>

@@ -124,9 +124,9 @@ public class SaleService {
         }
     }
 
-    public ResponseEntity<List<SaleDto>> findAllSaleBySeller(String address) {
+    public ResponseEntity<List<SaleDto>> findAllByBuyerAddress(String address) {
         try {
-            List<Sale> saleList = saleRepository.findAllBySellerAddress(address);
+            List<Sale> saleList = saleRepository.findAllByBuyerAddress(address);
             List<SaleDto> saleDtoList = new ArrayList<>();
 
             for (Sale sale : saleList) {

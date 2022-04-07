@@ -7,10 +7,9 @@ import ShareIcon from '@mui/icons-material/Share'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Link from '@mui/material/Link'
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined'
+import SsfImg from 'assets/ssf.jpg'
 
 const ItemDetailContent = ({ item }) => {
-  const categories = ['행복', '낭만적', '밝음']
-
   return (
     <Box sx={{ height: 'auto' }}>
       <Box
@@ -122,10 +121,10 @@ const ItemDetailContent = ({ item }) => {
           }}
         >
           <img
-            src="https://img.icons8.com/color/48/000000/ethereum.png"
+            src={SsfImg}
             style={{ verticalAlign: 'text-top', height: '16px' }}
           />
-          0.01
+          {item.price} SSF
         </Typography>
       </Box>
 
@@ -135,7 +134,7 @@ const ItemDetailContent = ({ item }) => {
           borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
         }}
       >
-        <Button
+        {/* <Button
           variant="contained"
           sx={{
             height: '50px',
@@ -151,7 +150,7 @@ const ItemDetailContent = ({ item }) => {
           }}
         >
           Buy now
-        </Button>
+        </Button> */}
       </Box>
 
       <Box
@@ -196,10 +195,10 @@ const ItemDetailContent = ({ item }) => {
           <LocalOfferOutlinedIcon
             sx={{ verticalAlign: 'text-top', marginRight: '5px' }}
           />
-          Categories
+          Category
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-          {categories.map((value, index) => (
+          {
             <Box
               sx={{
                 border: '1px solid rgba(0, 0, 0, 0.87)',
@@ -214,11 +213,10 @@ const ItemDetailContent = ({ item }) => {
                   fontSize: '14px',
                 },
               }}
-              key={index}
             >
-              #{value}
+              #{item.category}
             </Box>
-          ))}
+          }
         </Box>
       </Box>
     </Box>

@@ -88,7 +88,7 @@ const ItemsList = () => {
           process.env.REACT_APP_NFT_CA,
         )
 
-        for (var i = 0; i < items.length; ++i) {
+        for (let i = 0; i < items.length; ++i) {
           if (items[i].tokenId == null) continue
           items[i].tokenURI = await ssafyNftContract.methods
             .tokenURI(items[i].tokenId)
@@ -97,6 +97,16 @@ const ItemsList = () => {
               // price 채우고
               console.log('Error while ssafyNftContract tokenURI', err),
             )
+
+          const res = await api.get(`sale?tokenId=${items[i].tokenId}`)
+          const sale = res.data
+          const saleContract = new web3.eth.Contract(
+            ABI.CONTRACT_ABI.SALE_ABI,
+            sale.saleContractAddress,
+          )
+          const saleInfo = await saleContract.methods.getSaleInfo().call()
+
+          items[i].price = saleInfo[3]
         }
 
         setItems(items)
@@ -167,7 +177,6 @@ const ItemsList = () => {
     <ThemeProvider theme={theme}>
       <ItemsListStyle>
         <ItemsListFilter items={items} sortByItems={sortByItems} />
-        {items}
         <Typography mb="32px" sx={{ height: '24px' }}>
           {itemsCnt} items
         </Typography>
@@ -184,6 +193,7 @@ const ItemsList = () => {
           <Grid container sx={{ margin: '0px', width: 'auto' }}>
             {ItemsArray.map((value, index) => (
               <Grid
+                key={index}
                 item
                 xs={12}
                 sm={6}
@@ -196,13 +206,14 @@ const ItemsList = () => {
                 }}
               >
                 <ItemCard
-                  key={index}
-                  // owner={value.owner}
-                  // price={value.price}
-                  // title={value.title}
-                  // date={value.date}
-                  // img={value.img}
-                  // audio={value.audio}
+                  tokenCA={value.tokenCA}
+                  tokenId={value.tokenId}
+                  owner={value.owner}
+                  price={value.price}
+                  title={value.title}
+                  date={value.date}
+                  img={value.img}
+                  audio={value.audio}
                 />
               </Grid>
             ))}
