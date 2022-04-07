@@ -37,7 +37,7 @@ const ItemCard = ({ owner, price, title, date, img, audio }) => {
   }
 
   return (
-    <Box sx={{ height: '100%' }}>
+    <Box sx={{ height: '100%', padding: '8px' }}>
       <Button
         sx={{ padding: '0px', border: '1px solid rgba(0, 0, 0, 0.12)' }}
         to="/items/1"
