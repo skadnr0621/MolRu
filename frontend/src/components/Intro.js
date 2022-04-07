@@ -39,10 +39,13 @@ const Intro = () => {
 
   const intro = async () => {
     try {
-      var resp = await api
+      const resp = await api
         .get('/nft/recent')
         .catch((err) => console.log('Error while GET /nft/recent', err))
-      console.log(resp)
+
+      if (resp.status === 204) {
+        return
+      }
 
       const item = resp.data
       const ssafyNftContract = new web3.eth.Contract(
