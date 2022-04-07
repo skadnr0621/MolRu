@@ -8,6 +8,7 @@ import Items from './pages/Items'
 import ItemDetail from './pages/ItemDetail'
 import Gacha from './pages/Gacha'
 import Admin from './pages/Admin'
+import Play from './pages/Play'
 import NotFound from './pages/Page404'
 
 export default function Router() {
@@ -71,5 +72,13 @@ export default function Router() {
       ],
     },
     // 멜로디 놀이터 페이지
+    {
+      path: '/play',
+      element: <MainLayout />,
+      children: [
+        { element: <Navigate to="/play" replace /> },
+        { path: '', element: <Play /> },
+      ],
+    },
   ])
 }
