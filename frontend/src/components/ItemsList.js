@@ -99,7 +99,7 @@ const ItemsList = () => {
       title: items[index].tokenTitle,
       date: items[index].createdDate,
       img: items[index].tokenURI,
-      audio: process.env.REACT_APP_API_URL + items[index].tokenAudio,
+      audio: process.env.REACT_APP_API_URL + items[index].audioPath,
     }
   })
 
