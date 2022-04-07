@@ -24,17 +24,41 @@ const ItemDetailContent = () => {
           <Link
             href="#"
             underline="hover"
-            sx={{ color: '#6876C4', fontSize: '14px' }}
+            sx={{
+              color: '#6876C4',
+              fontSize: '14px',
+              '@media(max-width: 360px)': {
+                fontSize: '12px',
+              },
+            }}
           >
             Molrudy #1 by 오용록
           </Link>
         </Typography>
         <ButtonGroup variant="outlined" size="small">
           <Button>
-            <ShareIcon />
+            <ShareIcon
+              sx={{
+                '@media(max-width: 600px)': {
+                  fontSize: '20px',
+                },
+                '@media(max-width: 480px)': {
+                  fontSize: '18px',
+                },
+              }}
+            />
           </Button>
           <Button>
-            <MoreVertIcon />
+            <MoreVertIcon
+              sx={{
+                '@media(max-width: 600px)': {
+                  fontSize: '20px',
+                },
+                '@media(max-width: 480px)': {
+                  fontSize: '18px',
+                },
+              }}
+            />
           </Button>
         </ButtonGroup>
       </Box>
@@ -50,6 +74,12 @@ const ItemDetailContent = () => {
             color: 'rgba(0, 0, 0, 0.87)',
             fontSize: '32px',
             fontWeight: 'bold',
+            '@media(max-width: 600px)': {
+              fontSize: '28px',
+            },
+            '@media(max-width: 480px)': {
+              fontSize: '24px',
+            },
           }}
         >
           Molrudy #1
@@ -69,11 +99,28 @@ const ItemDetailContent = () => {
             fontSize: '22px',
             fontWeight: 'bold',
             marginRight: '10px',
+            '@media(max-width: 600px)': {
+              fontSize: '20px',
+            },
+            '@media(max-width: 480px)': {
+              fontSize: '18px',
+            },
           }}
         >
           Price
         </Typography>
-        <Typography sx={{ fontWeight: 'bold', color: 'rgba(0, 0, 0, 0.87)' }}>
+        <Typography
+          sx={{
+            fontWeight: 'bold',
+            color: 'rgba(0, 0, 0, 0.87)',
+            '@media(max-width: 600px)': {
+              fontSize: '15px',
+            },
+            '@media(max-width: 480px)': {
+              fontSize: '14px',
+            },
+          }}
+        >
           <img
             src="https://img.icons8.com/color/48/000000/ethereum.png"
             style={{ verticalAlign: 'text-top', height: '16px' }}
@@ -95,7 +142,12 @@ const ItemDetailContent = () => {
             width: '160px',
             margin: '10px 0px',
             fontWeight: 'bold',
-            fontSize: '16px',
+            fontSize: '18px',
+            textTransform: 'none',
+            '@media(max-width: 480px)': {
+              fontSize: '16px',
+              height: '12vw',
+            },
           }}
         >
           Buy now
@@ -112,6 +164,12 @@ const ItemDetailContent = () => {
           sx={{
             fontWeight: 'bold',
             fontSize: '16px',
+            '@media(max-width: 600px)': {
+              fontSize: '15px',
+            },
+            '@media(max-width: 480px)': {
+              fontSize: '14px',
+            },
           }}
         >
           Owned by{' '}
@@ -127,6 +185,12 @@ const ItemDetailContent = () => {
             fontWeight: 'bold',
             fontSize: '22px',
             margin: '10px 0px',
+            '@media(max-width: 600px)': {
+              fontSize: '20px',
+            },
+            '@media(max-width: 480px)': {
+              fontSize: '18px',
+            },
           }}
         >
           <LocalOfferOutlinedIcon
@@ -143,6 +207,12 @@ const ItemDetailContent = () => {
                 padding: '5px 10px',
                 marginRight: '10px',
                 marginBottom: '10px',
+                '@media(max-width: 600px)': {
+                  fontSize: '15px',
+                },
+                '@media(max-width: 480px)': {
+                  fontSize: '14px',
+                },
               }}
               key={index}
             >
