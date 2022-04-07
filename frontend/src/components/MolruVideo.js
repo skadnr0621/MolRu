@@ -11,6 +11,16 @@ const MolruVideo = () => {
     flexDirection: 'column',
     margin: '50px auto',
     padding: '60px 200px',
+
+    '@media(max-width: 900px)': {
+      padding: '60px 50px',
+    },
+    '@media(max-width: 600px)': {
+      padding: '60px 25px',
+    },
+    '@media(max-width: 480px)': {
+      padding: '60px 16px',
+    },
   })
 
   return (
