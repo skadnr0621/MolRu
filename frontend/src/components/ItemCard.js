@@ -17,7 +17,7 @@ import { doc } from 'prettier'
 const ItemCard = ({ owner, price, title, date, img, audio }) => {
   const [likeCnt, setLikeCnt] = useState(0)
 
-  const [wav] = useState(new Audio('http://localhost:8082' + audio))
+  const [wav] = useState(new Audio(process.env.REACT_APP_API_URL + audio))
 
   const play = (event) => {
     event.preventDefault();
@@ -64,7 +64,7 @@ const ItemCard = ({ owner, price, title, date, img, audio }) => {
           </CardActions>
           <CardMedia
             component="img"
-            src={'http://localhost:8082' + img}
+            src={img}
             // image={img} // svg 파일이 안열림
             alt="molrudy"
           />
