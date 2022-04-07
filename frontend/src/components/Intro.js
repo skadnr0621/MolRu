@@ -9,10 +9,10 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 
-import { api } from '../api/index'
+import { api } from 'api'
 
 import Web3 from 'web3'
-import ABI from '../common/ABI'
+import ABI from 'common/ABI'
 
 import MoludyImg from 'assets/molrudy.png'
 import MoludyAudio from 'assets/molrudy.wav'
