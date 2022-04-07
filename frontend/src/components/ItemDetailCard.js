@@ -66,7 +66,7 @@ const ItemDetailCard = ({ isHeader, item }) => {
         <CardMedia
           component="img"
           // image={molrudy} // svg 파일이 안열림
-          image={item.imagePath}
+          image={item.tokenURI}
           alt="molrudy"
           sx={{ margin: '6% 0px 12% 0px', width: 'inherit' }}
         />
@@ -75,7 +75,11 @@ const ItemDetailCard = ({ isHeader, item }) => {
             margin: '0px 8px 6% 8px',
           }}
         >
-          <audio style={{ margin: '0 auto' }} controls src={molrudyAudio}>
+          <audio
+            style={{ margin: '0 auto' }}
+            controls
+            src={process.env.REACT_APP_API_URL + item.audioPath}
+          >
             Your browser does not support the
             <code>audio</code> element.
           </audio>

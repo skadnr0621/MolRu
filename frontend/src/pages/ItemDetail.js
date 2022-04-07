@@ -51,7 +51,7 @@ const ItemDetail = () => {
         .tokenURI(item.tokenId)
         .call()
         .then((result) => {
-          item.imagePath = result
+          item.tokenURI = result
         })
 
       setItem(item)
