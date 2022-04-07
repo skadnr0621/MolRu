@@ -26,22 +26,22 @@ const ItemCard = ({
 }) => {
   const [likeCnt, setLikeCnt] = useState(0)
 
-  const [wav] = useState(new Audio(process.env.REACT_APP_API_URL + audio))
+  const [wav] = useState(new Audio(audio))
 
   const play = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const playPromise = wav.play();
+    const playPromise = wav.play()
 
     if (playPromise !== undefined) {
       playPromise
-        .then(_ => {
-          console.log("audio played auto");
+        .then((_) => {
+          console.log('audio played auto')
         })
-        .catch(error => {
-          console.log(error);
-          console.log("playback prevented");
-        });
+        .catch((error) => {
+          console.log(error)
+          console.log('playback prevented')
+        })
     }
   }
 

@@ -220,8 +220,8 @@ const Intro = () => {
               price={item.price}
               title={item.tokenTitle}
               date={item.createdDate}
-              img={item.imagePath}
-              audio={item.audioPath}
+              img={item.tokenURI}
+              audio={process.env.REACT_APP_API_URL + item.audioPath}
             />
           </Grid>
         </Grid>
