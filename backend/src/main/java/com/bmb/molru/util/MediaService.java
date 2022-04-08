@@ -30,7 +30,7 @@ public class MediaService {
 
         //
         File savedFile = new File(uploadPath + "/" + file.getOriginalFilename());
-        log.info("Saving file - at " + uploadPath + "/" + file.getOriginalFilename());
+        System.out.println("Saving file - at " + uploadPath + "/" + file.getOriginalFilename());
         try {
             file.transferTo(savedFile);
         }
@@ -38,7 +38,7 @@ public class MediaService {
             e.printStackTrace();
         }
 
-        log.info("File saved - resource path : " + gConfig.getResourcePath() + FOLDERNAME + "/" + file.getOriginalFilename());
+        System.out.println("File saved - resource path : " + gConfig.getResourcePath() + FOLDERNAME + "/" + file.getOriginalFilename());
         return gConfig.getResourcePath() + FOLDERNAME + "/" + file.getOriginalFilename();
     }
 
