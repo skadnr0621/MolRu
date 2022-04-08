@@ -234,8 +234,8 @@ const Admin = () => {
           .getPastEvents('NewSale', { fromBlock: 'latest' })
           .then(async (result) => {
             console.log('event NewSale', result)
-            const pubKey = result[0].returnValues._owner
-            const saleCA = result[0].returnValues._saleContract
+            const pubKey = result[result.length - 1].returnValues._owner
+            const saleCA = result[result.length - 1].returnValues._saleContract
             console.log('saleCA :', saleCA)
             // console.log("NewSale result ", pubKey, saleCA);
 
