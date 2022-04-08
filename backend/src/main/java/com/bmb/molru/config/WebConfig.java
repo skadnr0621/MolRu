@@ -24,6 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:///" + gConfig.getUploadPath());
 
         log.info("Resource pattern registered :: " + resourcePattern);
+        log.info("gConfig :: " + gConfig.getUploadPath() + " / " + gConfig.getResourcePath());
     }
 
     @Override

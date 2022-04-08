@@ -206,7 +206,7 @@ const Admin = () => {
             ),
           )
 
-        const ti = res[0].returnValues.tokenId
+        const ti = res[res.length - 1].returnValues.tokenId
 
         const saleFactory = new web3.eth.Contract(
           ABI.CONTRACT_ABI.SALE_FACTORY_ABI,
