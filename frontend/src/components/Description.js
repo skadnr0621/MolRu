@@ -21,12 +21,12 @@ const Description = () => {
     {
       icon: <MusicNoteOutlinedIcon sx={iconStyle} />,
       title: `NFT 생성`,
-      content: `Create 를 클릭하여<br />멜로디 NFT 뽑기를 합니다.<br />이때, 멜로디는 무작위로 생성됩니다.`,
+      content: `GACHA 를 클릭하여<br />멜로디 NFT 뽑기를 합니다.<br />이때, 멜로디는 무작위로 생성됩니다.`,
     },
     {
       icon: <StorefrontOutlinedIcon sx={iconStyle} />,
-      title: `NFT 판매`,
-      content: `마이 페이지 > NFT 목록 > 소유한 NFT 에서<br />원하는 NFT를 판매할 수 있습니다.`,
+      title: `NFT 감상`,
+      content: `마이 페이지 > MY COLLECTION 에서<br />나의 멜로디 NFT를 감상할 수 있습니다.`,
     },
   ]
 
@@ -62,7 +62,7 @@ const Description = () => {
                 },
               }}
             >
-              NFT 생성 및 판매
+              NFT 생성 및 조회
             </Typography>
           </Box>
 
