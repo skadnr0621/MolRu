@@ -25,33 +25,43 @@ https://www.youtube.com/watch?v=2ho_VJDKFjg&t=1s
 #### 🎵 주요 기능
 
 - 지갑 연결
+
 ![지갑 연결](./exec/img/지갑 시연 영상.gif)
 
 - 멜로디 NFT 가챠
+
 ![가챠](./exec/img/가챠.gif)
 
 - 발급된 멜로디 재생
+
 ![멜로디 재생](./exec/img/멜로디 재생.gif)
 
 - 멜로디 NFT 추가
+
 ![추가 발급](./exec/img/추가발급.gif)
 
 - 멜로디 상세 정보 확인
+
 ![상세 정보](./exec/img/상세정보.gif)
 
 - 마이 페이지
+
 ![마이 페이지](./exec/img/마이페이지.gif)
 
 - 프로필 편집
+
 ![프로필 편집](./exec/img/프로필편집.gif)
 
 - 멜로디 NFT 조회
+
 ![전체NFT조회](./exec/img/전체멜로디조회.gif)
 
 - 멜로디 NFT 카테고리별 조회
+
 ![카테고리별 조회](./exec/img/카테고리별조회.gif)
 
 - MolRu 놀이터
+
 ![놀이터](./exec/img/놀이터.gif)
 
 
